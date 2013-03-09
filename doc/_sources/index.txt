@@ -1,0 +1,43 @@
+.. Saddle documentation master file, created by
+   sphinx-quickstart on Fri Mar  8 20:33:37 2013.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+.. toctree::
+   :hidden:
+
+   guide
+
+==========================
+Saddle: Scala Data Library
+==========================
+
+Introduction
+============
+
+Saddle is a data manipulation library for Scala_ that provides array-backed,
+indexed, 1-D and 2-D data structures that are judiciously specialized on JVM
+primitives to avoid the overhead of boxing and unboxing.
+
+Saddle offers vectorized numerical calculations, automatic alignment of data
+along indices, robustness to missing (N/A) values, and facilities for I/O.
+
+Saddle draws inspiration from several sources, among them the R_ programming
+language & statistical environment, the numpy_ and pandas_ Python_ libraries,
+and the Scala collections library.
+
+.. _R: http://cran.us.r-project.org/
+.. _numpy: http://www.numpy.org/
+.. _pandas: http://pandas.pydata.org/
+.. _Python: http://www.python.org/
+.. _Scala: http://www.scala-lang.org/
+
+Getting Started
+==================
+
+Links
+=====
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`

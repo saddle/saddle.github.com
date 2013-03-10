@@ -3,11 +3,12 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>SADDLE: Scala Data Library by saddle</title>
+    <title>SADDLE: Scala Data Library</title>
 
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
     <script src="javascripts/scale.fix.js"></script>
+    <script src="javascripts/rollover.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -18,55 +19,48 @@
       <header>
         <!-- <h1 class="header">SADDLE: Scala Data Library</h1> -->
         <img src="images/logo.png" alt="Logo" width=200 />
-        <ul>
-            <img src="images/documentation.png" alt="Docs" width=150 />
-            <img src="images/github.png" alt="GitHub" width=150 /
-        </ul>
-
+        <map name="buttonmap">
+          <AREA SHAPE="rect" ALT="User Guide" COORDS="0,0,150,45" HREF="doc/index.html" onMouseOver="OneOn()" onMouseOut="AllOff()">
+          <AREA SHAPE="rect" ALT="Documentation" COORDS="0,50,150,95" HREF="" onMouseOver="TwoOn()" onMouseOut="AllOff()">
+          <AREA SHAPE="rect" ALT="GitHub" COORDS="0,100,150,145" HREF="http://github.com/saddle/saddle" onMouseOver="ThreeOn()" onMouseOut="AllOff()">
+        </map>
+        <img src="images/map.png" name="Buttons" alt="Buttons" width=150 style="padding: 30px 0 0 22px" usemap="#buttonmap" />
       </header>
       <section>
-        <h3>Welcome to GitHub Pages.</h3>
+        <h3>Welcome to Saddle</h3>
+        <p> Saddle is a high-performance data manipulation library for Scala that provides 
+        array-backed, indexed, 1D and 2D data structures.</p>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+        <p>Saddle offers vectorized numerical calculations, automatic alignment of data along 
+        indices, robustness to missing (N/A) values, and facilities for I/O.</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+        <p>Saddle draws inspiration from several sources, among them the R programming language 
+        & statistical environment, the numpy and pandas Python libraries, and the Scala collections 
+        library.</p>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+        <h3>Download Now</h3>
+        <p><iframe src="http://www.paywithatweet.com/dlbutton01.php?id=027c7ee6b5a24047a6722c857007e839" name="paytweet_button" scrolling="no" frameborder="no" height = "24px" width = "145px" /></iframe></p>
+        <p>Lorem Ipsum</p>
 
-<h3>Designer Templates</h3>
+        <h3>History</h3>
+        <p>Lorem Ipsum</p>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+        <h3>Contact & Support</h3>
+        <p>Lorem Ipsum</p>
 
-<h3>Rather Drive Stick?</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-
-<h3>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
       </section>
-      <footer>
-        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
-      </footer>
+      <footer />
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-		          <script type="text/javascript">
-            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-          </script>
-          <script type="text/javascript">
-            try {
-              var pageTracker = _gat._getTracker("UA-39119852-1");
+    <script type="text/javascript">
+        var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+        document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+        try {
+            var pageTracker = _gat._getTracker("UA-39119852-1");
             pageTracker._trackPageview();
-            } catch(err) {}
-          </script>
-
+        } catch(err) {}
+    </script>
   </body>
 </html>

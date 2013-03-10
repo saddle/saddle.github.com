@@ -4,10 +4,10 @@ Rollimage[0] = new Image()
 Rollimage[0].src = "images/map.png"
 
 Rollimage[1] = new Image()
-Rollimage[1].src = "images/userguide_over.png"
+Rollimage[1].src = "images/documentation_over.png"
 
 Rollimage[2] = new Image()
-Rollimage[2].src = "images/documentation_over.png"
+Rollimage[2].src = "images/scala_over.png"
 
 Rollimage[3] = new Image()
 Rollimage[3].src = "images/github_over.png"

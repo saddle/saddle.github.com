@@ -203,15 +203,15 @@ td {
 /* Header */
 
 header {
+  background-image: url(../images/dark_bk.png);
+  background-repeat:repeat-y;
   background-color: #171717;
   color: #FDFDFB;
   position:fixed;
   width:200px;
   height:1000px;
   float:left;
-  border: 1px solid #000;
-  padding: 35px 25px 20px 20px;
-  -webkit-font-smoothing: antialiased;
+  padding: 15px 25px 0 20px;
 }
 
 p.header {

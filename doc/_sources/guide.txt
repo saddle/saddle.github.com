@@ -1,9 +1,7 @@
-==========
 User Guide
-==========
+~~~~~~~~~~
 
-Test
-====
+Lorem Ipsum
 
 Stub for Saddle User Guide
 

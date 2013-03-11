@@ -15,6 +15,10 @@ div.clearer {
     clear: both;
 }
 
+h2 {
+  border-bottom: 1px solid #ccc;
+}
+
 /* -- relbar ---------------------------------------------------------------- */
 
 div.related {
@@ -48,10 +52,7 @@ div.sphinxsidebarwrapper {
 }
 
 div.sphinxsidebar {
-    float: left;
     width: 230px;
-    margin-left: -100%;
-    font-size: 90%;
 }
 
 div.sphinxsidebar ul {

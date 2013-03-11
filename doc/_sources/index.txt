@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 ==========================
-Saddle: Scala Data Library
+Welcome to Saddle Docs
 ==========================
 
 Introduction

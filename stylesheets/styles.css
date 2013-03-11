@@ -208,10 +208,10 @@ header {
   background-color: #171717;
   color: #FDFDFB;
   position:fixed;
-  width:200px;
+  width:220px;
   height:1000px;
   float:left;
-  padding: 15px 25px 0 20px;
+  padding: 10px 0 0 10px;
 }
 
 p.header {
@@ -251,6 +251,7 @@ section {
   width:650px;
   float:right;
   padding-bottom:50px;
+  padding-right:50px;
 }
 
 /* Footer */

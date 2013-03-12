@@ -140,13 +140,6 @@ hr {
   margin:0 0 24px;
 }
 
-/* Images */
-
-img {
-  position: relative;
-  border: 0 solid #ccc;
-  padding: 10px 0 0 0
-}
 
 /* Code blocks */
 
@@ -196,6 +189,8 @@ td {
 
 /* Wrapper */
 .wrapper {
+    float: left;
+    width: 100%;
 }
 
 /* Header */
@@ -208,8 +203,7 @@ header {
   position:fixed;
   width:220px;
   height:100%;
-  float:left;
-  padding: 10px 0 0 10px;
+  padding: 20px 0 0 10px;
 }
 
 p.header {

@@ -144,7 +144,6 @@ hr {
 
 img {
   position: relative;
-  max-width: 650px;
   border: 0 solid #ccc;
   padding: 10px 0 0 0
 }
@@ -197,7 +196,6 @@ td {
 
 /* Wrapper */
 .wrapper {
-  width:960px;
 }
 
 /* Header */
@@ -209,7 +207,7 @@ header {
   color: #FDFDFB;
   position:fixed;
   width:220px;
-  height:1000px;
+  height:100%;
   float:left;
   padding: 10px 0 0 10px;
 }
@@ -228,7 +226,7 @@ h1.header {
 }
 
 
-h1.header, a.header, a.name, header a{
+h1.header, a.header, a.name, header a {
   color: #fff;
 }
 
@@ -248,10 +246,10 @@ header ul {
 /* Section - for main page content */
 
 section {
-  width:650px;
-  float:right;
+  float:left;
   padding-bottom:50px;
   padding-right:50px;
+  margin-left: 265px;
 }
 
 /* Footer */

@@ -200,7 +200,7 @@ header {
   background-repeat:repeat-y;
   background-color: #171717;
   color: #FDFDFB;
-  position:fixed;
+  position:relative;
   width:220px;
   height:100%;
   padding: 20px 0 0 10px;
@@ -251,7 +251,7 @@ section {
 footer {
   width:170px;
   float:left;
-  position:fixed;
+  position:relative;
   bottom:10px;
   padding-left: 50px;
 }

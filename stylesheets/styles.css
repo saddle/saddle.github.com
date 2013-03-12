@@ -263,17 +263,3 @@ footer {
     color:#444;
   }
 }
-
-@media only screen and (max-device-width: 480px) {
-    div.wrapper {
-        width: 400px;
-    }
-
-    div.header {
-        width: 30%;
-    }
-
-    div.body {
-        width: 70%;
-    }
-}

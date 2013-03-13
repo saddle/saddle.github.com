@@ -48,14 +48,6 @@ via code repository commit messages. The copyright to the entirety of the code
 base is held by the Saddle Development Team, which is comprised of those developers
 who have made such contributions.
 
-History
-~~~~~~~
-
-Adam Klein began Saddle development in 2012 while an employee of `Novus
-Partners, Inc <https://www.novus.com/>`_. The code was released by Novus
-under Apache 2.0 in 2013. Adam remains lead developer. Saddle evolved from
-earlier prototypes developed by Chris Lewis, Cheng Peng, and David Cru.
-
 Download and Install
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -99,6 +91,32 @@ If you are using Maven, use the following (for Scala 2.9.2 build):
     <artifactId>saddle_2.9.2</artifactId>
     <version>1.0.0</version>
   </dependency>
+
+Build Instructions
+~~~~~~~~~~~~~~~~~~
+
+Saddle uses SBT, and the root directory contains an SBT launcher for convenience. Clone the
+git repository_ and build Saddle as follows:
+
+.. code:: bash
+
+  ./sbt update
+  ./sbt compile
+
+Run the tests as follows:
+
+.. code:: bash
+
+  ./sbt test
+
+Run the console to start an interactive session:
+
+.. code:: bash
+
+  ./sbt console
+
+
+.. _repository: https://github.com/saddle/saddle
 
 Next Steps
 ~~~~~~~~~~

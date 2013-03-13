@@ -69,13 +69,6 @@ via code repository commit messages. The copyright to the entirety of the code
 base is held by the Saddle Development Team, which is comprised of those developers
 who have made such contributions.</p>
 </div>
-<div class="section" id="history">
-<h2>History<a class="headerlink" href="#history" title="Permalink to this headline">¶</a></h2>
-<p>Adam Klein began Saddle development in 2012 while an employee of <a class="reference external" href="https://www.novus.com/">Novus
-Partners, Inc</a>. The code was released by Novus
-under Apache 2.0 in 2013. Adam remains lead developer. Saddle evolved from
-earlier prototypes developed by Chris Lewis, Cheng Peng, and David Cru.</p>
-</div>
 <div class="section" id="download-and-install">
 <h2>Download and Install<a class="headerlink" href="#download-and-install" title="Permalink to this headline">¶</a></h2>
 <p>The current release of Saddle is available to download from the Sonatype OSS
@@ -114,6 +107,23 @@ scaladoc packages are available as well.</p>
 </pre></div>
 </div>
 </div>
+<div class="section" id="build-instructions">
+<h2>Build Instructions<a class="headerlink" href="#build-instructions" title="Permalink to this headline">¶</a></h2>
+<p>Saddle uses SBT, and the root directory contains an SBT launcher for convenience. Clone the
+git <a class="reference external" href="https://github.com/saddle/saddle">repository</a> and build Saddle as follows:</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="o">./</span><span class="n">sbt</span> <span class="n">update</span>
+<span class="o">./</span><span class="n">sbt</span> <span class="n">compile</span>
+</pre></div>
+</div>
+<p>Run the tests as follows:</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="o">./</span><span class="n">sbt</span> <span class="n">test</span>
+</pre></div>
+</div>
+<p>Run the console to start an interactive session:</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="o">./</span><span class="n">sbt</span> <span class="n">console</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="next-steps">
 <h2>Next Steps<a class="headerlink" href="#next-steps" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
@@ -141,8 +151,8 @@ scaladoc packages are available as well.</p>
 <li><a class="reference internal" href="#introduction">Introduction</a></li>
 <li><a class="reference internal" href="#license">License</a></li>
 <li><a class="reference internal" href="#copyright">Copyright</a></li>
-<li><a class="reference internal" href="#history">History</a></li>
 <li><a class="reference internal" href="#download-and-install">Download and Install</a></li>
+<li><a class="reference internal" href="#build-instructions">Build Instructions</a></li>
 <li><a class="reference internal" href="#next-steps">Next Steps</a><ul>
 </ul>
 </li>

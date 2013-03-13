@@ -76,9 +76,43 @@ Partners, Inc</a>. The code was released by Novus
 under Apache 2.0 in 2013. Adam remains lead developer. Saddle evolved from
 earlier prototypes developed by Chris Lewis, Cheng Peng, and David Cru.</p>
 </div>
-<div class="section" id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
-<p>Lorem Ipsum</p>
+<div class="section" id="download-and-install">
+<h2>Download and Install<a class="headerlink" href="#download-and-install" title="Permalink to this headline">¶</a></h2>
+<p>The current release of Saddle is 1.0.0, and is available to download from the
+Sonatype OSS repository. Builds are available for Scala 2.9.2 and 2.10.0. The
+source and scaladoc packages are available as well.</p>
+<p>If you are using SBT, add the following to your build file:</p>
+<div class="code scala highlight-scala"><div class="highlight"><pre><span class="n">resolvers</span> <span class="o">++=</span> <span class="nc">Seq</span><span class="o">(</span>
+  <span class="s">&quot;Sonatype Snapshots&quot;</span> <span class="n">at</span> <span class="s">&quot;http://oss.sonatype.org/content/repositories/snapshots&quot;</span><span class="o">,</span>
+  <span class="s">&quot;Sonatype Releases&quot;</span> <span class="n">at</span> <span class="s">&quot;http://oss.sonatype.org/content/repositories/releases&quot;</span>
+<span class="o">)</span>
+
+<span class="n">libraryDependencies</span> <span class="o">++=</span> <span class="nc">Seq</span><span class="o">(</span>
+  <span class="s">&quot;org.saddle&quot;</span> <span class="o">%%</span> <span class="s">&quot;saddle&quot;</span> <span class="o">%</span> <span class="s">&quot;1.0.0&quot;</span>
+<span class="o">)</span>
+</pre></div>
+</div>
+<p>If you are using Maven, use the following (for Scala 2.9.2 build):</p>
+<div class="code html highlight-scala"><div class="highlight"><pre><span class="o">&lt;</span><span class="n">repositories</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">repository</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">id</span><span class="o">&gt;</span><span class="n">oss</span><span class="o">.</span><span class="n">sonatype</span><span class="o">.</span><span class="n">org</span><span class="o">&lt;/</span><span class="n">id</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span><span class="n">releases</span><span class="o">&lt;/</span><span class="n">name</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">url</span><span class="o">&gt;</span><span class="n">http</span><span class="o">://</span><span class="n">oss</span><span class="o">.</span><span class="n">sonatype</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">content</span><span class="o">/</span><span class="n">repositories</span><span class="o">/</span><span class="n">releases</span><span class="o">&lt;/</span><span class="n">url</span><span class="o">&gt;</span>
+  <span class="o">&lt;/</span><span class="n">repository</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">repository</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">id</span><span class="o">&gt;</span><span class="n">oss</span><span class="o">.</span><span class="n">sonatype</span><span class="o">.</span><span class="n">org</span><span class="o">&lt;/</span><span class="n">id</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span><span class="n">snapshots</span><span class="o">&lt;/</span><span class="n">name</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">url</span><span class="o">&gt;</span><span class="n">http</span><span class="o">://</span><span class="n">oss</span><span class="o">.</span><span class="n">sonatype</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">content</span><span class="o">/</span><span class="n">repositories</span><span class="o">/</span><span class="n">snapshots</span><span class="o">&lt;/</span><span class="n">url</span><span class="o">&gt;</span>
+  <span class="o">&lt;/</span><span class="n">repository</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">repositories</span><span class="o">&gt;</span>
+
+<span class="o">&lt;</span><span class="n">dependency</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span><span class="n">org</span><span class="o">.</span><span class="n">saddle</span><span class="o">&lt;/</span><span class="n">groupId</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">artifactId</span><span class="o">&gt;</span><span class="n">saddle_2</span><span class="o">.</span><span class="mf">9.2</span><span class="o">&lt;/</span><span class="n">artifactId</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span><span class="mf">1.0</span><span class="o">.</span><span class="mi">0</span><span class="o">&lt;/</span><span class="n">version</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">dependency</span><span class="o">&gt;</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="next-steps">
 <h2>Next Steps<a class="headerlink" href="#next-steps" title="Permalink to this headline">¶</a></h2>
@@ -108,7 +142,7 @@ earlier prototypes developed by Chris Lewis, Cheng Peng, and David Cru.</p>
 <li><a class="reference internal" href="#license">License</a></li>
 <li><a class="reference internal" href="#copyright">Copyright</a></li>
 <li><a class="reference internal" href="#history">History</a></li>
-<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#download-and-install">Download and Install</a></li>
 <li><a class="reference internal" href="#next-steps">Next Steps</a><ul>
 </ul>
 </li>

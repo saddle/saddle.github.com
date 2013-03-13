@@ -56,10 +56,49 @@ Partners, Inc <https://www.novus.com/>`_. The code was released by Novus
 under Apache 2.0 in 2013. Adam remains lead developer. Saddle evolved from
 earlier prototypes developed by Chris Lewis, Cheng Peng, and David Cru.
 
-Installation
-~~~~~~~~~~~~
+Download and Install
+~~~~~~~~~~~~~~~~~~~~
 
-Lorem Ipsum
+The current release of Saddle is 1.0.0, and is available to download from the 
+Sonatype OSS repository. Builds are available for Scala 2.9.2 and 2.10.0. The
+source and scaladoc packages are available as well.
+
+If you are using SBT, add the following to your build file:
+
+.. code:: scala
+
+  resolvers ++= Seq(
+    "Sonatype Snapshots" at "http://oss.sonatype.org/content/repositories/snapshots",
+    "Sonatype Releases" at "http://oss.sonatype.org/content/repositories/releases"
+  )
+
+  libraryDependencies ++= Seq(
+    "org.saddle" %% "saddle" % "1.0.0"
+  )
+
+
+If you are using Maven, use the following (for Scala 2.9.2 build):
+
+.. code:: html
+
+  <repositories>
+    <repository>
+      <id>oss.sonatype.org</id>
+      <name>releases</name>
+      <url>http://oss.sonatype.org/content/repositories/releases</url>
+    </repository>
+    <repository>
+      <id>oss.sonatype.org</id>
+      <name>snapshots</name>
+      <url>http://oss.sonatype.org/content/repositories/snapshots</url>
+    </repository>
+  </repositories>
+
+  <dependency>
+    <groupId>org.saddle</groupId>
+    <artifactId>saddle_2.9.2</artifactId>
+    <version>1.0.0</version>
+  </dependency>
 
 Next Steps
 ~~~~~~~~~~

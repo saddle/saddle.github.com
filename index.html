@@ -40,15 +40,52 @@
         & statistical environment, the numpy and pandas Python libraries, and the Scala collections 
         library.</p>
 
+        <h3>License</h3>
+        <p>Saddle is licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache License Version 2.0</a></p>
+
         <h3>Download Now</h3>
-        <p>Lorem Ipsum</p>
+        <p>The current release of Saddle is 1.0.0, and is available to download from the 
+        <a href="https://oss.sonatype.org/index.html#nexus-search;quick~saddle">Sonatype OSS repository</a>.
+        Builds are available for Scala 2.9.2 and 2.10.0, and the source and scaladoc packages as well.</>
+        <p>If you are using SBT, add the following to your build file:</p>
+        <pre><code> resolvers ++= Seq(
+  "Sonatype Snapshots" at "http://oss.sonatype.org/content/repositories/snapshots",
+  "Sonatype Releases" at "http://oss.sonatype.org/content/repositories/releases"
+)
+
+libraryDependencies ++= Seq(
+  "org.saddle" %% "saddle" % "1.0.0"
+) </code></pre>
+        <p>If you are using Maven, use the following (Scala 2.9.2 build):</p>
+<pre><code> &lt;repositories&gt;
+    &lt;repository&gt;
+        &lt;id&gt;oss.sonatype.org&lt;/id&gt;
+        &lt;name&gt;releases&lt;/name&gt;
+        &lt;url&gt;http://oss.sonatype.org/content/repositories/releases&lt;/url&gt;
+    &lt;/repository&gt;
+    &lt;repository&gt;
+        &lt;id&gt;oss.sonatype.org&lt;/id&gt;
+        &lt;name&gt;snapshots&lt;/name&gt;
+        &lt;url&gt;http://oss.sonatype.org/content/repositories/snapshots&lt;/url&gt;
+    &lt;/repository&gt;
+&lt;/repositories&gt;
+
+&lt;dependency&gt;
+    &lt;groupId&gt;org.saddle&lt;/groupId&gt;
+    &lt;artifactId&gt;saddle_2.9.2&lt;/artifactId&gt;
+    &lt;version&gt;1.0.0&lt;/version&gt;
+&lt;/dependency&gt; </pre></code>
 
         <h3>History</h3>
-        <p>Lorem Ipsum</p>
+        <p>Adam Klein began Saddle development in 2012 while an employee of 
+        <a href="www.novus.com">Novus Partners, Inc.</a> Saddle was open-sourced by Novus 
+        under the Apache 2.0 License in 2013. Adam remains lead developer. Saddle evolved 
+        from earlier prototypes developed by Chris Lewis, Cheng Peng, and David Cru.</p>
 
         <h3>Contact & Support</h3>
-        <p>Lorem Ipsum</p>
-
+        <p>Please submit bug reports on <a href="https://github.com/saddle/saddle/issues">GitHub</a>.</p>
+        <p>Please ask questions on the <a href="https://groups.google.com/forum/#!forum/saddle">mailing list</a>.</p>
+        <p>Please send private messages to <a href="mailto:saddle.library@gmail.com">saddle.library at gmail.com</a>.</p>
       </section>
       <footer />
     </div>

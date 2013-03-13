@@ -59,9 +59,9 @@ earlier prototypes developed by Chris Lewis, Cheng Peng, and David Cru.
 Download and Install
 ~~~~~~~~~~~~~~~~~~~~
 
-The current release of Saddle is 1.0.0, and is available to download from the 
-Sonatype OSS repository. Builds are available for Scala 2.9.2 and 2.10.0. The
-source and scaladoc packages are available as well.
+The current release of Saddle is available to download from the Sonatype OSS 
+repository. Builds are available for Scala 2.9.2 and 2.10.0. The source and 
+scaladoc packages are available as well.
 
 If you are using SBT, add the following to your build file:
 

@@ -74,18 +74,19 @@ who have made such contributions.</p>
 <p>The current release of Saddle is available to download from the Sonatype OSS
 repository. Builds are available for Scala 2.9.2 and 2.10.0. The source and
 scaladoc packages are available as well.</p>
-<p>If you are using SBT, add the following to your build file:</p>
+<p>If you&#8217;d like to start a new project which uses Saddle, you can use <a class="reference external" href="https://github.com/n8han/giter8">giter8</a>.</p>
+<p>If you are using SBT, simply add the following to your build file:</p>
 <div class="code scala highlight-scala"><div class="highlight"><pre><span class="n">resolvers</span> <span class="o">++=</span> <span class="nc">Seq</span><span class="o">(</span>
   <span class="s">&quot;Sonatype Snapshots&quot;</span> <span class="n">at</span> <span class="s">&quot;http://oss.sonatype.org/content/repositories/snapshots&quot;</span><span class="o">,</span>
   <span class="s">&quot;Sonatype Releases&quot;</span> <span class="n">at</span> <span class="s">&quot;http://oss.sonatype.org/content/repositories/releases&quot;</span>
 <span class="o">)</span>
 
 <span class="n">libraryDependencies</span> <span class="o">++=</span> <span class="nc">Seq</span><span class="o">(</span>
-  <span class="s">&quot;org.saddle&quot;</span> <span class="o">%%</span> <span class="s">&quot;saddle&quot;</span> <span class="o">%</span> <span class="s">&quot;1.0.0&quot;</span>
+  <span class="s">&quot;org.scala-saddle&quot;</span> <span class="o">%%</span> <span class="s">&quot;saddle&quot;</span> <span class="o">%</span> <span class="s">&quot;1.0.0&quot;</span>
 <span class="o">)</span>
 </pre></div>
 </div>
-<p>If you are using Maven, use the following (for Scala 2.9.2 build):</p>
+<p>If you are using Maven, use the following (e.g. for the Scala 2.9.2 build):</p>
 <div class="code html highlight-scala"><div class="highlight"><pre><span class="o">&lt;</span><span class="n">repositories</span><span class="o">&gt;</span>
   <span class="o">&lt;</span><span class="n">repository</span><span class="o">&gt;</span>
     <span class="o">&lt;</span><span class="n">id</span><span class="o">&gt;</span><span class="n">oss</span><span class="o">.</span><span class="n">sonatype</span><span class="o">.</span><span class="n">org</span><span class="o">&lt;/</span><span class="n">id</span><span class="o">&gt;</span>
@@ -100,7 +101,7 @@ scaladoc packages are available as well.</p>
 <span class="o">&lt;/</span><span class="n">repositories</span><span class="o">&gt;</span>
 
 <span class="o">&lt;</span><span class="n">dependency</span><span class="o">&gt;</span>
-  <span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span><span class="n">org</span><span class="o">.</span><span class="n">saddle</span><span class="o">&lt;/</span><span class="n">groupId</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span><span class="n">org</span><span class="o">.</span><span class="n">scala</span><span class="o">-</span><span class="n">saddle</span><span class="o">&lt;/</span><span class="n">groupId</span><span class="o">&gt;</span>
   <span class="o">&lt;</span><span class="n">artifactId</span><span class="o">&gt;</span><span class="n">saddle_2</span><span class="o">.</span><span class="mf">9.2</span><span class="o">&lt;/</span><span class="n">artifactId</span><span class="o">&gt;</span>
   <span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span><span class="mf">1.0</span><span class="o">.</span><span class="mi">0</span><span class="o">&lt;/</span><span class="n">version</span><span class="o">&gt;</span>
 <span class="o">&lt;/</span><span class="n">dependency</span><span class="o">&gt;</span>
@@ -109,18 +110,31 @@ scaladoc packages are available as well.</p>
 </div>
 <div class="section" id="build-instructions">
 <h2>Build Instructions<a class="headerlink" href="#build-instructions" title="Permalink to this headline">¶</a></h2>
-<p>Saddle uses SBT, and the root directory contains an SBT launcher for convenience. Clone the
-git <a class="reference external" href="https://github.com/saddle/saddle">repository</a> and build Saddle as follows:</p>
-<div class="code bash highlight-scala"><div class="highlight"><pre><span class="o">./</span><span class="n">sbt</span> <span class="n">update</span>
-<span class="o">./</span><span class="n">sbt</span> <span class="n">compile</span>
+<p>Saddle uses SBT - the deceptively named Simple Build Tool, which is anything
+but simple (yet still awesome). Highly recommended is <a class="reference external" href="https://github.com/paulp/sbt-extras">sbt: The Rebel Cut</a>
+bash script, which you may install and make executable as follows (be sure to
+choose your own target directory; here we show ~/bin):</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">curl</span> <span class="n">https</span><span class="o">://</span><span class="n">raw</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">paulp</span><span class="o">/</span><span class="n">sbt</span><span class="o">-</span><span class="n">extras</span><span class="o">/</span><span class="n">master</span><span class="o">/</span><span class="n">sbt</span> <span class="o">&gt;</span> <span class="o">~/</span><span class="n">bin</span><span class="o">/</span><span class="n">sbt</span>
+<span class="n">chmod</span> <span class="o">+</span><span class="n">x</span> <span class="o">~/</span><span class="n">bin</span><span class="o">/</span><span class="n">sbt</span>
 </pre></div>
 </div>
-<p>Run the tests as follows:</p>
-<div class="code bash highlight-scala"><div class="highlight"><pre><span class="o">./</span><span class="n">sbt</span> <span class="n">test</span>
-</pre></div>
-</div>
-<p>Run the console to start an interactive session:</p>
-<div class="code bash highlight-scala"><div class="highlight"><pre><span class="o">./</span><span class="n">sbt</span> <span class="n">console</span>
+<p>Next, clone the git <a class="reference external" href="https://github.com/saddle/saddle">repository</a>, build Saddle, and start hacking!</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="o">~</span> <span class="n">$</span> <span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="nd">@github</span><span class="o">.</span><span class="n">com</span><span class="k">:</span><span class="kt">saddle/saddle.git</span>
+<span class="o">~</span> <span class="n">$</span> <span class="n">cd</span> <span class="n">saddle</span>
+<span class="o">~/</span><span class="n">saddle</span> <span class="n">$</span> <span class="o">~/</span><span class="n">bin</span><span class="o">/</span><span class="n">sbt</span>
+<span class="o">...</span> <span class="n">loading</span> <span class="o">...</span>
+
+<span class="o">[</span><span class="kt">saddle</span><span class="o">]</span><span class="n">$</span> <span class="n">compile</span>
+<span class="o">...</span> <span class="n">compilation</span> <span class="o">...</span>
+
+<span class="o">[</span><span class="kt">saddle</span><span class="o">]</span><span class="n">$</span> <span class="n">test</span>
+<span class="o">...</span> <span class="n">running</span> <span class="n">tests</span> <span class="o">...</span>
+
+<span class="o">[</span><span class="kt">saddle</span><span class="o">]</span><span class="n">$</span> <span class="n">console</span>
+<span class="o">...</span> <span class="n">loading</span> <span class="n">some</span> <span class="n">modules</span> <span class="o">...</span>
+
+<span class="n">scala</span><span class="o">&gt;</span>
+<span class="o">...</span> <span class="n">play</span> <span class="n">time</span><span class="o">!</span> <span class="o">...</span>
 </pre></div>
 </div>
 </div>

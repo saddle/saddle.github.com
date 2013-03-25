@@ -36,7 +36,7 @@ Saddle is licensed under the `Apache License, Version 2.0
 Copyright
 ~~~~~~~~~
 
-Copyright (c) 2013 Novus Partners, Inc. 
+Copyright (c) 2013 Novus Partners, Inc.
 
 Copyright (c) 2013 The Saddle Development Team
 
@@ -55,7 +55,11 @@ The current release of Saddle is available to download from the Sonatype OSS
 repository. Builds are available for Scala 2.9.2 and 2.10.0. The source and 
 scaladoc packages are available as well.
 
-If you are using SBT, add the following to your build file:
+If you'd like to start a new project which uses Saddle, you can use giter8_.
+
+.. _giter8: https://github.com/n8han/giter8
+
+If you are using SBT, simply add the following to your build file:
 
 .. code:: scala
 
@@ -65,11 +69,11 @@ If you are using SBT, add the following to your build file:
   )
 
   libraryDependencies ++= Seq(
-    "org.saddle" %% "saddle" % "1.0.0"
+    "org.scala-saddle" %% "saddle" % "1.0.0"
   )
 
 
-If you are using Maven, use the following (for Scala 2.9.2 build):
+If you are using Maven, use the following (e.g. for the Scala 2.9.2 build):
 
 .. code:: html
 
@@ -87,7 +91,7 @@ If you are using Maven, use the following (for Scala 2.9.2 build):
   </repositories>
 
   <dependency>
-    <groupId>org.saddle</groupId>
+    <groupId>org.scala-saddle</groupId>
     <artifactId>saddle_2.9.2</artifactId>
     <version>1.0.0</version>
   </dependency>
@@ -95,26 +99,38 @@ If you are using Maven, use the following (for Scala 2.9.2 build):
 Build Instructions
 ~~~~~~~~~~~~~~~~~~
 
-Saddle uses SBT, and the root directory contains an SBT launcher for convenience. Clone the
-git repository_ and build Saddle as follows:
+Saddle uses SBT - the deceptively named Simple Build Tool, which is anything
+but simple (yet still awesome). Highly recommended is `sbt: The Rebel Cut`_
+bash script, which you may install and make executable as follows (be sure to
+choose your own target directory; here we show ~/bin):
 
 .. code:: bash
 
-  ./sbt update
-  ./sbt compile
+  curl https://raw.github.com/paulp/sbt-extras/master/sbt > ~/bin/sbt
+  chmod +x ~/bin/sbt
 
-Run the tests as follows:
+.. _`sbt: The Rebel Cut`: https://github.com/paulp/sbt-extras
 
-.. code:: bash
-
-  ./sbt test
-
-Run the console to start an interactive session:
+Next, clone the git repository_, build Saddle, and start hacking!
 
 .. code:: bash
 
-  ./sbt console
+  ~ $ git clone git@github.com:saddle/saddle.git
+  ~ $ cd saddle
+  ~/saddle $ ~/bin/sbt
+  ... loading ...
 
+  [saddle]$ compile
+  ... compilation ...
+
+  [saddle]$ test
+  ... running tests ...
+
+  [saddle]$ console
+  ... loading some modules ...
+
+  scala>
+  ... play time! ...
 
 .. _repository: https://github.com/saddle/saddle
 

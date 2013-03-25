@@ -48,18 +48,49 @@ via code repository commit messages. The copyright to the entirety of the code
 base is held by the Saddle Development Team, which is comprised of those developers
 who have made such contributions.
 
+Current Version
+~~~~~~~~~~~~~~~
+
+The current release of Saddle is available to download from the Sonatype OSS
+repository. Builds are available for Scala 2.9.2 and 2.10.0. The source and
+scaladoc packages are available as well.
+
+The current version of Saddle is 1.0.0-SNAPSHOT.
+
 Download and Install
 ~~~~~~~~~~~~~~~~~~~~
 
-The current release of Saddle is available to download from the Sonatype OSS 
-repository. Builds are available for Scala 2.9.2 and 2.10.0. The source and 
-scaladoc packages are available as well.
+Saddle is built using SBT - the deceptively named Simple Build Tool. It is anything 
+but simple (yet still awesome!). Highly recommended is `sbt: The Rebel Cut`_ bash
+script, which you can install and make executable, for example, with:
 
-If you'd like to start a new project which uses Saddle, you can use giter8_.
+.. code:: bash
+
+  $ curl https://raw.github.com/paulp/sbt-extras/master/sbt > ~/bin/sbt
+  $ chmod +x ~/bin/sbt
+
+.. _`sbt: The Rebel Cut`: https://github.com/paulp/sbt-extras
+
+If you simply want to play with Saddle, the easiest thing to do is probably build
+from source: see `Build Instructions`_.
+
+If you want to start a new SBT project from scratch that uses Saddle, probably 
+the easiest way is to use giter8_. Once you've got g8 installed, run
+
+.. code:: bash
+
+  $ g8 saddle/saddle.g8
+
+follow the prompts, go to your new project directory, and run:
+
+.. code:: bash
+
+  $ sbt console
 
 .. _giter8: https://github.com/n8han/giter8
 
-If you are using SBT, simply add the following to your build file:
+If you have an existing SBT project, make sure your resolvers include Sonatype, and
+your dependencies include Saddle:
 
 .. code:: scala
 
@@ -73,7 +104,7 @@ If you are using SBT, simply add the following to your build file:
   )
 
 
-If you are using Maven, use the following (e.g. for the Scala 2.9.2 build):
+If you are using Maven, this might help (e.g. for the Scala 2.9.2 build):
 
 .. code:: html
 
@@ -99,25 +130,14 @@ If you are using Maven, use the following (e.g. for the Scala 2.9.2 build):
 Build Instructions
 ~~~~~~~~~~~~~~~~~~
 
-Saddle uses SBT - the deceptively named Simple Build Tool, which is anything
-but simple (yet still awesome). Highly recommended is `sbt: The Rebel Cut`_
-bash script, which you may install and make executable as follows (be sure to
-choose your own target directory; here we show ~/bin):
-
-.. code:: bash
-
-  curl https://raw.github.com/paulp/sbt-extras/master/sbt > ~/bin/sbt
-  chmod +x ~/bin/sbt
-
-.. _`sbt: The Rebel Cut`: https://github.com/paulp/sbt-extras
-
-Next, clone the git repository_, build Saddle, and start hacking!
+To build from source, simply clone the git repository_, build Saddle as shown
+below, and start hacking!
 
 .. code:: bash
 
   ~ $ git clone git@github.com:saddle/saddle.git
   ~ $ cd saddle
-  ~/saddle $ ~/bin/sbt
+  ~/saddle $ sbt
   ... loading ...
 
   [saddle]$ compile
@@ -129,8 +149,8 @@ Next, clone the git repository_, build Saddle, and start hacking!
   [saddle]$ console
   ... loading some modules ...
 
-  scala>
-  ... play time! ...
+  scala> vec.rand(100)
+  ...
 
 .. _repository: https://github.com/saddle/saddle
 

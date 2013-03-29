@@ -45,19 +45,39 @@
   <div class="section" id="quick-start-guide">
 <h1>Quick Start Guide<a class="headerlink" href="#quick-start-guide" title="Permalink to this headline">¶</a></h1>
 <p>Let&#8217;s take a quick tour through Saddle to get a sense of the feature set. There
-are four major data structures:</p>
-<ul class="simple">
-<li>Vec, a 1D vector object</li>
-<li>Series, a 1D indexed vector object</li>
-<li>Mat, a 2D matrix object</li>
-<li>Frame, a 2D indexed matrix object</li>
-</ul>
-<p>All are designed with immutability in mind, although since they are backed by arrays
-and the library tries to be conservative in copying data, you should be careful not
-to let the backing arrays escape object construction.</p>
-<p>Let&#8217;s look at each one in turn through examples. If you&#8217;ve got the source code and an
-SBT launcher, run the following (from the directory where you&#8217;ve got Saddle checked
-out):</p>
+are five major array-backed data structures:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="37%" />
+<col width="63%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Type</td>
+<td>Description</td>
+</tr>
+<tr class="row-even"><td>Vec</td>
+<td>1D vector object</td>
+</tr>
+<tr class="row-odd"><td>Mat</td>
+<td>2D matrix object</td>
+</tr>
+<tr class="row-even"><td>Series</td>
+<td>1D indexed vector object</td>
+</tr>
+<tr class="row-odd"><td>Frame</td>
+<td>2D indexed matrix object</td>
+</tr>
+<tr class="row-even"><td>Index</td>
+<td>Hashmap-like indexer</td>
+</tr>
+</tbody>
+</table>
+<p>All are designed with immutability in mind, although since they are backed by
+arrays and the library tries to be conservative in copying data, you should be
+careful not to let the backing arrays escape object construction.</p>
+<p>Let&#8217;s look at each one in turn through examples. If you&#8217;ve got the source code
+and an SBT launcher, run the following (from the directory where you&#8217;ve got
+Saddle checked out):</p>
 <div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">$</span> <span class="n">sbt</span> <span class="n">console</span>
 </pre></div>
 </div>
@@ -65,8 +85,9 @@ out):</p>
 <div class="code scala highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">org.saddle._</span>
 </pre></div>
 </div>
-<p>Note: by default, toString will print up to some number of data entries. If you would like
-to see more data, simply call the print() method on the relevant object with a larger number.</p>
+<p>Note: by default, toString will print up to some number of data entries. If you
+would like to see more data, simply call the print() method on the relevant
+object with a larger number.</p>
 <div class="section" id="vec">
 <h2>Vec<a class="headerlink" href="#vec" title="Permalink to this headline">¶</a></h2>
 <p>Let&#8217;s walk through some examples in an sbt console session.</p>
@@ -170,7 +191,7 @@ res6: org.saddle.Vec[Int] =
 0
 1
 
-// NB: 2 must be on the RHS, as `+` is a method on Vec
+// Note: 2 must be on the right hand side, as `+` is a method on Vec
 scala&gt; Vec(1,2,3) + 2
 res7: org.saddle.Vec[Int] =
 [3 x 1]
@@ -367,8 +388,8 @@ res4: org.saddle.Vec[Double] =
 </div>
 <p>Note that NA (missing values) are handled within most calculations. Saddle
 tries to prevent accidentally using raw NA values; only two primitive types,
-Float and Double, have NA values that are safe to use in raw form. (Their NA
-representations are Float.NaN and Double.NaN, respectively.)</p>
+Float and Double, have NA values that are safe to use in raw form: their NA
+representations are Float.NaN and Double.NaN, respectively.</p>
 <div class="code bash highlight-scala"><pre>scala&gt; val v = Vec(1, na.to[Int], 2)
 v: org.saddle.Vec[Int] =
 [3 x 1]
@@ -391,26 +412,26 @@ res3: org.saddle.Vec[Int] =
 1
 2
 
-scala&gt; v.at(1)                    // boxed to prevent shooting yourself in foot
+scala&gt; v.at(1)                            // boxed to prevent shooting yourself in foot
 res4: org.saddle.scalar.Scalar[Int] = NA
 
-scala&gt; v.raw(1)                   // you can do this, but be careful!
+scala&gt; v.raw(1)                           // you can do this, but be careful!
 res5: Int = -2147483648
 
-scala&gt; v.fillNA(_ =&gt; 5)           // ignore argument, which is index of NA
+scala&gt; v.fillNA(x =&gt; x)                   // the argument is the index of the NA
 res6: org.saddle.Vec[Int] =
 [3 x 1]
 1
-5
+1
 2
 
-scala&gt; val d: Double = Scalar(1.0) // you can auto-unbox a double scalar</pre>
+scala&gt; val d: Double = scalar.Scalar(1.0) // you can auto-unbox a double scalar</pre>
 </div>
 <p>Also, a Scalar[T] can convert to Option[T] implicitly, so you may do everything
 with it that you may do with an Option; e.g., call map() or flatmap().</p>
 <p>Finally, if you need to treat a Vec as a sequence, you may convert it to Seq,
-(specifically, an IndexedSeq). Also, you may access (a copy of) Vec as an array,
-by calling Vec.contents.</p>
+(specifically, an IndexedSeq). Also, you may access (a copy of) Vec as an
+array, by calling Vec.contents.</p>
 <div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">toSeq</span>
 <span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">contents</span>
 </pre></div>
@@ -418,9 +439,9 @@ by calling Vec.contents.</p>
 </div>
 <div class="section" id="series">
 <h2>Series<a class="headerlink" href="#series" title="Permalink to this headline">¶</a></h2>
-<p>A Series combines a Vec with an Index that provides an ordered key-value mapping.
-We&#8217;ll talk more about the details of Index later.  First, note a Vec[T] can convert
-implicitly to a Series[Int, T]. So for instance:</p>
+<p>A Series combines a Vec with an Index that provides an ordered key-value
+mapping.  We&#8217;ll talk more about the details of Index later.  First, note a
+Vec[T] can convert implicitly to a Series[Int, T]. So for instance:</p>
 <div class="code bash highlight-scala"><pre>scala&gt; val x: Series[Int, Double] = vec.rand(5)
 x: org.saddle.Series[Int,Double] =
 [5 x 1]
@@ -430,9 +451,9 @@ x: org.saddle.Series[Int,Double] =
 3 -&gt; -0.0976
 4 -&gt;  0.1756</pre>
 </div>
-<p>The key type of a must have a natural ordering (ie, an Ordering of that type within
-the implicit scope). However, the Series maintains the order in which its data was
-supplied unless ordered othewise.</p>
+<p>The key type of a must have a natural ordering (ie, an Ordering of that type
+within the implicit scope). However, the Series maintains the order in which
+its data was supplied unless ordered othewise.</p>
 <p>Let&#8217;s look at a few constructions:</p>
 <div class="code bash highlight-scala"><pre>// we already know we can convert a Vec
 scala&gt; Series(Vec("a", "b", "c"))
@@ -476,8 +497,8 @@ b -&gt; 2
 a -&gt; 3
 b -&gt; 4</pre>
 </div>
-<p>With construction out of the way, let&#8217;s look at a few ways
-we can get data out of a Series.</p>
+<p>With construction out of the way, let&#8217;s look at a few ways we can get data out
+of a Series.</p>
 <div class="code bash highlight-scala"><pre>scala&gt; val q = Series(Vec(1,3,2,4), Index("c", "b", "a", "b"))
 
 // get the values or index
@@ -656,8 +677,8 @@ b -&gt; -0.5000
 a -&gt;  0.0000
 b -&gt;  0.5000</pre>
 </div>
-<p>You can also group by another index, or by a transformation of the current index,
-by passing an argument into groupBy. See the Saddle API for more info.</p>
+<p>You can also group by another index, or by a transformation of the current
+index, by passing an argument into groupBy. See the Saddle API for more info.</p>
 <p>The expressive nature of working with Series becomes apparent when you need to
 align data:</p>
 <div class="code bash highlight-scala"><pre>scala&gt; val a = Series(Vec(1,4,2,3), Index("a","b","c","d"))
@@ -673,9 +694,9 @@ d -&gt;  4
 e -&gt; NA
 f -&gt; NA</pre>
 </div>
-<p>You see that the indexes have been aligned prior to operation being performed. Because
-there is a missing observation in each label of a, e, and f, the summation is not done
-and instead an NA value is inserted into the result.</p>
+<p>You see that the indexes have been aligned prior to operation being performed.
+Because there is a missing observation in each label of a, e, and f, the
+summation is not done and instead an NA value is inserted into the result.</p>
 <p>Generally, a full-outer join is performed. So, for instance:</p>
 <div class="code bash highlight-scala"><pre>scala&gt; val a = Series(Vec(1,4,2), Index("a","b","b"))
 scala&gt; val b = Series(Vec(5,2,1), Index("b","b","d"))
@@ -690,10 +711,10 @@ b -&gt;  7
 b -&gt;  4
 d -&gt; NA</pre>
 </div>
-<p>Most basic math and boolean operations are supported between two Series, as well as between
-a Series and a scalar value.</p>
-<p>We mentioned joins. Let&#8217;s look at a few join operations; the result is a Frame, which we will
-touch on a bit later. These are similar in nature to SQL joins.</p>
+<p>Most basic math and boolean operations are supported between two Series, as
+well as between a Series and a scalar value.</p>
+<p>We mentioned joins. Let&#8217;s look at a few join operations; the result is a Frame,
+which we will touch on a bit later. These are similar in nature to SQL joins.</p>
 <div class="code bash highlight-scala"><pre>scala&gt; val a = Series(Vec(1,4,2), Index("a","b","b"))
 scala&gt; val b = Series(Vec(5,2,1), Index("b","b","d"))
 
@@ -747,8 +768,8 @@ t: org.saddle.Series[(Int, Int),Int] =
 2 1 -&gt; 3
   2 -&gt; 4</pre>
 </div>
-<p>Sometimes you want to move the innermost row label to be a column label instead.
-You can achieve this as follows:</p>
+<p>Sometimes you want to move the innermost row label to be a column label
+instead. You can achieve this as follows:</p>
 <div class="code bash highlight-scala"><pre>scala&gt; val f = t.pivot
 f: org.saddle.Frame[Int,Int,Int] =
 [2 x 2]
@@ -771,9 +792,8 @@ res32: org.saddle.Series[(Int, Int),Int] =
 <div class="section" id="mat">
 <h2>Mat<a class="headerlink" href="#mat" title="Permalink to this headline">¶</a></h2>
 <p>A Mat[T] represents a Matrix of values. Internally it is stored as a single
-contiguous array; sometimes, a duplicate array is created which stores the
-same values, but transposed, for speed of access having to do with memory
-locality.</p>
+contiguous array; sometimes, a duplicate array is created which stores the same
+values, but transposed, for speed of access having to do with memory locality.</p>
 <p>This format was chosen to be compatible with DenseMatrix of <a class="reference external" href="http://code.google.com/p/efficient-java-matrix-library/">EJML</a>, a high
 performance linear algebra library which provides the default matrix multiply
 routine for Saddle. One or two properly placed implicit conversions can extend
@@ -800,8 +820,8 @@ scala&gt; Mat.empty[Double]
 // zeros:
 scala&gt; Mat[Int](2, 2)</pre>
 </div>
-<p>Again, sometimes we want to create instances filled with random observations. As
-to Vec, we can do the following:</p>
+<p>Again, sometimes we want to create instances filled with random observations.
+As to Vec, we can do the following:</p>
 <div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">mat</span><span class="o">.</span><span class="n">rand</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="mi">2</span><span class="o">)</span>       <span class="c1">// random doubles from within [-1.0, 1.0] excluding 0</span>
 <span class="n">scala</span><span class="o">&gt;</span> <span class="n">mat</span><span class="o">.</span><span class="n">randp</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="mi">2</span><span class="o">)</span>      <span class="c1">// random positive doubles</span>
 <span class="n">scala</span><span class="o">&gt;</span> <span class="n">mat</span><span class="o">.</span><span class="n">randn</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="mi">2</span><span class="o">)</span>      <span class="c1">// random normally distributed doubles</span>

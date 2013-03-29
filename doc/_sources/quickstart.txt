@@ -10,8 +10,8 @@ are four major data structures:
 - Frame, a 2D indexed matrix object
 
 All are designed with immutability in mind, although since they are backed by arrays
-and the library tries to be conservative in coping data, you should be careful not to
-let the backing arrays escape object construction.
+and the library tries to be conservative in copying data, you should be careful not
+to let the backing arrays escape object construction.
 
 Let's look at each one in turn through examples. If you've got the source code and an
 SBT launcher, run the following (from the directory where you've got Saddle checked

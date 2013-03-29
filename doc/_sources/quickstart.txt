@@ -95,7 +95,8 @@ this:
   scala> vec.randn2(2, 15)          // 100 obs normally distributed with mean 2 and stdev 15
 
 Let's take a quick look at some operations you can do on Vec instances. All the
-major arithmetic operations are supported.
+major arithmetic operations are supported between two Vec instances and between
+a Vec and a scalar.
 
 .. code:: bash
 
@@ -144,23 +145,19 @@ major arithmetic operations are supported.
   0
   1
 
+  // NB: 2 must be on the RHS, as `+` is a method on Vec
+  scala> Vec(1,2,3) + 2
+  res7: org.saddle.Vec[Int] =
+  [3 x 1]
+   3
+   4
+   5
+
 You can also slice out data from a Vec in various ways:
 
 .. code:: bash
 
   scala> val v = vec.rand(10)
-  v: org.saddle.Vec[Double] =
-  [10 x 1]
-   0.2856
-   0.0315
-  -0.1982
-  -0.0759
-   0.8767
-  -0.9438
-   0.9350
-   0.4167
-   0.6785
-   0.2523
 
   scala> v.at(2)                        // wrapped in Scalar, in case of NA
   res0: org.saddle.scalar.Scalar[Double] = -0.19816001024987906
@@ -216,11 +213,6 @@ There are statistical functions available:
 .. code:: bash
 
   scala> val v = Vec(1,2,3)
-  v: org.saddle.Vec[Int] =
-  [3 x 1]
-  1
-  2
-  3
 
   scala> v.sum
   res0: Int = 6
@@ -252,25 +244,22 @@ There are statistical functions available:
   scala> v.geomean
   res9: Double = 1.8171205928321394
 
-As well as rolling statistical functions:
+  // etc ...
+  scala> v.count
+  scala> v.countif(_ > 0)
+  scala> v.logsum
+  scala> v.argmin
+  scala> v.percentile(0.3, method=PctMethod.NIST)
+  scala> v.demeaned
+  scala> v.rank(tie=RankTie.Avg, ascending=true)
+
+As well as a few rolling statistical functions:
 
 .. code:: bash
 
   scala> val v = vec.rand(10)
-  v: org.saddle.Vec[Double] =
-  [10 x 1]
-  -0.9886
-  -0.2744
-  -0.9658
-  -0.6449
-  -0.6503
-   0.9905
-   0.7850
-  -0.2355
-  -0.1104
-   0.9301
 
-  scala> v.rollingSum(5)            // window size = 5
+  scala> v.rollingSum(5)            // with window size = 5
   res0: org.saddle.Vec[Double] =
   [6 x 1]
   -3.5240
@@ -280,25 +269,10 @@ As well as rolling statistical functions:
    0.4410
    0.3806
 
+  // etc...
   scala> v.rollingMean(5)
-  res1: org.saddle.Vec[Double] =
-  [6 x 1]
-  -0.7048
-  -0.4518
-  -0.1017
-  -0.0198
-   0.0882
-   0.0761
-
   scala> v.rollingMedian(5)
-  res2: org.saddle.Vec[Double] =
-  [6 x 1]
-  -0.6503
-  -0.6449
-  -0.6449
-  -0.2355
-  -0.1104
-   0.7850
+  scala> v.rollingCount(5)
 
 In fact, you can do any calculation you'd like over the rolling window:
 
@@ -368,12 +342,14 @@ Let's take a quick look at some more advanced functionality:
   -0.2475
   -0.5036
 
-Try out the following:
+Try out the following for yourself:
 
 .. code:: bash
 
+  scala> v.reversed
   scala> v.map(_ + 1)
   scala> v.foldLeft(0d) { case (acc, d) => acc + 1.0 / d }
+  scala> v.scanLeft(0d) { case (acc, d) => acc + 1.0 / d }
   scala> v without v.find(_ < 0.5)
   scala> v findOne(_ < 0.5)
   scala> v.head(2)
@@ -381,11 +357,10 @@ Try out the following:
   scala> v(0 -> 2).mask(Vec(true, false, true))
   scala> v concat v
 
-Note that NA (missing values) are handled within calculations as if they were
-not there. Saddle tries to prevent you from accidentally using the primitive
-value whose bit pattern represents NA (the only two primitives where it is safe
-to extract a raw NA value are Float and Double, whose native NA representations
-are Float.NaN and Double.NaN respectively.)
+Note that NA (missing values) are handled within most calculations. Saddle
+tries to prevent accidentally using raw NA values; only two primitive types,
+Float and Double, have NA values that are safe to use in raw form. (Their NA
+representations are Float.NaN and Double.NaN, respectively.)
 
 .. code:: bash
 
@@ -424,24 +399,31 @@ are Float.NaN and Double.NaN respectively.)
   5
   2
 
-Scalar[T] can convert to Option[T] implicitly, so you may do everything with
-it that you may do with an Option; e.g., call map or flatmap.
+  scala> val d: Double = Scalar(1.0) // you can auto-unbox a double scalar
+
+Also, a Scalar[T] can convert to Option[T] implicitly, so you may do everything
+with it that you may do with an Option; e.g., call map() or flatmap().
 
 Finally, if you need to treat a Vec as a sequence, you may convert it to Seq,
-(specifically, an IndexedSeq), by calling Vec.toSeq. Also, you may access (a
-copy of) Vec as an array, by calling Vec.contents.
+(specifically, an IndexedSeq). Also, you may access (a copy of) Vec as an array,
+by calling Vec.contents.
+
+.. code:: bash
+
+  scala> v.toSeq
+  scala> v.contents
 
 Series
 ------
 
-A Series combines a Vec with an Index that provides a key-value mapping. The
-first thing to know is a Vec[T] can implicitly convert to a Series[Int, T]. So
-for instance:
+A Series combines a Vec with an Index that provides an ordered key-value mapping.
+We'll talk more about the details of Index later.  First, note a Vec[T] can convert
+implicitly to a Series[Int, T]. So for instance:
 
 .. code:: bash
 
   scala> val x: Series[Int, Double] = vec.rand(5)
-  x: org.saddle.Series[Int,Double] = 
+  x: org.saddle.Series[Int,Double] =
   [5 x 1]
   0 -> -0.7846
   1 ->  0.0297
@@ -449,16 +431,16 @@ for instance:
   3 -> -0.0976
   4 ->  0.1756
 
-A Series is sort of like a Map, but the key type must have a natural ordering
-(ie, an Ordering of that type within the implicit scope). However, the Series 
-maintains the order in which its data was supplied.
+The key type of a must have a natural ordering (ie, an Ordering of that type within
+the implicit scope). However, the Series maintains the order in which its data was
+supplied unless ordered othewise.
 
 Let's look at a few constructions:
 
 .. code:: bash
 
   // we already know we can convert a Vec
-  scala> Series(Vec("a", "b", "c"))  
+  scala> Series(Vec("a", "b", "c"))
   res3: org.saddle.Series[Int,java.lang.String] =
   [3 x 1]
   0 -> a
@@ -467,7 +449,7 @@ Let's look at a few constructions:
 
   // we can pass a pair of tuples
   scala> Series("a" -> 1, "b" -> 2, "c" -> 3)
-  res4: org.saddle.Series[java.lang.String,Int] = 
+  res4: org.saddle.Series[java.lang.String,Int] =
   [3 x 1]
   a -> 1
   b -> 2
@@ -484,7 +466,7 @@ Let's look at a few constructions:
 
   // supplied order is maintained:
   scala> Series(Vec(1,2,3), Index("c", "b", "a"))
-  res11: org.saddle.Series[java.lang.String,Int] = 
+  res11: org.saddle.Series[java.lang.String,Int] =
   [3 x 1]
   c -> 1
   b -> 2
@@ -521,7 +503,7 @@ we can get data out of a Series.
   4
   3
 
-  // or key
+  // or extract key
   scala> q.keyAt(2)
   res21: org.saddle.scalar.Scalar[java.lang.String] = a
 
@@ -580,7 +562,7 @@ we can get data out of a Series.
   scala> q.firstKey
   scala> q.lastKey
 
-  // "reindex" by supplying a new index:
+  // "reindex" to a new index:
   scala> q.reindex(Index("a","c","d"))
   res4: org.saddle.Series[java.lang.String,Int] = 
   [3 x 1]
@@ -598,7 +580,7 @@ we can get data out of a Series.
   a -> 2
 
   // we cannot reindex with "b", because it isn't unique.
-  // the problem is, which "b" would we choose?
+  // (the problem is, which "b" would we choose?)
   scala> q.reindex("a", "b")
   java.lang.IllegalArgumentException: requirement failed: Could not reindex unambiguously
   ...
@@ -609,8 +591,7 @@ we can get data out of a Series.
   // or to a new index altogether
   scala> q.setIndex(Index("w", "x", "y", "z"))
 
-  // to 'slice', we need a sorted index:
-  // it's inclusive by default
+  // to 'slice', we need a sorted index; slice is inclusive by default
   scala> val s = q.sortedIx
   scala> s.sliceBy("b", "c")
   res7: org.saddle.Series[java.lang.String,Int] = 
@@ -621,9 +602,10 @@ we can get data out of a Series.
 
   // syntactic sugar is provided:
   scala> s.sliceBy("b" -> "c")
+  scala> s.sliceBy(* -> "b")
 
-  // slice is by location, is exclusive by default, and the index doesn't have to be
-  // sorted:
+  // where slice is by offset, exclusive by default, and the
+  // index doesn't have to be sorted:
   scala> q.slice(0,2)
   res8: org.saddle.Series[java.lang.String,Int] = 
   [2 x 1]
@@ -669,8 +651,8 @@ We can of course convert to a Vec or a Seq if we need to:
   scala> q.toVec
   scala> q.toSeq
 
-We can also group by key in order to transform or combine the groupings. For
-example:
+We can also group by key in order to transform or combine the groupings, which
+themselves are Series. For example:
 
 .. code:: bash
 
@@ -689,8 +671,8 @@ example:
   a ->  0.0000
   b ->  0.5000
 
-You can also group by another index, or by a transformation of the current index.
-See the API for more info.
+You can also group by another index, or by a transformation of the current index,
+by passing an argument into groupBy. See the Saddle API for more info.
 
 The expressive nature of working with Series becomes apparent when you need to
 align data:
@@ -755,33 +737,33 @@ touch on a bit later. These are similar in nature to SQL joins.
   scala> a.join(b, how=index.RightJoin)
   res25: org.saddle.Frame[java.lang.String,Int,Int] = 
   [4 x 2]
-        0  1 
-       -- -- 
-  b ->  4  5 
-  b ->  2  5 
-  b ->  2  2 
-  d -> NA  1 
+        0  1
+       -- --
+  b ->  4  5
+  b ->  2  5
+  b ->  2  2
+  d -> NA  1
 
   scala> a.join(b, how=index.InnerJoin)
   res28: org.saddle.Frame[java.lang.String,Int,Int] = 
   [3 x 2]
-        0  1 
-       -- -- 
-  b ->  4  5 
-  b ->  4  2 
+        0  1
+       -- --
+  b ->  4  5
+  b ->  4  2
   b ->  2  2
 
   scala> a.join(b, how=index.OuterJoin)
   res29: org.saddle.Frame[java.lang.String,Int,Int] = 
   [6 x 2]
-        0  1 
-       -- -- 
-  a ->  1 NA 
-  b ->  4  5 
-  b ->  4  2 
-  b ->  2  5 
-  b ->  2  2 
-  d -> NA  1 
+        0  1
+       -- --
+  a ->  1 NA
+  b ->  4  5
+  b ->  4  2
+  b ->  2  5
+  b ->  2  2
+  d -> NA  1
 
 Finally, let's take a look at a multiply indexed Series:
 
@@ -803,9 +785,9 @@ You can achieve this as follows:
   scala> val f = t.pivot
   f: org.saddle.Frame[Int,Int,Int] = 
   [2 x 2]
-        1  2 
-       -- -- 
-  1 ->  1  2 
+        1  2
+       -- --
+  1 ->  1  2
   2 ->  3  4
 
 And this is how you get back the original Series:
@@ -820,8 +802,174 @@ And this is how you get back the original Series:
   2 1 -> 3
     2 -> 4
 
+This generalizes to tuples of higher order.
+
 Mat
 ---
 
+A Mat[T] represents a Matrix of values. Internally it is stored as a single
+contiguous array; sometimes, a duplicate array is created which stores the
+same values, but transposed, for speed of access having to do with memory
+locality.
+
+This format was chosen to be compatible with DenseMatrix of EJML_, a high
+performance linear algebra library which provides the default matrix multiply
+routine for Saddle. One or two properly placed implicit conversions can extend
+Saddle to be a powerful linear algebra system.
+
+.. _EJML: http://code.google.com/p/efficient-java-matrix-library/
+
+Let's start off with construction:
+
+.. code:: bash
+
+  scala> Mat(2,2, Array(1,2,3,4))
+  res41: org.saddle.Mat[Int] =
+  [2 x 2]
+  1 2
+  3 4
+
+  // all same:
+  scala> Mat(Array(1,3), Array(2,4))
+  scala> Mat(Array(Array(1,3), Array(2,4)))
+  scala> Mat(Vec(1,3), Vec(2,4))
+  scala> Mat(Array(Vec(1,3), Vec(2,4)))
+
+  // identity matrix:
+  scala> mat.ident(2)
+
+  // empty matrix:
+  scala> Mat.empty[Double]
+
+  // zeros:
+  scala> Mat[Int](2, 2)
+
+Again, sometimes we want to create instances filled with random observations. As
+to Vec, we can do the following:
+
+.. code:: bash
+
+  scala> mat.rand(2,2)       // random doubles from within [-1.0, 1.0] excluding 0
+  scala> mat.randp(2,2)      // random positive doubles
+  scala> mat.randn(2,2)      // random normally distributed doubles
+  scala> mat.randn(2,2,3,12) // random normally distributed with mean=3, stdev=12
+
+There are a few other factory methods available:
+
+.. code:: bash
+
+  scala> mat.ones(2,2)
+  scala> mat.zeros(2,2)
+  scala> mat.diag(Vec(1,2))
+
+Let's look at some basic operations with Mat. As with Vec, you may perform
+calculations on two Mat instances, or on a Mat and a scalar value.
+
+.. code:: bash
+
+  // element-wise multiplication
+  scala> Mat(2,2,Array(1,2,3,4)) * Mat(2,2,Array(4,1,2,3))
+  res55: org.saddle.Mat[Int] = 
+  [2 x 2]
+   4  2
+   6 12
+
+  // matrix multiplication; note implicit conversion to Double
+  // instead of `dot`, can also use `mult`
+  scala> Mat(2,2,Array(1,2,3,4)) dot Mat(2,2,Array(4,1,2,3))
+  res53: org.saddle.Mat[Double] = 
+  [2 x 2]
+   8.0000  7.0000
+  20.0000 15.0000
 
 
+  // matrix-vector multiplication
+  scala> Mat(2,2,Array(1,2,3,4)) dot Vec(2,1)
+  res56: org.saddle.Mat[Double] = 
+  [2 x 1]
+   4.0000
+  10.0000
+
+  // as expected
+  scala> Mat(2,2,Array(1,2,3,4)) * 2
+  scala> Mat(2,2,Array(1,2,3,4)) + 2
+  scala> Mat(2,2,Array(1,2,3,4)) << 2
+  // etc...
+
+  // transpose
+  scala> Mat(2,2,Array(1,2,3,4)).T
+  scala> Mat(2,2,Array(1,2,3,4)).transposed
+
+  // properties of Mat
+  scala> val m = Mat(2,2,Array(1,2,3,4))
+  scala> m.numRows
+  scala> m.numCols
+  scala> m.isSquare
+  scala> m.isEmpty
+
+There are a few ways to extract values from a Mat.
+
+.. code:: bash
+
+  scala> m.at(0,1)
+  res1: org.saddle.scalar.Scalar[Int] = 2
+
+  // be careful with this one!
+  scala> m.raw(0,1)
+  res2: Int = 2
+
+  scala> m.takeRows(0)
+  res0: org.saddle.Mat[Int] =
+  [1 x 2]
+  1 2
+
+  scala> m.withoutRows(0)
+  res0: org.saddle.Mat[Int] =
+  [1 x 2]
+  3 4
+
+  scala> m.takeCols(0)
+  res1: org.saddle.Mat[Int] =
+  [2 x 1]
+  1
+  3
+
+  scala> m.col(0)
+  scala> m.row(0)
+  scala> m.rows()
+  scala> m.cols()
+
+Some other interesting methods on Mat:
+
+.. code:: bash
+
+  scala> val m = Mat(2,2,Array(1,2,na.to[Int],4))
+  m: org.saddle.Mat[Int] =
+  [2 x 2]
+   1  2
+  NA  4
+
+  scala> m.rowsWithNA
+  res4: List[Int] = List(1)
+
+  scala> m.dropRowsWithNA
+
+  scala> m.reshape(1,4)
+  res6: org.saddle.Mat[Int] =
+  [1 x 4]
+   1  2 NA  4
+
+  scala> mat.rand(2,2).roundTo(2)
+  res8: org.saddle.Mat[Double] = 
+  [2 x 2]
+  -0.3400  0.0000 
+  -0.3800  0.2500
+
+Finally, if you want to print, say, 100 rows and 10 columns:
+
+.. code:: bash
+
+  scala> m.print(100, 10)
+
+Frame
+-----

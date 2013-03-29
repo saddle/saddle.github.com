@@ -123,7 +123,8 @@ this:</p>
 </pre></div>
 </div>
 <p>Let&#8217;s take a quick look at some operations you can do on Vec instances. All the
-major arithmetic operations are supported.</p>
+major arithmetic operations are supported between two Vec instances and between
+a Vec and a scalar.</p>
 <div class="code bash highlight-scala"><pre>scala&gt; Vec(1,2,3) + Vec(4,5,6)
 res0: org.saddle.Vec[Int] =
 [3 x 1]
@@ -167,22 +168,18 @@ res6: org.saddle.Vec[Int] =
 [3 x 1]
 1
 0
-1</pre>
+1
+
+// NB: 2 must be on the RHS, as `+` is a method on Vec
+scala&gt; Vec(1,2,3) + 2
+res7: org.saddle.Vec[Int] =
+[3 x 1]
+ 3
+ 4
+ 5</pre>
 </div>
 <p>You can also slice out data from a Vec in various ways:</p>
 <div class="code bash highlight-scala"><pre>scala&gt; val v = vec.rand(10)
-v: org.saddle.Vec[Double] =
-[10 x 1]
- 0.2856
- 0.0315
--0.1982
--0.0759
- 0.8767
--0.9438
- 0.9350
- 0.4167
- 0.6785
- 0.2523
 
 scala&gt; v.at(2)                        // wrapped in Scalar, in case of NA
 res0: org.saddle.scalar.Scalar[Double] = -0.19816001024987906
@@ -234,59 +231,52 @@ res7: org.saddle.Vec[Double] =
  0.9350</pre>
 </div>
 <p>There are statistical functions available:</p>
-<div class="code bash highlight-scala"><pre>scala&gt; val v = Vec(1,2,3)
-v: org.saddle.Vec[Int] =
-[3 x 1]
-1
-2
-3
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">v</span> <span class="k">=</span> <span class="nc">Vec</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span>
 
-scala&gt; v.sum
-res0: Int = 6
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">sum</span>
+<span class="n">res0</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">6</span>
 
-scala&gt; v.prod
-res1: Int = 6
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">prod</span>
+<span class="n">res1</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">6</span>
 
-scala&gt; v.mean
-res2: Double = 2.0
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">mean</span>
+<span class="n">res2</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=</span> <span class="mf">2.0</span>
 
-scala&gt; v.median
-res3: Double = 2.0
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">median</span>
+<span class="n">res3</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=</span> <span class="mf">2.0</span>
 
-scala&gt; v.max
-res4: Option[Int] = Some(3)
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">max</span>
+<span class="n">res4</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span> <span class="k">=</span> <span class="nc">Some</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span>
 
-scala&gt; v.stdev
-res5: Double = 1.0
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">stdev</span>
+<span class="n">res5</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=</span> <span class="mf">1.0</span>
 
-scala&gt; v.variance
-res6: Double = 1.0
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">variance</span>
+<span class="n">res6</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=</span> <span class="mf">1.0</span>
 
-scala&gt; v.skew
-res7: Double = 0.0
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">skew</span>
+<span class="n">res7</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=</span> <span class="mf">0.0</span>
 
-scala&gt; v.kurt
-res8: Double = NaN
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">kurt</span>
+<span class="n">res8</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=</span> <span class="nc">NaN</span>
 
-scala&gt; v.geomean
-res9: Double = 1.8171205928321394</pre>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">geomean</span>
+<span class="n">res9</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=</span> <span class="mf">1.8171205928321394</span>
+
+<span class="c1">// etc ...</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">count</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">countif</span><span class="o">(</span><span class="k">_</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">logsum</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">argmin</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">percentile</span><span class="o">(</span><span class="mf">0.3</span><span class="o">,</span> <span class="n">method</span><span class="k">=</span><span class="nc">PctMethod</span><span class="o">.</span><span class="nc">NIST</span><span class="o">)</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">demeaned</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">rank</span><span class="o">(</span><span class="n">tie</span><span class="k">=</span><span class="nc">RankTie</span><span class="o">.</span><span class="nc">Avg</span><span class="o">,</span> <span class="n">ascending</span><span class="k">=</span><span class="kc">true</span><span class="o">)</span>
+</pre></div>
 </div>
-<p>As well as rolling statistical functions:</p>
+<p>As well as a few rolling statistical functions:</p>
 <div class="code bash highlight-scala"><pre>scala&gt; val v = vec.rand(10)
-v: org.saddle.Vec[Double] =
-[10 x 1]
--0.9886
--0.2744
--0.9658
--0.6449
--0.6503
- 0.9905
- 0.7850
--0.2355
--0.1104
- 0.9301
 
-scala&gt; v.rollingSum(5)            // window size = 5
+scala&gt; v.rollingSum(5)            // with window size = 5
 res0: org.saddle.Vec[Double] =
 [6 x 1]
 -3.5240
@@ -296,25 +286,10 @@ res0: org.saddle.Vec[Double] =
  0.4410
  0.3806
 
+// etc...
 scala&gt; v.rollingMean(5)
-res1: org.saddle.Vec[Double] =
-[6 x 1]
--0.7048
--0.4518
--0.1017
--0.0198
- 0.0882
- 0.0761
-
 scala&gt; v.rollingMedian(5)
-res2: org.saddle.Vec[Double] =
-[6 x 1]
--0.6503
--0.6449
--0.6449
--0.2355
--0.1104
- 0.7850</pre>
+scala&gt; v.rollingCount(5)</pre>
 </div>
 <p>In fact, you can do any calculation you&#8217;d like over the rolling window:</p>
 <div class="code bash highlight-scala"><pre>scala&gt; v.rolling(5, _.stdev)      // window size = 5, take stdev of vector input
@@ -377,9 +352,11 @@ res4: org.saddle.Vec[Double] =
 -0.2475
 -0.5036</pre>
 </div>
-<p>Try out the following:</p>
-<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span>
+<p>Try out the following for yourself:</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">reversed</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span>
 <span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">foldLeft</span><span class="o">(</span><span class="mi">0</span><span class="n">d</span><span class="o">)</span> <span class="o">{</span> <span class="k">case</span> <span class="o">(</span><span class="n">acc</span><span class="o">,</span> <span class="n">d</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">acc</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">d</span> <span class="o">}</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">scanLeft</span><span class="o">(</span><span class="mi">0</span><span class="n">d</span><span class="o">)</span> <span class="o">{</span> <span class="k">case</span> <span class="o">(</span><span class="n">acc</span><span class="o">,</span> <span class="n">d</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">acc</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">d</span> <span class="o">}</span>
 <span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span> <span class="n">without</span> <span class="n">v</span><span class="o">.</span><span class="n">find</span><span class="o">(</span><span class="k">_</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="o">)</span>
 <span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span> <span class="n">findOne</span><span class="o">(</span><span class="k">_</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="o">)</span>
 <span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">head</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>
@@ -388,11 +365,10 @@ res4: org.saddle.Vec[Double] =
 <span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span> <span class="n">concat</span> <span class="n">v</span>
 </pre></div>
 </div>
-<p>Note that NA (missing values) are handled within calculations as if they were
-not there. Saddle tries to prevent you from accidentally using the primitive
-value whose bit pattern represents NA (the only two primitives where it is safe
-to extract a raw NA value are Float and Double, whose native NA representations
-are Float.NaN and Double.NaN respectively.)</p>
+<p>Note that NA (missing values) are handled within most calculations. Saddle
+tries to prevent accidentally using raw NA values; only two primitive types,
+Float and Double, have NA values that are safe to use in raw form. (Their NA
+representations are Float.NaN and Double.NaN, respectively.)</p>
 <div class="code bash highlight-scala"><pre>scala&gt; val v = Vec(1, na.to[Int], 2)
 v: org.saddle.Vec[Int] =
 [3 x 1]
@@ -426,19 +402,25 @@ res6: org.saddle.Vec[Int] =
 [3 x 1]
 1
 5
-2</pre>
+2
+
+scala&gt; val d: Double = Scalar(1.0) // you can auto-unbox a double scalar</pre>
 </div>
-<p>Scalar[T] can convert to Option[T] implicitly, so you may do everything with
-it that you may do with an Option; e.g., call map or flatmap.</p>
+<p>Also, a Scalar[T] can convert to Option[T] implicitly, so you may do everything
+with it that you may do with an Option; e.g., call map() or flatmap().</p>
 <p>Finally, if you need to treat a Vec as a sequence, you may convert it to Seq,
-(specifically, an IndexedSeq), by calling Vec.toSeq. Also, you may access (a
-copy of) Vec as an array, by calling Vec.contents.</p>
+(specifically, an IndexedSeq). Also, you may access (a copy of) Vec as an array,
+by calling Vec.contents.</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">toSeq</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">contents</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="series">
 <h2>Series<a class="headerlink" href="#series" title="Permalink to this headline">¶</a></h2>
-<p>A Series combines a Vec with an Index that provides a key-value mapping. The
-first thing to know is a Vec[T] can implicitly convert to a Series[Int, T]. So
-for instance:</p>
+<p>A Series combines a Vec with an Index that provides an ordered key-value mapping.
+We&#8217;ll talk more about the details of Index later.  First, note a Vec[T] can convert
+implicitly to a Series[Int, T]. So for instance:</p>
 <div class="code bash highlight-scala"><pre>scala&gt; val x: Series[Int, Double] = vec.rand(5)
 x: org.saddle.Series[Int,Double] =
 [5 x 1]
@@ -448,9 +430,9 @@ x: org.saddle.Series[Int,Double] =
 3 -&gt; -0.0976
 4 -&gt;  0.1756</pre>
 </div>
-<p>A Series is sort of like a Map, but the key type must have a natural ordering
-(ie, an Ordering of that type within the implicit scope). However, the Series
-maintains the order in which its data was supplied.</p>
+<p>The key type of a must have a natural ordering (ie, an Ordering of that type within
+the implicit scope). However, the Series maintains the order in which its data was
+supplied unless ordered othewise.</p>
 <p>Let&#8217;s look at a few constructions:</p>
 <div class="code bash highlight-scala"><pre>// we already know we can convert a Vec
 scala&gt; Series(Vec("a", "b", "c"))
@@ -513,7 +495,7 @@ res0: org.saddle.Vec[Int] =
 4
 3
 
-// or key
+// or extract key
 scala&gt; q.keyAt(2)
 res21: org.saddle.scalar.Scalar[java.lang.String] = a
 
@@ -572,7 +554,7 @@ scala&gt; q.last
 scala&gt; q.firstKey
 scala&gt; q.lastKey
 
-// "reindex" by supplying a new index:
+// "reindex" to a new index:
 scala&gt; q.reindex(Index("a","c","d"))
 res4: org.saddle.Series[java.lang.String,Int] =
 [3 x 1]
@@ -590,7 +572,7 @@ res5: org.saddle.Series[java.lang.String,Int] =
 a -&gt; 2
 
 // we cannot reindex with "b", because it isn't unique.
-// the problem is, which "b" would we choose?
+// (the problem is, which "b" would we choose?)
 scala&gt; q.reindex("a", "b")
 java.lang.IllegalArgumentException: requirement failed: Could not reindex unambiguously
 ...
@@ -601,8 +583,7 @@ scala&gt; q.resetIndex
 // or to a new index altogether
 scala&gt; q.setIndex(Index("w", "x", "y", "z"))
 
-// to 'slice', we need a sorted index:
-// it's inclusive by default
+// to 'slice', we need a sorted index; slice is inclusive by default
 scala&gt; val s = q.sortedIx
 scala&gt; s.sliceBy("b", "c")
 res7: org.saddle.Series[java.lang.String,Int] =
@@ -613,9 +594,10 @@ c -&gt; 1
 
 // syntactic sugar is provided:
 scala&gt; s.sliceBy("b" -&gt; "c")
+scala&gt; s.sliceBy(* -&gt; "b")
 
-// slice is by location, is exclusive by default, and the index doesn't have to be
-// sorted:
+// where slice is by offset, exclusive by default, and the
+// index doesn't have to be sorted:
 scala&gt; q.slice(0,2)
 res8: org.saddle.Series[java.lang.String,Int] =
 [2 x 1]
@@ -657,8 +639,8 @@ Try the following:</p>
 <span class="n">scala</span><span class="o">&gt;</span> <span class="n">q</span><span class="o">.</span><span class="n">toSeq</span>
 </pre></div>
 </div>
-<p>We can also group by key in order to transform or combine the groupings. For
-example:</p>
+<p>We can also group by key in order to transform or combine the groupings, which
+themselves are Series. For example:</p>
 <div class="code bash highlight-scala"><pre>scala&gt; q.groupBy.combine(_.sum)
 res19: org.saddle.Series[java.lang.String,Int] =
 [3 x 1]
@@ -674,8 +656,8 @@ b -&gt; -0.5000
 a -&gt;  0.0000
 b -&gt;  0.5000</pre>
 </div>
-<p>You can also group by another index, or by a transformation of the current index.
-See the API for more info.</p>
+<p>You can also group by another index, or by a transformation of the current index,
+by passing an argument into groupBy. See the Saddle API for more info.</p>
 <p>The expressive nature of working with Series becomes apparent when you need to
 align data:</p>
 <div class="code bash highlight-scala"><pre>scala&gt; val a = Series(Vec(1,4,2,3), Index("a","b","c","d"))
@@ -784,9 +766,155 @@ res32: org.saddle.Series[(Int, Int),Int] =
 2 1 -&gt; 3
   2 -&gt; 4</pre>
 </div>
+<p>This generalizes to tuples of higher order.</p>
 </div>
 <div class="section" id="mat">
 <h2>Mat<a class="headerlink" href="#mat" title="Permalink to this headline">¶</a></h2>
+<p>A Mat[T] represents a Matrix of values. Internally it is stored as a single
+contiguous array; sometimes, a duplicate array is created which stores the
+same values, but transposed, for speed of access having to do with memory
+locality.</p>
+<p>This format was chosen to be compatible with DenseMatrix of <a class="reference external" href="http://code.google.com/p/efficient-java-matrix-library/">EJML</a>, a high
+performance linear algebra library which provides the default matrix multiply
+routine for Saddle. One or two properly placed implicit conversions can extend
+Saddle to be a powerful linear algebra system.</p>
+<p>Let&#8217;s start off with construction:</p>
+<div class="code bash highlight-scala"><pre>scala&gt; Mat(2,2, Array(1,2,3,4))
+res41: org.saddle.Mat[Int] =
+[2 x 2]
+1 2
+3 4
+
+// all same:
+scala&gt; Mat(Array(1,3), Array(2,4))
+scala&gt; Mat(Array(Array(1,3), Array(2,4)))
+scala&gt; Mat(Vec(1,3), Vec(2,4))
+scala&gt; Mat(Array(Vec(1,3), Vec(2,4)))
+
+// identity matrix:
+scala&gt; mat.ident(2)
+
+// empty matrix:
+scala&gt; Mat.empty[Double]
+
+// zeros:
+scala&gt; Mat[Int](2, 2)</pre>
+</div>
+<p>Again, sometimes we want to create instances filled with random observations. As
+to Vec, we can do the following:</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">mat</span><span class="o">.</span><span class="n">rand</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="mi">2</span><span class="o">)</span>       <span class="c1">// random doubles from within [-1.0, 1.0] excluding 0</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">mat</span><span class="o">.</span><span class="n">randp</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="mi">2</span><span class="o">)</span>      <span class="c1">// random positive doubles</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">mat</span><span class="o">.</span><span class="n">randn</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="mi">2</span><span class="o">)</span>      <span class="c1">// random normally distributed doubles</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">mat</span><span class="o">.</span><span class="n">randn</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">12</span><span class="o">)</span> <span class="c1">// random normally distributed with mean=3, stdev=12</span>
+</pre></div>
+</div>
+<p>There are a few other factory methods available:</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">mat</span><span class="o">.</span><span class="n">ones</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="mi">2</span><span class="o">)</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">mat</span><span class="o">.</span><span class="n">zeros</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="mi">2</span><span class="o">)</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">mat</span><span class="o">.</span><span class="n">diag</span><span class="o">(</span><span class="nc">Vec</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">))</span>
+</pre></div>
+</div>
+<p>Let&#8217;s look at some basic operations with Mat. As with Vec, you may perform
+calculations on two Mat instances, or on a Mat and a scalar value.</p>
+<div class="code bash highlight-scala"><pre>// element-wise multiplication
+scala&gt; Mat(2,2,Array(1,2,3,4)) * Mat(2,2,Array(4,1,2,3))
+res55: org.saddle.Mat[Int] =
+[2 x 2]
+ 4  2
+ 6 12
+
+// matrix multiplication; note implicit conversion to Double
+// instead of `dot`, can also use `mult`
+scala&gt; Mat(2,2,Array(1,2,3,4)) dot Mat(2,2,Array(4,1,2,3))
+res53: org.saddle.Mat[Double] =
+[2 x 2]
+ 8.0000  7.0000
+20.0000 15.0000
+
+
+// matrix-vector multiplication
+scala&gt; Mat(2,2,Array(1,2,3,4)) dot Vec(2,1)
+res56: org.saddle.Mat[Double] =
+[2 x 1]
+ 4.0000
+10.0000
+
+// as expected
+scala&gt; Mat(2,2,Array(1,2,3,4)) * 2
+scala&gt; Mat(2,2,Array(1,2,3,4)) + 2
+scala&gt; Mat(2,2,Array(1,2,3,4)) &lt;&lt; 2
+// etc...
+
+// transpose
+scala&gt; Mat(2,2,Array(1,2,3,4)).T
+scala&gt; Mat(2,2,Array(1,2,3,4)).transposed
+
+// properties of Mat
+scala&gt; val m = Mat(2,2,Array(1,2,3,4))
+scala&gt; m.numRows
+scala&gt; m.numCols
+scala&gt; m.isSquare
+scala&gt; m.isEmpty</pre>
+</div>
+<p>There are a few ways to extract values from a Mat.</p>
+<div class="code bash highlight-scala"><pre>scala&gt; m.at(0,1)
+res1: org.saddle.scalar.Scalar[Int] = 2
+
+// be careful with this one!
+scala&gt; m.raw(0,1)
+res2: Int = 2
+
+scala&gt; m.takeRows(0)
+res0: org.saddle.Mat[Int] =
+[1 x 2]
+1 2
+
+scala&gt; m.withoutRows(0)
+res0: org.saddle.Mat[Int] =
+[1 x 2]
+3 4
+
+scala&gt; m.takeCols(0)
+res1: org.saddle.Mat[Int] =
+[2 x 1]
+1
+3
+
+scala&gt; m.col(0)
+scala&gt; m.row(0)
+scala&gt; m.rows()
+scala&gt; m.cols()</pre>
+</div>
+<p>Some other interesting methods on Mat:</p>
+<div class="code bash highlight-scala"><pre>scala&gt; val m = Mat(2,2,Array(1,2,na.to[Int],4))
+m: org.saddle.Mat[Int] =
+[2 x 2]
+ 1  2
+NA  4
+
+scala&gt; m.rowsWithNA
+res4: List[Int] = List(1)
+
+scala&gt; m.dropRowsWithNA
+
+scala&gt; m.reshape(1,4)
+res6: org.saddle.Mat[Int] =
+[1 x 4]
+ 1  2 NA  4
+
+scala&gt; mat.rand(2,2).roundTo(2)
+res8: org.saddle.Mat[Double] =
+[2 x 2]
+-0.3400  0.0000
+-0.3800  0.2500</pre>
+</div>
+<p>Finally, if you want to print, say, 100 rows and 10 columns:</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">m</span><span class="o">.</span><span class="n">print</span><span class="o">(</span><span class="mi">100</span><span class="o">,</span> <span class="mi">10</span><span class="o">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="frame">
+<h2>Frame<a class="headerlink" href="#frame" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -806,6 +934,7 @@ res32: org.saddle.Series[(Int, Int),Int] =
 <li><a class="reference internal" href="#vec">Vec</a></li>
 <li><a class="reference internal" href="#series">Series</a></li>
 <li><a class="reference internal" href="#mat">Mat</a></li>
+<li><a class="reference internal" href="#frame">Frame</a></li>
 </ul>
 </li>
 </ul>

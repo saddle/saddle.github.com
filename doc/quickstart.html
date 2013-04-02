@@ -45,30 +45,32 @@
   <div class="section" id="quick-start-guide">
 <h1>Quick Start Guide<a class="headerlink" href="#quick-start-guide" title="Permalink to this headline">¶</a></h1>
 <p>Let&#8217;s take a quick tour through Saddle to get a sense of the feature set. There
-are five major array-backed data structures:</p>
+are five major array-backed, specialized data structures:</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="37%" />
-<col width="63%" />
+<col width="39%" />
+<col width="61%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td>Type</td>
-<td>Description</td>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Class</th>
+<th class="head">Description</th>
 </tr>
+</thead>
+<tbody valign="top">
 <tr class="row-even"><td>Vec</td>
-<td>1D vector object</td>
+<td>1D vector-like</td>
 </tr>
 <tr class="row-odd"><td>Mat</td>
-<td>2D matrix object</td>
+<td>2D matrix-like</td>
 </tr>
 <tr class="row-even"><td>Series</td>
-<td>1D indexed vector object</td>
+<td>1D indexed vector-like</td>
 </tr>
 <tr class="row-odd"><td>Frame</td>
-<td>2D indexed matrix object</td>
+<td>2D indexed matrix-like</td>
 </tr>
 <tr class="row-even"><td>Index</td>
-<td>Hashmap-like indexer</td>
+<td>Hashmap-like</td>
 </tr>
 </tbody>
 </table>
@@ -92,41 +94,13 @@ object with a larger number.</p>
 <h2>Vec<a class="headerlink" href="#vec" title="Permalink to this headline">¶</a></h2>
 <p>Let&#8217;s walk through some examples in an sbt console session.</p>
 <p>First, a few ways to create Vec instances:</p>
-<div class="code scala highlight-scala"><pre>scala&gt; Vec(1, 2, 3)               // pass a sequence directly
-res0: org.saddle.Vec[Int] =
-[3 x 1]
-1
-2
-3
-
-scala&gt; Vec(1 to 3 : _*)           // pass a sequence indirectly
-res1: org.saddle.Vec[Int] =
-[3 x 1]
-1
-2
-3
-
-scala&gt; Vec(Array(1,2,3))          // wrap an array into a Vec
-res2: org.saddle.Vec[Int] =
-[3 x 1]
-1
-2
-3
-
-scala&gt; Vec(Seq(1,2,3))            // not usually what you want!
-res3: org.saddle.Vec[Seq[Int]] =
-[1 x 1]
-List(1, 2, 3)
-
-scala&gt; Vec(Seq(1,2,3) : _*)       // yes, usually what you want!
-res3: org.saddle.Vec[Int] =
-[3 x 1]
-1
-2
-3
-
-scala&gt; Vec.empty[Double]          // create an empty Vec
-res4: org.saddle.Vec[Double] = Empty Vec</pre>
+<div class="code scala highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="nc">Vec</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span>               <span class="c1">// pass a sequence directly</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="nc">Vec</span><span class="o">(</span><span class="mi">1</span> <span class="n">to</span> <span class="mi">3</span> <span class="k">:</span> <span class="k">_</span><span class="kt">*</span><span class="o">)</span>           <span class="c1">// pass a sequence indirectly</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="nc">Vec</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">))</span>          <span class="c1">// wrap an array into a Vec</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="nc">Vec</span><span class="o">(</span><span class="nc">Seq</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">))</span>            <span class="c1">// not usually what you want!</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="nc">Vec</span><span class="o">(</span><span class="nc">Seq</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span> <span class="k">:</span> <span class="k">_</span><span class="kt">*</span><span class="o">)</span>       <span class="c1">// yes, usually what you want!</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="nc">Vec</span><span class="o">.</span><span class="n">empty</span><span class="o">[</span><span class="kt">Double</span><span class="o">]</span>          <span class="c1">// create an empty Vec</span>
+</pre></div>
 </div>
 <p>There are also a few special factories:</p>
 <div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">vec</span><span class="o">.</span><span class="n">ones</span><span class="o">(</span><span class="mi">5</span><span class="o">)</span>
@@ -146,110 +120,32 @@ this:</p>
 <p>Let&#8217;s take a quick look at some operations you can do on Vec instances. All the
 major arithmetic operations are supported between two Vec instances and between
 a Vec and a scalar.</p>
-<div class="code bash highlight-scala"><pre>scala&gt; Vec(1,2,3) + Vec(4,5,6)
-res0: org.saddle.Vec[Int] =
-[3 x 1]
-5
-7
-9
-
-scala&gt; Vec(1,2,3) * Vec(4,5,6)
-res1: org.saddle.Vec[Int] =
-[3 x 1]
- 4
-10
-18
-
-scala&gt; Vec(1,2,3) dot Vec(4,5,6)
-res2: Int = 32
-
-scala&gt; Vec(1,2,3) outer Vec(4,5,6)
-res3: org.saddle.Mat[Int] =
-[3 x 3]
- 4  5  6
- 8 10 12
-12 15 18
-
-scala&gt; Vec(1,2,3) ** Vec(4,5,6)
-res4: org.saddle.Vec[Int] =
-[3 x 1]
-  1
- 32
-729
-
-scala&gt; Vec(1,2,3) &lt;&lt; 2
-res5: org.saddle.Vec[Int] =
-[3 x 1]
- 4
- 8
-12
-
-scala&gt; Vec(1,2,3) &amp; 0x1
-res6: org.saddle.Vec[Int] =
-[3 x 1]
-1
-0
-1
-
-// Note: 2 must be on the right hand side, as `+` is a method on Vec
-scala&gt; Vec(1,2,3) + 2
-res7: org.saddle.Vec[Int] =
-[3 x 1]
- 3
- 4
- 5</pre>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="nc">Vec</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span> <span class="o">+</span> <span class="nc">Vec</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span><span class="mi">5</span><span class="o">,</span><span class="mi">6</span><span class="o">)</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="nc">Vec</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span> <span class="o">*</span> <span class="nc">Vec</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span><span class="mi">5</span><span class="o">,</span><span class="mi">6</span><span class="o">)</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="nc">Vec</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span> <span class="n">dot</span> <span class="nc">Vec</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span><span class="mi">5</span><span class="o">,</span><span class="mi">6</span><span class="o">)</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="nc">Vec</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span> <span class="n">outer</span> <span class="nc">Vec</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span><span class="mi">5</span><span class="o">,</span><span class="mi">6</span><span class="o">)</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="nc">Vec</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span> <span class="o">**</span> <span class="nc">Vec</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span><span class="mi">5</span><span class="o">,</span><span class="mi">6</span><span class="o">)</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="nc">Vec</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span> <span class="o">&lt;&lt;</span> <span class="mi">2</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="nc">Vec</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span> <span class="o">&amp;</span> <span class="mh">0x1</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="nc">Vec</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span> <span class="o">+</span> <span class="mi">2</span>             <span class="c1">// Note: 2 must be on right hand side (it&#39;s Vec.`+`)</span>
+</pre></div>
 </div>
 <p>You can also slice out data from a Vec in various ways:</p>
-<div class="code bash highlight-scala"><pre>scala&gt; val v = vec.rand(10)
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">v</span> <span class="k">=</span> <span class="n">vec</span><span class="o">.</span><span class="n">rand</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
 
-scala&gt; v.at(2)                        // wrapped in Scalar, in case of NA
-res0: org.saddle.scalar.Scalar[Double] = -0.19816001024987906
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">at</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>                        <span class="c1">// wrapped in Scalar, in case of NA</span>
+<span class="n">res0</span><span class="k">:</span> <span class="kt">org.saddle.scalar.Scalar</span><span class="o">[</span><span class="kt">Double</span><span class="o">]</span> <span class="k">=</span> <span class="o">-</span><span class="mf">0.19816001024987906</span>
 
-scala&gt; v.raw(2)                       // raw access to primitive type
-res1: Double = -0.19816001024987906
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">raw</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>                       <span class="c1">// raw access to primitive type; be careful!</span>
+<span class="n">res1</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.19816001024987906</span>
 
-scala&gt; v(2,4,8)
-res2: org.saddle.Vec[Double] =
-[3 x 1]
--0.1982
- 0.8767
- 0.6785
-
-scala&gt; v(2 -&gt; 4)
-res3: org.saddle.Vec[Double] =
-[3 x 1]
--0.1982
--0.0759
- 0.8767
-
-scala&gt; v(* -&gt; 3)
-res4: org.saddle.Vec[Double] =
-[4 x 1]
- 0.2856
- 0.0315
--0.1982
--0.0759
-
-scala&gt; v(8 -&gt; * )
-res5: org.saddle.Vec[Double] =
-[2 x 1]
-0.6785
-0.2523
-
-scala&gt; v.slice(0,3)
-res6: org.saddle.Vec[Double] =
-[3 x 1]
- 0.2856
- 0.0315
--0.1982
-
-scala&gt; v.slice(0,8,2)
-res7: org.saddle.Vec[Double] =
-[4 x 1]
- 0.2856
--0.1982
- 0.8767
- 0.9350</pre>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span><span class="mi">8</span><span class="o">)</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">(</span><span class="mi">2</span> <span class="o">-&gt;</span> <span class="mi">4</span><span class="o">)</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">(*</span> <span class="o">-&gt;</span> <span class="mi">3</span><span class="o">)</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">(</span><span class="mi">8</span> <span class="o">-&gt;</span> <span class="o">*</span> <span class="o">)</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">slice</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">slice</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="mi">8</span><span class="o">,</span><span class="mi">2</span><span class="o">)</span>
+</pre></div>
 </div>
 <p>There are statistical functions available:</p>
 <div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">v</span> <span class="k">=</span> <span class="nc">Vec</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span>
@@ -294,86 +190,32 @@ res7: org.saddle.Vec[Double] =
 <span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">rank</span><span class="o">(</span><span class="n">tie</span><span class="k">=</span><span class="nc">RankTie</span><span class="o">.</span><span class="nc">Avg</span><span class="o">,</span> <span class="n">ascending</span><span class="k">=</span><span class="kc">true</span><span class="o">)</span>
 </pre></div>
 </div>
-<p>As well as a few rolling statistical functions:</p>
-<div class="code bash highlight-scala"><pre>scala&gt; val v = vec.rand(10)
+<p>As well as a few specially-implemented rolling statistical functions:</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">v</span> <span class="k">=</span> <span class="n">vec</span><span class="o">.</span><span class="n">rand</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
 
-scala&gt; v.rollingSum(5)            // with window size = 5
-res0: org.saddle.Vec[Double] =
-[6 x 1]
--3.5240
--2.2592
--0.5084
--0.0990
- 0.4410
- 0.3806
-
-// etc...
-scala&gt; v.rollingMean(5)
-scala&gt; v.rollingMedian(5)
-scala&gt; v.rollingCount(5)</pre>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">rollingSum</span><span class="o">(</span><span class="mi">5</span><span class="o">)</span>            <span class="c1">// with window size = 5</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">rollingMean</span><span class="o">(</span><span class="mi">5</span><span class="o">)</span>           <span class="c1">// etc.</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">rollingMedian</span><span class="o">(</span><span class="mi">5</span><span class="o">)</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">rollingCount</span><span class="o">(</span><span class="mi">5</span><span class="o">)</span>
+</pre></div>
 </div>
 <p>In fact, you can do any calculation you&#8217;d like over the rolling window:</p>
-<div class="code bash highlight-scala"><pre>scala&gt; v.rolling(5, _.stdev)      // window size = 5, take stdev of vector input
-res0: org.saddle.Vec[Double] =
-[6 x 1]
-0.5456
-0.3810
-0.3685
-0.2678
-0.6302
-0.4969</pre>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">rolling</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="k">_</span><span class="o">.</span><span class="n">stdev</span><span class="o">)</span>      <span class="c1">// window size = 5, take stdev of vector input</span>
+</pre></div>
 </div>
 <p>Let&#8217;s take a quick look at some more advanced functionality:</p>
-<div class="code bash highlight-scala"><pre>scala&gt; val v = vec.rand(10)
-v: org.saddle.Vec[Double] =
-[10 x 1]
--0.0137
- 0.8427
--0.0089
- 0.2083
- 0.9968
--0.3560
--0.5520
--0.2475
--0.5036
--0.3474
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">v</span> <span class="k">=</span> <span class="n">vec</span><span class="o">.</span><span class="n">rand</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
 
-scala&gt; v filter(_ &gt; 0.5)
-res0: org.saddle.Vec[Double] =
-[2 x 1]
-0.8427
-0.9968
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span> <span class="n">filter</span><span class="o">(</span><span class="k">_</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="o">)</span>          <span class="c1">// these three commands are all the same!</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span> <span class="n">where</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="mf">0.5</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">take</span><span class="o">(</span><span class="n">v</span><span class="o">.</span><span class="n">find</span><span class="o">(</span><span class="k">_</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="o">))</span>
 
-scala&gt; v where v &gt; 0.5
-res1: org.saddle.Vec[Double] =
-[2 x 1]
-0.8427
-0.9968
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">filterFoldLeft</span><span class="o">(</span><span class="k">_</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="o">)(</span><span class="mi">0</span><span class="n">d</span><span class="o">)</span> <span class="o">{</span> <span class="k">case</span> <span class="o">(</span><span class="n">acc</span><span class="o">,</span> <span class="n">d</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">acc</span> <span class="o">+</span> <span class="n">d</span> <span class="o">}</span>
 
-scala&gt; v.take(v.find(_ &gt; 0.5))
-res2: org.saddle.Vec[Double] =
-[2 x 1]
-0.8427
-0.9968
-
-scala&gt; v.filterFoldLeft(_ &gt; 0.5)(0d) { case (acc, d) =&gt; acc + d }
-res3: Double = 1.8394622034464525
-
-scala&gt; v shift 1
-res4: org.saddle.Vec[Double] =
-[10 x 1]
-     NA
--0.0137
- 0.8427
--0.0089
- 0.2083
- 0.9968
--0.3560
--0.5520
--0.2475
--0.5036</pre>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span> <span class="n">shift</span> <span class="mi">1</span>
+</pre></div>
 </div>
-<p>Try out the following for yourself:</p>
+<p>Try out some of the following for yourself:</p>
 <div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">reversed</span>
 <span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span>
 <span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">foldLeft</span><span class="o">(</span><span class="mi">0</span><span class="n">d</span><span class="o">)</span> <span class="o">{</span> <span class="k">case</span> <span class="o">(</span><span class="n">acc</span><span class="o">,</span> <span class="n">d</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">acc</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">d</span> <span class="o">}</span>
@@ -390,42 +232,29 @@ res4: org.saddle.Vec[Double] =
 tries to prevent accidentally using raw NA values; only two primitive types,
 Float and Double, have NA values that are safe to use in raw form: their NA
 representations are Float.NaN and Double.NaN, respectively.</p>
-<div class="code bash highlight-scala"><pre>scala&gt; val v = Vec(1, na.to[Int], 2)
-v: org.saddle.Vec[Int] =
-[3 x 1]
- 1
-NA
- 2
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">v</span> <span class="k">=</span> <span class="nc">Vec</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">na</span><span class="o">.</span><span class="n">to</span><span class="o">[</span><span class="kt">Int</span><span class="o">],</span> <span class="mi">2</span><span class="o">)</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span> <span class="n">sum</span>
 
-scala&gt; v sum
-res0: Int = 3
+<span class="n">res0</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">3</span>
 
-scala&gt; v median
-res1: Double = 1.5
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span> <span class="n">median</span>
+<span class="n">res1</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=</span> <span class="mf">1.5</span>
 
-scala&gt; v prod
-res2: Int = 2
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span> <span class="n">prod</span>
+<span class="n">res2</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">2</span>
 
-scala&gt; v dropNA
-res3: org.saddle.Vec[Int] =
-[2 x 1]
-1
-2
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span> <span class="n">dropNA</span>                           <span class="c1">// becomes [1 2]</span>
 
-scala&gt; v.at(1)                            // boxed to prevent shooting yourself in foot
-res4: org.saddle.scalar.Scalar[Int] = NA
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">at</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>                            <span class="c1">// boxed to prevent shooting yourself in foot</span>
+<span class="n">res4</span><span class="k">:</span> <span class="kt">org.saddle.scalar.Scalar</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span> <span class="k">=</span> <span class="nc">NA</span>
 
-scala&gt; v.raw(1)                           // you can do this, but be careful!
-res5: Int = -2147483648
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">raw</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>                           <span class="c1">// you can do this, but be careful!</span>
+<span class="n">res5</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2147483648</span>
 
-scala&gt; v.fillNA(x =&gt; x)                   // the argument is the index of the NA
-res6: org.saddle.Vec[Int] =
-[3 x 1]
-1
-1
-2
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">fillNA</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="n">x</span><span class="o">)</span>                   <span class="c1">// becomes [1 1 2]; the argument is the index of the NA</span>
 
-scala&gt; val d: Double = scalar.Scalar(1.0) // you can auto-unbox a double scalar</pre>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">d</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=</span> <span class="n">scalar</span><span class="o">.</span><span class="nc">Scalar</span><span class="o">(</span><span class="mf">1.0</span><span class="o">)</span> <span class="c1">// you can auto-unbox a double scalar</span>
+</pre></div>
 </div>
 <p>Also, a Scalar[T] can convert to Option[T] implicitly, so you may do everything
 with it that you may do with an Option; e.g., call map() or flatmap().</p>
@@ -442,26 +271,20 @@ array, by calling Vec.contents.</p>
 <p>A Series combines a Vec with an Index that provides an ordered key-value
 mapping.  We&#8217;ll talk more about the details of Index later.  First, note a
 Vec[T] can convert implicitly to a Series[Int, T]. So for instance:</p>
-<div class="code bash highlight-scala"><pre>scala&gt; val x: Series[Int, Double] = vec.rand(5)
-x: org.saddle.Series[Int,Double] =
-[5 x 1]
-0 -&gt; -0.7846
-1 -&gt;  0.0297
-2 -&gt; -0.2634
-3 -&gt; -0.0976
-4 -&gt;  0.1756</pre>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Series</span><span class="o">[</span><span class="kt">Int</span>, <span class="kt">Double</span><span class="o">]</span> <span class="k">=</span> <span class="n">vec</span><span class="o">.</span><span class="n">rand</span><span class="o">(</span><span class="mi">5</span><span class="o">)</span>
+</pre></div>
 </div>
 <p>The key type of a must have a natural ordering (ie, an Ordering of that type
 within the implicit scope). However, the Series maintains the order in which
 its data was supplied unless ordered othewise.</p>
 <p>Let&#8217;s look at a few constructions:</p>
 <div class="code bash highlight-scala"><pre>// we already know we can convert a Vec
-scala&gt; Series(Vec("a", "b", "c"))
+scala&gt; Series(Vec(32, 12, 9))
 res3: org.saddle.Series[Int,java.lang.String] =
 [3 x 1]
-0 -&gt; a
-1 -&gt; b
-2 -&gt; c
+0 -&gt; 32
+1 -&gt; 12
+2 -&gt; 9
 
 // we can pass a pair of tuples
 scala&gt; Series("a" -&gt; 1, "b" -&gt; 2, "c" -&gt; 3)
@@ -655,7 +478,8 @@ Try the following:</p>
 <span class="n">scala</span><span class="o">&gt;</span> <span class="n">q</span><span class="o">.</span><span class="n">sortedIx</span><span class="o">.</span><span class="n">splitBy</span><span class="o">(</span><span class="s">&quot;b&quot;</span><span class="o">)</span>
 </pre></div>
 </div>
-<p>We can of course convert to a Vec or a Seq if we need to:</p>
+<p>We can of course convert to a Vec or a Seq if we need to. The Series.toSeq
+method yields a sequence of key/value tuples.</p>
 <div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">q</span><span class="o">.</span><span class="n">toVec</span>
 <span class="n">scala</span><span class="o">&gt;</span> <span class="n">q</span><span class="o">.</span><span class="n">toSeq</span>
 </pre></div>
@@ -935,6 +759,334 @@ res8: org.saddle.Mat[Double] =
 </div>
 <div class="section" id="frame">
 <h2>Frame<a class="headerlink" href="#frame" title="Permalink to this headline">¶</a></h2>
+<p>A Frame combines a Mat with a row index and a column index which provides a way
+to index into the Mat. First, note a Mat[T] converts implicitly to a Frame[Int,
+Int, T]. So for instance</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">f</span><span class="k">:</span> <span class="kt">Frame</span><span class="o">[</span><span class="kt">Int</span>, <span class="kt">Int</span>, <span class="kt">Double</span><span class="o">]</span> <span class="k">=</span> <span class="n">mat</span><span class="o">.</span><span class="n">rand</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">2</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>A Frame is represented internally as a sequence of column Vec instances all
+sharing the same row index; additionally a transpose of the data is created
+lazily if cross sections of data are requested.</p>
+<p>Let&#8217;s look at some ways to instantiated a Frame:</p>
+<div class="code bash highlight-scala"><pre>scala&gt; val v = Vec(1, 2)                              // given the following
+scala&gt; val u = Vec(3, 4)
+scala&gt; val s = Series("a" -&gt; 1, "b" -&gt; 2)
+scala&gt; val t = Series("b" -&gt; 3, "c" -&gt; 4)
+
+scala&gt; Frame(v, u)                                    // two-column frame
+
+scala&gt; Frame("x" -&gt; v, "y" -&gt; u)                      // with column index
+
+scala&gt; Frame(s, t)                                    // aligned along rows
+[3 x 2]
+      0  1
+     -- --
+a -&gt;  1 NA
+b -&gt;  2  3
+c -&gt; NA  4
+
+scala&gt; Frame("x" -&gt; s, "y" -&gt; t)                      // with column index
+[3 x 2]
+      x  y
+     -- --
+a -&gt;  1 NA
+b -&gt;  2  3
+c -&gt; NA  4
+
+scala&gt; Frame(Seq(s, t), Index("x", "y"))              // explicit column index
+
+scala&gt; Frame(Seq(v, u), Index(0, 1), Index("x", "y")) // row &amp; col indexes specified explicitly
+
+scala&gt; Frame(Seq(v, u), Index("a", "b"))              // col index specified</pre>
+</div>
+<p>You&#8217;ll notice that if an index is not provided, a default int index is set
+where the index ranges between 0 and the length of the data.</p>
+<p>Frame elements are all recognized as the same type by the compiler. But if you
+want to work with frames whose columns contain heterogenous data, there are a
+few facilities to make it easier. You can construct Frame[_, _, Any] using the
+Panel() constructor, which mirrors the Frame() constructor, eg:</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">p</span> <span class="k">=</span> <span class="nc">Panel</span><span class="o">(</span><span class="nc">Vec</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">),</span> <span class="nc">Vec</span><span class="o">(</span><span class="s">&quot;a&quot;</span><span class="o">,</span><span class="s">&quot;b&quot;</span><span class="o">,</span><span class="s">&quot;c&quot;</span><span class="o">))</span>
+</pre></div>
+</div>
+<p>You may then extract columns of a particular type as follows:</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">colType</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">colType</span><span class="o">[</span><span class="kt">Int</span>, <span class="kt">String</span><span class="o">]</span>
+</pre></div>
+</div>
+<p>Speaking of types, if you want to generate an empty row or column of the right type:</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">emptyRow</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">emptyCol</span>
+</pre></div>
+</div>
+<p>Back to homogenous Frames. If you want to set or reset the index, these methods
+are your friends:</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">f</span> <span class="k">=</span> <span class="nc">Frame</span><span class="o">(</span><span class="s">&quot;x&quot;</span> <span class="o">-&gt;</span> <span class="n">s</span><span class="o">,</span> <span class="s">&quot;y&quot;</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">)</span>
+
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">setRowIndex</span><span class="o">(</span><span class="nc">Index</span><span class="o">(</span><span class="mi">10</span><span class="o">,</span> <span class="mi">20</span><span class="o">))</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">setColIndex</span><span class="o">(</span><span class="nc">Index</span><span class="o">(</span><span class="s">&quot;p&quot;</span><span class="o">,</span> <span class="s">&quot;q&quot;</span><span class="o">))</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">resetRowIndex</span><span class="o">()</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">resetColIndex</span><span class="o">()</span>
+</pre></div>
+</div>
+<p>(Note: frame <tt class="docutils literal"><span class="pre">f</span></tt> will carry through the next examples.)</p>
+<p>You also have the following index transformation tools at hand:</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">f</span><span class="o">.</span><span class="n">mapRowIndex</span> <span class="o">{</span> <span class="k">case</span> <span class="n">rx</span> <span class="k">=&gt;</span> <span class="o">...</span> <span class="o">}</span>
+<span class="n">f</span><span class="o">.</span><span class="n">mapColIndex</span> <span class="o">{</span> <span class="k">case</span> <span class="n">cx</span> <span class="k">=&gt;</span> <span class="o">...</span> <span class="o">}</span>
+</pre></div>
+</div>
+<p>Let&#8217;s next look at how to extract data from the Frame.</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">rowAt</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>    <span class="c1">// extract row at offset 2, as Series</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">rowAt</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">)</span>  <span class="c1">// extract frame of rows 1 &amp; 2</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">rowAt</span><span class="o">(</span><span class="mi">1</span><span class="o">-&gt;</span><span class="mi">2</span><span class="o">)</span> <span class="c1">// extract frame of rows 1 &amp; 2</span>
+
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">colAt</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>    <span class="c1">// extract col at offset 1, as Series</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">colAt</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="mi">1</span><span class="o">)</span>  <span class="c1">// extract frame of cols 1 &amp; 2</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">colAt</span><span class="o">(</span><span class="mi">0</span><span class="o">-&gt;</span><span class="mi">1</span><span class="o">)</span> <span class="c1">// extract frame of cols 1 &amp; 2</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">rowAt</span></tt> and <tt class="docutils literal"><span class="pre">colAt</span></tt> are used under the hood for the <tt class="docutils literal"><span class="pre">at</span></tt> extractor:</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">at</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">1</span><span class="o">)</span>              <span class="c1">// Scalar value</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">at</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">),</span> <span class="mi">0</span><span class="o">)</span>    <span class="c1">// extract rows 1,2 of column 0</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">at</span><span class="o">(</span><span class="mi">0</span><span class="o">-&gt;</span><span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span>          <span class="c1">// extract rows 0,1 of column 1</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">at</span><span class="o">(</span><span class="mi">0</span><span class="o">-&gt;</span><span class="mi">1</span><span class="o">,</span> <span class="mi">0</span><span class="o">-&gt;</span><span class="mi">1</span><span class="o">)</span>       <span class="c1">// extract rows 0,1 of columns 0, 1</span>
+<span class="c1">// etc...</span>
+</pre></div>
+</div>
+<p>If you want more control over slicing, you can use these methods:</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">colSlice</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="mi">1</span><span class="o">)</span>        <span class="c1">// frame slice consisting of column 0</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">rowSlice</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">2</span><span class="o">)</span>      <span class="c1">// row slice from 0 until 3, striding by 2</span>
+</pre></div>
+</div>
+<p>Of course, this is an bi-indexed data structure, so we can use its indexes to
+select out data using keys:</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">row</span><span class="o">(</span><span class="s">&quot;a&quot;</span><span class="o">)</span>             <span class="c1">// row series &#39;a&#39;, with all columns</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">col</span><span class="o">(</span><span class="s">&quot;x&quot;</span><span class="o">)</span>             <span class="c1">// col series &#39;x&#39;, with all rows</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">row</span><span class="o">(</span><span class="s">&quot;a&quot;</span><span class="o">,</span> <span class="s">&quot;c&quot;</span><span class="o">)</span>        <span class="c1">// select two rows</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">row</span><span class="o">(</span><span class="s">&quot;a&quot;</span><span class="o">-&gt;</span><span class="s">&quot;b&quot;</span><span class="o">)</span>        <span class="c1">// slice two rows (index must be sorted)</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">row</span><span class="o">(</span><span class="nc">Vec</span><span class="o">(</span><span class="s">&quot;a&quot;</span><span class="o">,</span> <span class="s">&quot;c&quot;</span><span class="o">))</span>   <span class="c1">// another way to select</span>
+</pre></div>
+</div>
+<p>A more explict way to slice with keys is as follows, and you can specify
+whether the right bound is inclusive or exclusive. Again, to slice, the index
+keys must be ordered.</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">rowSliceBy</span><span class="o">(</span><span class="s">&quot;a&quot;</span><span class="o">,</span> <span class="s">&quot;b&quot;</span><span class="o">,</span> <span class="n">inclusive</span><span class="k">=</span><span class="kc">false</span><span class="o">)</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">colSliceBy</span><span class="o">(</span><span class="s">&quot;x&quot;</span><span class="o">,</span> <span class="s">&quot;x&quot;</span><span class="o">,</span> <span class="n">inclusive</span><span class="k">=</span><span class="kc">true</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">row</span></tt> and <tt class="docutils literal"><span class="pre">col</span></tt> methods are used under the hood for the <tt class="docutils literal"><span class="pre">apply</span></tt> method:</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">(</span><span class="s">&quot;a&quot;</span><span class="o">,</span> <span class="s">&quot;x&quot;</span><span class="o">)</span>             <span class="c1">// extract a one-element frame by keys</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">(</span><span class="s">&quot;a&quot;</span><span class="o">-&gt;</span><span class="s">&quot;b&quot;</span><span class="o">,</span> <span class="s">&quot;x&quot;</span><span class="o">)</span>        <span class="c1">// two-row, one-column frame</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">(</span><span class="nc">Vec</span><span class="o">(</span><span class="s">&quot;a&quot;</span><span class="o">,</span> <span class="s">&quot;c&quot;</span><span class="o">),</span> <span class="s">&quot;x&quot;</span><span class="o">)</span>   <span class="c1">// same as above, but extracting, not slicing</span>
+</pre></div>
+</div>
+<p>The methods of extracting multiple rows shown above can of course be done on
+columns as well.</p>
+<p>You can also split up the Frame by key or index:</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">colSplitAt</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>          <span class="c1">// split into two frames at column 1</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">colSplitBy</span><span class="o">(</span><span class="s">&quot;y&quot;</span><span class="o">)</span>
+
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">rowSplitAt</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">rowSplitBy</span><span class="o">(</span><span class="s">&quot;b&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>You extract some number of rows or columns:</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">head</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>                <span class="c1">// operates on rows</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">tail</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">headCol</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>             <span class="c1">// operates on cols</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">tailCol</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>Or the first &amp; last of some key (which is helpful when you&#8217;ve got a multi-key
+index):</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">first</span><span class="o">(</span><span class="s">&quot;b&quot;</span><span class="o">)</span>              <span class="c1">// first row indexed by &quot;b&quot; key</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">last</span><span class="o">(</span><span class="s">&quot;b&quot;</span><span class="o">)</span>               <span class="c1">// last row indexed by &quot;b&quot; key</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">firstCol</span><span class="o">(</span><span class="s">&quot;x&quot;</span><span class="o">)</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">lastCol</span><span class="o">(</span><span class="s">&quot;x&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>There are a few other methods of extracting data:</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">filter</span> <span class="o">{</span> <span class="k">case</span> <span class="n">s</span> <span class="k">=&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">mean</span> <span class="o">&gt;</span> <span class="mf">2.0</span> <span class="o">}</span>  <span class="c1">// any column whose series satisfies predicate</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">filterIx</span> <span class="o">{</span> <span class="k">case</span> <span class="n">x</span> <span class="k">=&gt;</span> <span class="n">x</span> <span class="o">==</span> <span class="s">&quot;x&quot;</span> <span class="o">}</span>    <span class="c1">// col where index matches key &quot;x&quot;</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">where</span><span class="o">(</span><span class="nc">Vec</span><span class="o">(</span><span class="kc">false</span><span class="o">,</span> <span class="kc">true</span><span class="o">))</span>            <span class="c1">// extract second column</span>
+</pre></div>
+</div>
+<p>There are analogous methods to operate on rows rather then columns:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">rfilter</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">rfilterIx</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">rwhere</span></tt></li>
+</ul>
+<p>etc... in general, methods operate on a column-wise basis, whereas the
+<tt class="docutils literal"><span class="pre">r</span></tt>-counterpart does so on a row-wise basis.</p>
+<p>You can drop cols (rows) containing <em>any</em> NA values:</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">dropNA</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">rdropNA</span>
+</pre></div>
+</div>
+<p>Let&#8217;s take a look at some operations we can do with Frames. We can do all the
+normal binary math operations with Frames, with either a scalar value or with
+another Frame. When two frames are involved, they are reindexed along both axes
+to match the outer join of their indices, but any missing observation in either
+will carry through the calculations.</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span> <span class="o">*</span> <span class="n">f</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">g</span> <span class="k">=</span> <span class="nc">Frame</span><span class="o">(</span><span class="s">&quot;y&quot;</span><span class="o">-&gt;</span><span class="nc">Series</span><span class="o">(</span><span class="s">&quot;b&quot;</span><span class="o">-&gt;</span><span class="mi">5</span><span class="o">,</span> <span class="s">&quot;d&quot;</span><span class="o">-&gt;</span><span class="mi">10</span><span class="o">))</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span> <span class="o">+</span> <span class="n">g</span>                      <span class="c1">// one non-NA entry, (&quot;b&quot;, &quot;y&quot;, 8)</span>
+</pre></div>
+</div>
+<p>You can effectively supply your own binary frame operation using joinMap, which
+lets you control the join style on rows and columns:</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">joinMap</span><span class="o">(</span><span class="n">g</span><span class="o">,</span> <span class="n">rhow</span><span class="k">=</span><span class="n">index</span><span class="o">.</span><span class="nc">LeftJoin</span><span class="o">,</span> <span class="n">chow</span><span class="k">=</span><span class="n">index</span><span class="o">.</span><span class="nc">LeftJoin</span><span class="o">)</span> <span class="o">{</span> <span class="k">case</span> <span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">}</span>
+</pre></div>
+</div>
+<p>If you want simply to align one frame to another without performing an operation,
+use the following method:</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="o">(</span><span class="n">fNew</span><span class="o">,</span> <span class="n">gNew</span><span class="o">)</span> <span class="k">=</span> <span class="n">f</span><span class="o">.</span><span class="n">align</span><span class="o">(</span><span class="n">g</span><span class="o">,</span> <span class="n">rhow</span><span class="k">=</span><span class="n">index</span><span class="o">.</span><span class="nc">LeftJoin</span><span class="o">,</span> <span class="n">chow</span><span class="k">=</span><span class="n">index</span><span class="o">.</span><span class="nc">OuterJoin</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>If you want to treat a Frame as a matrix to use in linear algebraic fashion,
+call the <tt class="docutils literal"><span class="pre">toMat</span></tt> method.</p>
+<p>We can sort a frame in various ways:</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">sortedRIx</span>                <span class="c1">// sorted by row index</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">sortedCIx</span>                <span class="c1">// sorted by col index</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">sortedRows</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="mi">1</span><span class="o">)</span>          <span class="c1">// sort rows by (primary) col 0 and (secondary) col 1</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">sortedCols</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">0</span><span class="o">)</span>          <span class="c1">// sort cols by (primary) row 1 and (secondary) row 0</span>
+</pre></div>
+</div>
+<p>We can also sort by an ordering provided by the result of a function acting on
+rows or cols:</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">sortedRowsBy</span> <span class="o">{</span> <span class="k">case</span> <span class="n">r</span> <span class="k">=&gt;</span> <span class="n">r</span><span class="o">.</span><span class="n">at</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="o">}</span>   <span class="c1">// sort rows by first element of row</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">sortedColsBy</span> <span class="o">{</span> <span class="k">case</span> <span class="n">c</span> <span class="k">=&gt;</span> <span class="n">c</span><span class="o">.</span><span class="n">at</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="o">}</span>   <span class="c1">// sort cols by first element of col</span>
+</pre></div>
+</div>
+<p>There are several mapping functions:</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">mapValues</span> <span class="o">{</span> <span class="k">case</span> <span class="n">t</span> <span class="k">=&gt;</span> <span class="n">t</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">}</span>        <span class="c1">// add one to each element of frame</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">mapVec</span> <span class="o">{</span> <span class="k">case</span> <span class="n">v</span> <span class="k">=&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">demeaned</span> <span class="o">}</span>      <span class="c1">// map over each col vec of the frame</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">reduce</span> <span class="o">{</span> <span class="k">case</span> <span class="n">s</span> <span class="k">=&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">mean</span> <span class="o">}</span>          <span class="c1">// collapse each col series to a single value</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">transform</span> <span class="o">{</span> <span class="k">case</span> <span class="n">s</span> <span class="k">=&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">reversed</span> <span class="o">}</span>   <span class="c1">// transform each series; outerjoin results</span>
+</pre></div>
+</div>
+<p>We can mask out values:</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">mask</span><span class="o">(</span><span class="k">_</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="o">)</span>                          <span class="c1">// mask out values &gt; 2</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">mask</span><span class="o">(</span><span class="nc">Vec</span><span class="o">(</span><span class="kc">false</span><span class="o">,</span> <span class="kc">true</span><span class="o">,</span> <span class="kc">true</span><span class="o">))</span>         <span class="c1">// mask out rows 1 &amp; 2 (keep row 0)</span>
+</pre></div>
+</div>
+<p>Columns (rows) containing <em>only</em> NA values can be dropped as follows:</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">mask</span><span class="o">(</span><span class="nc">Vec</span><span class="o">(</span><span class="kc">true</span><span class="o">,</span> <span class="kc">false</span><span class="o">,</span> <span class="kc">false</span><span class="o">)).</span><span class="n">rsqueeze</span>   <span class="c1">// drop rows containing NA values</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">rmask</span><span class="o">(</span><span class="nc">Vec</span><span class="o">(</span><span class="kc">false</span><span class="o">,</span> <span class="kc">true</span><span class="o">)).</span><span class="n">squeeze</span>          <span class="c1">// takes &quot;x&quot; column</span>
+</pre></div>
+</div>
+<p>We can groupBy in order to combine or transform:</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">groupBy</span><span class="o">(</span><span class="k">_</span> <span class="o">==</span> <span class="s">&quot;a&quot;</span><span class="o">).</span><span class="n">combine</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">count</span><span class="o">)</span>       <span class="c1">// # obs in each column that have/not row key &quot;a&quot;</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">groupBy</span><span class="o">(</span><span class="k">_</span> <span class="o">==</span> <span class="s">&quot;a&quot;</span><span class="o">).</span><span class="n">transform</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">demeaned</span><span class="o">)</span>  <span class="c1">// contrived, but you get the idea hopefully!</span>
+</pre></div>
+</div>
+<p>We can join against another frame, or against a series:</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">join</span><span class="o">(</span><span class="n">g</span><span class="o">,</span> <span class="n">how</span><span class="k">=</span><span class="n">index</span><span class="o">.</span><span class="nc">LeftJoin</span><span class="o">)</span>              <span class="c1">// left joins on row index, drops col indexes</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">join</span><span class="o">(</span><span class="n">s</span><span class="o">,</span> <span class="n">how</span><span class="k">=</span><span class="n">index</span><span class="o">.</span><span class="nc">LeftJoin</span><span class="o">)</span>              <span class="c1">// implicitly promotes s to Frame</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">joinS</span><span class="o">(</span><span class="n">s</span><span class="o">,</span> <span class="n">how</span><span class="k">=</span><span class="n">index</span><span class="o">.</span><span class="nc">LeftJoin</span><span class="o">)</span>             <span class="c1">// use Series directly</span>
+</pre></div>
+</div>
+<p>Btw, to join a Frame to a series, the call looks like this:</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">joinF</span><span class="o">(</span><span class="n">g</span><span class="o">,</span> <span class="n">how</span><span class="k">=</span><span class="n">index</span><span class="o">.</span><span class="nc">LeftJoin</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>Of course, if you want to join along the column index instead, there is a
+<tt class="docutils literal"><span class="pre">rjoin</span></tt> method.</p>
+<p>Let&#8217;s look at a few data reshaping commands. Try the following:</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">melt</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">melt</span><span class="o">.</span><span class="n">mapRowIndex</span> <span class="o">{</span> <span class="k">case</span> <span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="o">(</span><span class="n">b</span><span class="o">,</span> <span class="n">a</span><span class="o">)</span> <span class="o">}</span> <span class="n">colAt</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="n">pivot</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">mapColIndex</span> <span class="o">{</span> <span class="k">case</span> <span class="n">c</span> <span class="k">=&gt;</span> <span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">c</span><span class="o">)</span> <span class="o">}</span> <span class="n">stack</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">mapRowIndex</span> <span class="o">{</span> <span class="k">case</span> <span class="n">r</span> <span class="k">=&gt;</span> <span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">r</span><span class="o">)</span> <span class="o">}</span> <span class="n">unstack</span>
+</pre></div>
+</div>
+<p>There are statistics available on Frames on a column-wise basis that are
+NA-aware. They are provided via an implicit conversion to <tt class="docutils literal"><span class="pre">FrameStats</span></tt>; look
+there to see what&#8217;s available.</p>
+<p>Finally, note that <tt class="docutils literal"><span class="pre">toSeq</span></tt> converts a Frame to a sequence of (row, col,
+value) triples.</p>
+<div class="section" id="index">
+<h3>Index<a class="headerlink" href="#index" title="Permalink to this headline">¶</a></h3>
+<p>Index provides constant-time lookup of a value within array-backed storage, and
+support for joining and slice operations. There are a few factory methods for
+creating an Index:</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="nc">Index</span><span class="o">(</span><span class="s">&quot;a&quot;</span><span class="o">,</span> <span class="s">&quot;b&quot;</span><span class="o">,</span> <span class="s">&quot;c&quot;</span><span class="o">)</span>           <span class="c1">// from seq of values</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="nc">Index</span><span class="o">(</span><span class="nc">Vec</span><span class="o">(</span><span class="s">&quot;a&quot;</span><span class="o">,</span> <span class="s">&quot;b&quot;</span><span class="o">,</span> <span class="s">&quot;c&quot;</span><span class="o">))</span>      <span class="c1">// from vec</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="nc">Index</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">&quot;a&quot;</span><span class="o">,</span> <span class="s">&quot;b&quot;</span><span class="o">,</span> <span class="s">&quot;c&quot;</span><span class="o">))</span>    <span class="c1">// from array</span>
+</pre></div>
+</div>
+<p>To create a multi-level index, you may do the following. In this example, the
+Index is comprised of (1,a), (2,b), and (3,c):</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="nc">Index</span><span class="o">.</span><span class="n">make</span><span class="o">(</span><span class="nc">Vec</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">),</span> <span class="nc">Vec</span><span class="o">(</span><span class="s">&quot;a&quot;</span><span class="o">,</span> <span class="s">&quot;b&quot;</span><span class="o">,</span> <span class="s">&quot;c&quot;</span><span class="o">))</span>
+</pre></div>
+</div>
+<p>You likely do not want to utilize the methods of Index directly very often, but
+rather attach them to data (in Series and Frames) to achieve your goals in a
+more indirect manner. Still, there are a few useful tools:</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">x</span> <span class="k">=</span> <span class="nc">Index</span><span class="o">(</span><span class="s">&quot;a&quot;</span><span class="o">,</span> <span class="s">&quot;a&quot;</span><span class="o">,</span> <span class="s">&quot;b&quot;</span><span class="o">,</span> <span class="s">&quot;b&quot;</span><span class="o">,</span> <span class="s">&quot;c&quot;</span><span class="o">,</span> <span class="s">&quot;c&quot;</span><span class="o">)</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">x</span><span class="o">.</span><span class="n">next</span><span class="o">(</span><span class="s">&quot;a&quot;</span><span class="o">)</span>                                <span class="c1">// returns &quot;b&quot;</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">x</span><span class="o">.</span><span class="n">prev</span><span class="o">(</span><span class="s">&quot;b&quot;</span><span class="o">)</span>                                <span class="c1">// returns &quot;a&quot;</span>
+</pre></div>
+</div>
+<p>For next and prev to work, the Index must be contiguous in values, although
+sortedness is unnecessary. By contiguous, we mean a-b-a-b would not be a valid
+ordering of data, but a-a-b-b would be.</p>
+<p>For Index instances with Set semantics (ie, no duplicate keys), you have
+fast <tt class="docutils literal"><span class="pre">union</span></tt> and <tt class="docutils literal"><span class="pre">intersect</span></tt> methods.</p>
+<p>For map-like functionality, there is <tt class="docutils literal"><span class="pre">contains</span></tt> and <tt class="docutils literal"><span class="pre">exists</span></tt>, although
+since Index is really a multi-map, the <tt class="docutils literal"><span class="pre">get</span></tt> function returns an array of
+locations within the backing array, and <tt class="docutils literal"><span class="pre">count</span></tt> gives you how many entries
+exist for a particular key. <tt class="docutils literal"><span class="pre">uniques</span></tt> allows you to get all the unique keys,
+and the methods <tt class="docutils literal"><span class="pre">getFirst</span></tt> and <tt class="docutils literal"><span class="pre">getLast</span></tt> retrieve the location offsets of a
+particular key. The API is worth exploring further.</p>
+</div>
+<div class="section" id="i-o">
+<h3>I/O<a class="headerlink" href="#i-o" title="Permalink to this headline">¶</a></h3>
+<p>The <tt class="docutils literal"><span class="pre">org.saddle.io._</span></tt> module provides some basic, and not-so-basic, I/O
+functionality, although there is still much to be developed. There is a fast
+parallel csv file reader which you may access as follows:</p>
+<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">csvfile</span> <span class="k">=</span> <span class="nc">CsvFile</span><span class="o">(</span><span class="s">&quot;/tmp/file.csv&quot;</span><span class="o">)</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="nc">CsvParser</span><span class="o">.</span><span class="n">parsePar</span><span class="o">(</span><span class="nc">CsvParser</span><span class="o">.</span><span class="n">parseDouble</span><span class="o">,</span> <span class="nc">List</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">))(</span><span class="n">csvfile</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>There is also HDF5 reading/writing available for Series and Frame objects that
+is essentially compatible with the basic pandas format (as of version 0.9).
+Note that it only supports certain primitive types like Int/Long/Double, and
+DateTime objects, but not all Serializable java classes.</p>
+</div>
+<div class="section" id="utilities">
+<h3>Utilities<a class="headerlink" href="#utilities" title="Permalink to this headline">¶</a></h3>
+<p>There some neat helper functions in the <tt class="docutils literal"><span class="pre">org.saddle.array._</span></tt> module to work
+with arrays of primitives:</p>
+<ul class="simple">
+<li>range</li>
+<li>shuffle</li>
+<li>tile</li>
+<li>random array generators</li>
+<li>linspace</li>
+<li>filter</li>
+<li>flatten</li>
+<li>argsort</li>
+<li>argmin, argmax</li>
+</ul>
+<p>The <tt class="docutils literal"><span class="pre">org.saddle.util.Random</span></tt> class provides a xorshift Marsiglia primitive
+value pseudorandom number generator the underlies the random number
+generation throughout Saddle.</p>
+<p>Finally, the <tt class="docutils literal"><span class="pre">org.saddle.time._</span></tt> module provides a helpful constructor for
+joda DateTime objects, <tt class="docutils literal"><span class="pre">datetime</span></tt>, and for doing fast manipulations on Vec
+and Index instances of type DateTime via implicit conversion to TimeAccessors.</p>
+</div>
+<div class="section" id="a-note-on-optimization">
+<h3>A note on optimization<a class="headerlink" href="#a-note-on-optimization" title="Permalink to this headline">¶</a></h3>
+<p>The data structures above attempt to operate on primitives whenever possible,
+although the specialization is not to every primitive JVM data type as of yet.
+For example, <tt class="docutils literal"><span class="pre">Vec</span></tt> is specialized on Boolean, Int, Long, and Double; but not
+yet Float, yet, so Vec[Float] operations will (un)box.</p>
+<p>Try to avoid looping through these structures; they were meant for terse lines
+of code which operate in a vectorized manner. If you find yourself looping
+through them, you&#8217;re probably doing it wrong!</p>
+</div>
 </div>
 </div>
 
@@ -954,7 +1106,13 @@ res8: org.saddle.Mat[Double] =
 <li><a class="reference internal" href="#vec">Vec</a></li>
 <li><a class="reference internal" href="#series">Series</a></li>
 <li><a class="reference internal" href="#mat">Mat</a></li>
-<li><a class="reference internal" href="#frame">Frame</a></li>
+<li><a class="reference internal" href="#frame">Frame</a><ul>
+<li><a class="reference internal" href="#index">Index</a></li>
+<li><a class="reference internal" href="#i-o">I/O</a></li>
+<li><a class="reference internal" href="#utilities">Utilities</a></li>
+<li><a class="reference internal" href="#a-note-on-optimization">A note on optimization</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

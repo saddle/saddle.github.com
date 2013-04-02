@@ -154,6 +154,26 @@ below, and start hacking!
 
 .. _repository: https://github.com/saddle/saddle
 
+Dependencies
+~~~~~~~~~~~~
+
+Saddle relies in whole or in part on some great open source software. It is
+well worth the time to explore these libraries.
+
+- `Joda Time`_
+- `EJML`_
+- `Apache Commons Math`_
+- `FastUtil`_
+- `DsiUtils`_
+- `HDF5`_
+
+.. _`Joda Time`: http://joda-time.sourceforge.net/
+.. _`EJML`: http://code.google.com/p/efficient-java-matrix-library/
+.. _`Apache Commons Math`: http://commons.apache.org/proper/commons-math/
+.. _`FastUtil`: http://fastutil.di.unimi.it/
+.. _`DsiUtils`: http://dsiutils.di.unimi.it/
+.. _`HDF5`: http://www.hdfgroup.org/HDF5/
+
 Next Steps
 ~~~~~~~~~~
 

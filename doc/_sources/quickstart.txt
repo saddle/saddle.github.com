@@ -7,10 +7,10 @@ are five major array-backed, specialized data structures:
 ============== =======================
 Class          Description
 ============== =======================
-Vec            1D vector-like
-Mat            2D matrix-like
-Series         1D indexed vector-like
-Frame          2D indexed matrix-like
+Vec            1D vector
+Mat            2D matrix
+Series         1D indexed vector
+Frame          2D indexed matrix
 Index          Hashmap-like
 ============== =======================
 

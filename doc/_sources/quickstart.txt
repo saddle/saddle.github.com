@@ -4,15 +4,15 @@ Quick Start Guide
 Let's take a quick tour through Saddle to get a sense of the feature set. There
 are five major array-backed, specialized data structures:
 
-============== ===========
+============== =======================
 Class          Description
-============== ===========
+============== =======================
 Vec            1D vector-like
 Mat            2D matrix-like
 Series         1D indexed vector-like
 Frame          2D indexed matrix-like
 Index          Hashmap-like
-============== ===========
+============== =======================
 
 All are designed with immutability in mind, although since they are backed by
 arrays and the library tries to be conservative in copying data, you should be

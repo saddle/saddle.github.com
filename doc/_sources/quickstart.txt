@@ -32,6 +32,8 @@ If you've only got the Saddle jar in your classpath, the relevant import is:
 
   import org.saddle._
 
+(This should bring in all the implicits you need for the examples below.)
+
 Note: by default, toString will print up to some number of data entries. If you
 would like to see more data, simply call the print() method on the relevant
 object with a larger number.

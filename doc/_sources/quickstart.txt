@@ -1110,7 +1110,7 @@ Finally, note that ``toSeq`` converts a Frame to a sequence of (row, col,
 value) triples.
 
 Index
-~~~~~
+-----
 
 Index provides constant-time lookup of a value within array-backed storage, and
 support for joining and slice operations. There are a few factory methods for
@@ -1154,7 +1154,7 @@ and the methods ``getFirst`` and ``getLast`` retrieve the location offsets of a
 particular key. The API is worth exploring further.
 
 I/O
-~~~
+---
 
 The ``org.saddle.io._`` module provides some basic, and not-so-basic, I/O
 functionality, although there is still much to be developed. There is a fast
@@ -1171,7 +1171,7 @@ Note that it only supports certain primitive types like Int/Long/Double, and
 DateTime objects, but not all Serializable java classes.
 
 Utilities
-~~~~~~~~~
+---------
 
 There some neat helper functions in the ``org.saddle.array._`` module to work
 with arrays of primitives:
@@ -1195,7 +1195,7 @@ joda DateTime objects, ``datetime``, and for doing fast manipulations on Vec
 and Index instances of type DateTime via implicit conversion to TimeAccessors.
 
 A note on optimization
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------
 
 The data structures above attempt to operate on primitives whenever possible,
 although the specialization is not to every primitive JVM data type as of yet.

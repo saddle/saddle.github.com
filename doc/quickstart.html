@@ -1006,8 +1006,10 @@ NA-aware. They are provided via an implicit conversion to <tt class="docutils li
 there to see what&#8217;s available.</p>
 <p>Finally, note that <tt class="docutils literal"><span class="pre">toSeq</span></tt> converts a Frame to a sequence of (row, col,
 value) triples.</p>
+</div>
+</div>
 <div class="section" id="index">
-<h3>Index<a class="headerlink" href="#index" title="Permalink to this headline">¶</a></h3>
+<h1>Index<a class="headerlink" href="#index" title="Permalink to this headline">¶</a></h1>
 <p>Index provides constant-time lookup of a value within array-backed storage, and
 support for joining and slice operations. There are a few factory methods for
 creating an Index:</p>
@@ -1042,7 +1044,7 @@ and the methods <tt class="docutils literal"><span class="pre">getFirst</span></
 particular key. The API is worth exploring further.</p>
 </div>
 <div class="section" id="i-o">
-<h3>I/O<a class="headerlink" href="#i-o" title="Permalink to this headline">¶</a></h3>
+<h1>I/O<a class="headerlink" href="#i-o" title="Permalink to this headline">¶</a></h1>
 <p>The <tt class="docutils literal"><span class="pre">org.saddle.io._</span></tt> module provides some basic, and not-so-basic, I/O
 functionality, although there is still much to be developed. There is a fast
 parallel csv file reader which you may access as follows:</p>
@@ -1056,7 +1058,7 @@ Note that it only supports certain primitive types like Int/Long/Double, and
 DateTime objects, but not all Serializable java classes.</p>
 </div>
 <div class="section" id="utilities">
-<h3>Utilities<a class="headerlink" href="#utilities" title="Permalink to this headline">¶</a></h3>
+<h1>Utilities<a class="headerlink" href="#utilities" title="Permalink to this headline">¶</a></h1>
 <p>There some neat helper functions in the <tt class="docutils literal"><span class="pre">org.saddle.array._</span></tt> module to work
 with arrays of primitives:</p>
 <ul class="simple">
@@ -1078,7 +1080,7 @@ joda DateTime objects, <tt class="docutils literal"><span class="pre">datetime</
 and Index instances of type DateTime via implicit conversion to TimeAccessors.</p>
 </div>
 <div class="section" id="a-note-on-optimization">
-<h3>A note on optimization<a class="headerlink" href="#a-note-on-optimization" title="Permalink to this headline">¶</a></h3>
+<h1>A note on optimization<a class="headerlink" href="#a-note-on-optimization" title="Permalink to this headline">¶</a></h1>
 <p>The data structures above attempt to operate on primitives whenever possible,
 although the specialization is not to every primitive JVM data type as of yet.
 For example, <tt class="docutils literal"><span class="pre">Vec</span></tt> is specialized on Boolean, Int, Long, and Double; but not
@@ -1086,8 +1088,6 @@ yet Float, yet, so Vec[Float] operations will (un)box.</p>
 <p>Try to avoid looping through these structures; they were meant for terse lines
 of code which operate in a vectorized manner. If you find yourself looping
 through them, you&#8217;re probably doing it wrong!</p>
-</div>
-</div>
 </div>
 
 
@@ -1106,15 +1106,13 @@ through them, you&#8217;re probably doing it wrong!</p>
 <li><a class="reference internal" href="#vec">Vec</a></li>
 <li><a class="reference internal" href="#series">Series</a></li>
 <li><a class="reference internal" href="#mat">Mat</a></li>
-<li><a class="reference internal" href="#frame">Frame</a><ul>
+<li><a class="reference internal" href="#frame">Frame</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#index">Index</a></li>
 <li><a class="reference internal" href="#i-o">I/O</a></li>
 <li><a class="reference internal" href="#utilities">Utilities</a></li>
 <li><a class="reference internal" href="#a-note-on-optimization">A note on optimization</a></li>
-</ul>
-</li>
-</ul>
-</li>
 </ul>
 
   <h4>Previous topic</h4>

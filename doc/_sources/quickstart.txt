@@ -259,7 +259,7 @@ Let's look at a few constructions:
 
   // we already know we can convert a Vec
   scala> Series(Vec(32, 12, 9))
-  res3: org.saddle.Series[Int,java.lang.String] =
+  res3: org.saddle.Series[Int,Int] =
   [3 x 1]
   0 -> 32
   1 -> 12

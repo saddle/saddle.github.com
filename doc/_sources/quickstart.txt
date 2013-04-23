@@ -1198,7 +1198,7 @@ SBT session with sufficient memory (eg, ``sbt -mem 4096``).
   val data = frame.setRowIndex(ix).filterIx(_ != "cand_nm").mapValues(CsvParser.parseLong)
 
   // look at the total contributions by candidate name, descending
-  data.groupBy.combine(_.sum).sortedRowsBy { case r => -r.at(0) } print(14)
+  data.groupBy.combine(_.sum).sortedRowsBy { case r => -r.raw(0) } print(14)
 
 For fun, try looking at the mean and standard deviation of the campaign
 contribution of each candidate.

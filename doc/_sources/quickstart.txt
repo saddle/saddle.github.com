@@ -1,6 +1,9 @@
 Quick Start Guide
 ~~~~~~~~~~~~~~~~~
 
+Intro
+-----
+
 Let's take a quick tour through Saddle to get a sense of the feature set. There
 are five major array-backed, specialized data structures:
 
@@ -1160,17 +1163,48 @@ I/O
 
 The ``org.saddle.io._`` module provides some basic, and not-so-basic, I/O
 functionality, although there is still much to be developed. There is a fast
-parallel csv file reader which you may access as follows:
+parallel csv file reader. There is also HDF5 reading/writing available for
+Series and Frame objects that is essentially compatible with the basic pandas
+format (as of pandas 0.9), but note that it only supports certain primitive
+types like Int/Long/Double, and DateTime & String objects, but not all
+Serializable Java classes.
 
-.. code:: bash
+Hello, Campaign Contributions
+-----------------------------
 
-  scala> val csvfile = CsvFile("/tmp/file.csv")
-  scala> CsvParser.parsePar(CsvParser.parseDouble, List(1,2))(csvfile)
+Let's take a quick look at processing some real data with the latest snapshot
+version of Saddle. We'll use data found at the FEC_, the Federal Election
+Commission.  Download a file... the ALL.zip_ file is fairly chunky at about 1Gb
+of unzipped text data, but let's go for it! Unzip to a directory, and launch an
+SBT session with sufficient memory (eg, ``sbt -mem 4096``).
 
-There is also HDF5 reading/writing available for Series and Frame objects that
-is essentially compatible with the basic pandas format (as of version 0.9).
-Note that it only supports certain primitive types like Int/Long/Double, and
-DateTime objects, but not all Serializable java classes.
+.. code:: scala
+
+  import org.saddle.io._
+
+  // create reference to CSV file
+  val file = CsvFile("P00000001-ALL.csv")
+
+  // parse columns 2 and 9 of the CSV and convert the result to a Frame
+  // (we know in advance this is candidate name and donation amount)
+  val frame = CsvParser.parsePar(List(2,9))(file).toFrame
+
+  // create an index from the candidate names associated with donations
+  val ix = Index(frame.firstCol("cand_nm").toVec)
+
+  // set cand_nm (candidate names) as the row index
+  // & remove cand_nm from Frame body
+  // & convert values to long primitives, mapping any parse errors to NA
+  val data = frame.setRowIndex(ix).filterIx(_ != "cand_nm").mapValues(CsvParser.parseLong)
+
+  // look at the total contributions by candidate name, descending
+  data.groupBy.combine(_.sum).sortedRowsBy { case r => -r.at(0) } print(14)
+
+For fun, try looking at the mean and standard deviation of the campaign
+contribution of each candidate.
+
+.. _FEC: http://www.fec.gov/disclosurep/PDownload.do
+.. _ALL.zip: ftp://ftp.fec.gov/FEC/Presidential_Map/2012/P00000001/P00000001-ALL.zip
 
 Utilities
 ---------

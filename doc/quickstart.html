@@ -44,6 +44,8 @@
             
   <div class="section" id="quick-start-guide">
 <h1>Quick Start Guide<a class="headerlink" href="#quick-start-guide" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="intro">
+<h2>Intro<a class="headerlink" href="#intro" title="Permalink to this headline">¶</a></h2>
 <p>Let&#8217;s take a quick tour through Saddle to get a sense of the feature set. There
 are five major array-backed, specialized data structures:</p>
 <table border="1" class="docutils">
@@ -91,6 +93,7 @@ Saddle checked out):</p>
 <p>Note: by default, toString will print up to some number of data entries. If you
 would like to see more data, simply call the print() method on the relevant
 object with a larger number.</p>
+</div>
 <div class="section" id="vec">
 <h2>Vec<a class="headerlink" href="#vec" title="Permalink to this headline">¶</a></h2>
 <p>Let&#8217;s walk through some examples in an sbt console session.</p>
@@ -1047,15 +1050,42 @@ particular key. The API is worth exploring further.</p>
 <h2>I/O<a class="headerlink" href="#i-o" title="Permalink to this headline">¶</a></h2>
 <p>The <tt class="docutils literal"><span class="pre">org.saddle.io._</span></tt> module provides some basic, and not-so-basic, I/O
 functionality, although there is still much to be developed. There is a fast
-parallel csv file reader which you may access as follows:</p>
-<div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">csvfile</span> <span class="k">=</span> <span class="nc">CsvFile</span><span class="o">(</span><span class="s">&quot;/tmp/file.csv&quot;</span><span class="o">)</span>
-<span class="n">scala</span><span class="o">&gt;</span> <span class="nc">CsvParser</span><span class="o">.</span><span class="n">parsePar</span><span class="o">(</span><span class="nc">CsvParser</span><span class="o">.</span><span class="n">parseDouble</span><span class="o">,</span> <span class="nc">List</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">))(</span><span class="n">csvfile</span><span class="o">)</span>
+parallel csv file reader. There is also HDF5 reading/writing available for
+Series and Frame objects that is essentially compatible with the basic pandas
+format (as of pandas 0.9), but note that it only supports certain primitive
+types like Int/Long/Double, and DateTime &amp; String objects, but not all
+Serializable Java classes.</p>
+</div>
+<div class="section" id="hello-campaign-contributions">
+<h2>Hello, Campaign Contributions<a class="headerlink" href="#hello-campaign-contributions" title="Permalink to this headline">¶</a></h2>
+<p>Let&#8217;s take a quick look at processing some real data with the latest snapshot
+version of Saddle. We&#8217;ll use data found at the <a class="reference external" href="http://www.fec.gov/disclosurep/PDownload.do">FEC</a>, the Federal Election
+Commission.  Download a file... the <a class="reference external" href="ftp://ftp.fec.gov/FEC/Presidential_Map/2012/P00000001/P00000001-ALL.zip">ALL.zip</a> file is fairly chunky at about 1Gb
+of unzipped text data, but let&#8217;s go for it! Unzip to a directory, and launch an
+SBT session with sufficient memory (eg, <tt class="docutils literal"><span class="pre">sbt</span> <span class="pre">-mem</span> <span class="pre">4096</span></tt>).</p>
+<div class="code scala highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">org.saddle.io._</span>
+
+<span class="c1">// create reference to CSV file</span>
+<span class="k">val</span> <span class="n">file</span> <span class="k">=</span> <span class="nc">CsvFile</span><span class="o">(</span><span class="s">&quot;P00000001-ALL.csv&quot;</span><span class="o">)</span>
+
+<span class="c1">// parse columns 2 and 9 of the CSV and convert the result to a Frame</span>
+<span class="c1">// (we know in advance this is candidate name and donation amount)</span>
+<span class="k">val</span> <span class="n">frame</span> <span class="k">=</span> <span class="nc">CsvParser</span><span class="o">.</span><span class="n">parsePar</span><span class="o">(</span><span class="nc">List</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="mi">9</span><span class="o">))(</span><span class="n">file</span><span class="o">).</span><span class="n">toFrame</span>
+
+<span class="c1">// create an index from the candidate names associated with donations</span>
+<span class="k">val</span> <span class="n">ix</span> <span class="k">=</span> <span class="nc">Index</span><span class="o">(</span><span class="n">frame</span><span class="o">.</span><span class="n">firstCol</span><span class="o">(</span><span class="s">&quot;cand_nm&quot;</span><span class="o">).</span><span class="n">toVec</span><span class="o">)</span>
+
+<span class="c1">// set cand_nm (candidate names) as the row index</span>
+<span class="c1">// &amp; remove cand_nm from Frame body</span>
+<span class="c1">// &amp; convert values to long primitives, mapping any parse errors to NA</span>
+<span class="k">val</span> <span class="n">data</span> <span class="k">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">setRowIndex</span><span class="o">(</span><span class="n">ix</span><span class="o">).</span><span class="n">filterIx</span><span class="o">(</span><span class="k">_</span> <span class="o">!=</span> <span class="s">&quot;cand_nm&quot;</span><span class="o">).</span><span class="n">mapValues</span><span class="o">(</span><span class="nc">CsvParser</span><span class="o">.</span><span class="n">parseLong</span><span class="o">)</span>
+
+<span class="c1">// look at the total contributions by candidate name, descending</span>
+<span class="n">data</span><span class="o">.</span><span class="n">groupBy</span><span class="o">.</span><span class="n">combine</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">sum</span><span class="o">).</span><span class="n">sortedRowsBy</span> <span class="o">{</span> <span class="k">case</span> <span class="n">r</span> <span class="k">=&gt;</span> <span class="o">-</span><span class="n">r</span><span class="o">.</span><span class="n">at</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="o">}</span> <span class="n">print</span><span class="o">(</span><span class="mi">14</span><span class="o">)</span>
 </pre></div>
 </div>
-<p>There is also HDF5 reading/writing available for Series and Frame objects that
-is essentially compatible with the basic pandas format (as of version 0.9).
-Note that it only supports certain primitive types like Int/Long/Double, and
-DateTime objects, but not all Serializable java classes.</p>
+<p>For fun, try looking at the mean and standard deviation of the campaign
+contribution of each candidate.</p>
 </div>
 <div class="section" id="utilities">
 <h2>Utilities<a class="headerlink" href="#utilities" title="Permalink to this headline">¶</a></h2>
@@ -1104,12 +1134,14 @@ through them, you&#8217;re probably doing it wrong!</p>
   </div>
   <ul>
 <li><a class="reference internal" href="#">Quick Start Guide</a><ul>
+<li><a class="reference internal" href="#intro">Intro</a></li>
 <li><a class="reference internal" href="#vec">Vec</a></li>
 <li><a class="reference internal" href="#series">Series</a></li>
 <li><a class="reference internal" href="#mat">Mat</a></li>
 <li><a class="reference internal" href="#frame">Frame</a></li>
 <li><a class="reference internal" href="#index">Index</a></li>
 <li><a class="reference internal" href="#i-o">I/O</a></li>
+<li><a class="reference internal" href="#hello-campaign-contributions">Hello, Campaign Contributions</a></li>
 <li><a class="reference internal" href="#utilities">Utilities</a></li>
 <li><a class="reference internal" href="#a-note-on-optimization">A note on optimization</a></li>
 </ul>

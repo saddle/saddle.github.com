@@ -71,7 +71,7 @@ this:
   scala> vec.randi(1000)            // a thousand random ints
   scala> vec.randpi(1000) % 10      // a thousand random positive ints, from 1 to 9
   scala> vec.randn(100)             // 100 normally distributed observations
-  scala> vec.randn2(2, 15)          // 100 obs normally distributed with mean 2 and stdev 15
+  scala> vec.randn2(100, 2, 15)     // 100 obs normally distributed with mean 2 and stdev 15
 
 Let's take a quick look at some operations you can do on Vec instances. All the
 major arithmetic operations are supported between two Vec instances and between

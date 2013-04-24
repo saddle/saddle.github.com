@@ -450,6 +450,7 @@ Try the following:
   scala> q.shift(1)
   scala> q.filter(_ > 2)
   scala> q.filterIx(_ != "b")
+  scala> q.filterAt { case loc => loc != 1 && loc != 3 }
   scala> q.find(_ == 2)
   scala> q.findKey { case x => x == 2 || x == 3 }
   scala> q.findOneKey { case x => x == 2 || x == 3 }
@@ -1186,16 +1187,13 @@ SBT session with sufficient memory (eg, ``sbt -mem 4096``).
   val file = CsvFile("P00000001-ALL.csv")
 
   // parse columns 2 and 9 of the CSV and convert the result to a Frame
-  // (we know in advance this is candidate name and donation amount)
-  val frame = CsvParser.parsePar(List(2,9))(file).toFrame
+  // (we know in advance these cols are candidate name and donation amount)
+  // & set the first row as the col index
+  // & the first col (candidate names) as the row index
+  val frame = CsvParser.parsePar(List(2,9))(file).withRowIndex(0).withColIndex(0)
 
-  // create an index from the candidate names associated with donations
-  val ix = Index(frame.firstCol("cand_nm").toVec)
-
-  // set cand_nm (candidate names) as the row index
-  // & remove cand_nm from Frame body
-  // & convert values to long primitives, mapping any parse errors to NA
-  val data = frame.setRowIndex(ix).filterIx(_ != "cand_nm").mapValues(CsvParser.parseLong)
+  // convert frame body data to long primitives, mapping any parse errors to NA
+  val data = frame.mapValues(CsvParser.parseLong)
 
   // look at the total contributions by candidate name, descending
   data.groupBy.combine(_.sum).sortedRowsBy { case r => -r.raw(0) } print(14)

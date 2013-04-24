@@ -450,9 +450,9 @@ Try the following:
   scala> q.shift(1)
   scala> q.filter(_ > 2)
   scala> q.filterIx(_ != "b")
-  scala> q.find(2)
-  scala> q.findKey("b")
-  scala> q.findOneKey("b")
+  scala> q.find(_ == 2)
+  scala> q.findKey { case x => x == 2 || x == 3 }
+  scala> q.findOneKey { case x => x == 2 || x == 3 }
   scala> q.minKey
   scala> q.contains("a")
   scala> q.scanLeft(0) { case (acc, v) => acc + v }

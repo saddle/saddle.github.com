@@ -52,10 +52,10 @@ Current Version
 ~~~~~~~~~~~~~~~
 
 The current release of Saddle is available to download from the Sonatype OSS
-repository. Builds are available for Scala 2.9.2 and 2.10.0. The source and
-scaladoc packages are available as well.
+repository. Builds are available for Scala 2.9.2, 2.9.3, and 2.10.0. The source
+and scaladoc packages are available as well.
 
-The latest release of Saddle is 1.0.5.
+The latest major release of Saddle is 1.1.+.
 
 Download and Install
 ~~~~~~~~~~~~~~~~~~~~
@@ -100,7 +100,7 @@ your dependencies include Saddle:
   )
 
   libraryDependencies ++= Seq(
-    "org.scala-saddle" %% "saddle" % "1.0.+"
+    "org.scala-saddle" %% "saddle" % "1.1.+"
   )
 
 
@@ -124,7 +124,7 @@ If you are using Maven, this might help (e.g. for the Scala 2.9.2 build):
   <dependency>
     <groupId>org.scala-saddle</groupId>
     <artifactId>saddle_2.9.2</artifactId>
-    <version>1.0.5</version>
+    <version>[1.1.0,)</version>
   </dependency>
 
 Build Instructions
@@ -158,7 +158,9 @@ Dependencies
 ~~~~~~~~~~~~
 
 Saddle relies in whole or in part on some great open source software. It is
-well worth the time to explore these libraries.
+well worth the time to explore these libraries. All libraries are licensed
+under one of: Apache 2.0, BSD-style, or LGPL. To satisfy the LGPL, Saddle
+minimizes coupling so replacing the dependency should be trivial.
 
 - `Joda Time`_
 - `EJML`_
@@ -179,5 +181,6 @@ Next Steps
 
 .. toctree::
 
+   whatsnew
    quickstart
    guide

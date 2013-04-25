@@ -27,7 +27,7 @@
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="Saddle 1.0.0 documentation" href="index.html" />
     <link rel="next" title="User Guide" href="guide.html" />
-    <link rel="prev" title="Welcome to Saddle Docs" href="index.html" />
+    <link rel="prev" title="What’s New" href="whatsnew.html" />
 <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Neuton&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Nobile:regular,italic,bold,bolditalic&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
 <!--[if lte IE 6]>
@@ -221,7 +221,7 @@ a Vec and a scalar.</p>
 </div>
 <p>Try out some of the following for yourself:</p>
 <div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">reversed</span>
-<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">mapValues</span><span class="o">(</span><span class="k">_</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span>
 <span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">foldLeft</span><span class="o">(</span><span class="mi">0</span><span class="n">d</span><span class="o">)</span> <span class="o">{</span> <span class="k">case</span> <span class="o">(</span><span class="n">acc</span><span class="o">,</span> <span class="n">d</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">acc</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">d</span> <span class="o">}</span>
 <span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">scanLeft</span><span class="o">(</span><span class="mi">0</span><span class="n">d</span><span class="o">)</span> <span class="o">{</span> <span class="k">case</span> <span class="o">(</span><span class="n">acc</span><span class="o">,</span> <span class="n">d</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">acc</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">d</span> <span class="o">}</span>
 <span class="n">scala</span><span class="o">&gt;</span> <span class="n">v</span> <span class="n">without</span> <span class="n">v</span><span class="o">.</span><span class="n">find</span><span class="o">(</span><span class="k">_</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="o">)</span>
@@ -1147,8 +1147,8 @@ through them, you&#8217;re probably doing it wrong!</p>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="index.html"
-                        title="previous chapter">Welcome to Saddle Docs</a></p>
+  <p class="topless"><a href="whatsnew.html"
+                        title="previous chapter">What&#8217;s New</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="guide.html"
                         title="next chapter">User Guide</a></p>

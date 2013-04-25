@@ -191,7 +191,7 @@ Try out some of the following for yourself:
 .. code:: bash
 
   scala> v.reversed
-  scala> v.map(_ + 1)
+  scala> v.mapValues(_ + 1)
   scala> v.foldLeft(0d) { case (acc, d) => acc + 1.0 / d }
   scala> v.scanLeft(0d) { case (acc, d) => acc + 1.0 / d }
   scala> v without v.find(_ < 0.5)

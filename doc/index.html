@@ -74,7 +74,7 @@ who have made such contributions.</p>
 <p>The current release of Saddle is available to download from the Sonatype OSS
 repository. Builds are available for Scala 2.9.2, 2.9.3, and 2.10.0. The source
 and scaladoc packages are available as well.</p>
-<p>The latest major release of Saddle is 1.1.+.</p>
+<p>The latest stable release of Saddle is 1.1.+.</p>
 </div>
 <div class="section" id="download-and-install">
 <h2>Download and Install<a class="headerlink" href="#download-and-install" title="Permalink to this headline">¶</a></h2>
@@ -105,6 +105,14 @@ your dependencies include Saddle:</p>
 
 <span class="n">libraryDependencies</span> <span class="o">++=</span> <span class="nc">Seq</span><span class="o">(</span>
   <span class="s">&quot;org.scala-saddle&quot;</span> <span class="o">%%</span> <span class="s">&quot;saddle&quot;</span> <span class="o">%</span> <span class="s">&quot;1.1.+&quot;</span>
+<span class="o">)</span>
+</pre></div>
+</div>
+<p>Note that starting with Saddle 1.2.0-SNAPSHOT, modules are split up, so you&#8217;ll
+instead want to do:</p>
+<div class="code scala highlight-scala"><div class="highlight"><pre><span class="n">libraryDependencies</span> <span class="o">++=</span> <span class="nc">Seq</span><span class="o">(</span>
+  <span class="s">&quot;org.scala-saddle&quot;</span> <span class="o">%%</span> <span class="s">&quot;saddle-core&quot;</span> <span class="o">%</span> <span class="s">&quot;1.2.0-SNAPSHOT&quot;</span>
+  <span class="c1">// (OPTIONAL) &quot;org.scala-saddle&quot; %% &quot;saddle-hdf5&quot; % &quot;1.2.0-SNAPSHOT&quot;</span>
 <span class="o">)</span>
 </pre></div>
 </div>

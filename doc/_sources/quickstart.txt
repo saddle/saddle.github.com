@@ -557,6 +557,7 @@ which we will touch on a bit later. These are similar in nature to SQL joins.
   a ->  1 NA
   b ->  4  5
   b ->  4  2
+  b ->  2  5
   b ->  2  2
 
   scala> a.join(b, how=index.RightJoin)
@@ -566,6 +567,7 @@ which we will touch on a bit later. These are similar in nature to SQL joins.
        -- --
   b ->  4  5
   b ->  2  5
+  b ->  4  2
   b ->  2  2
   d -> NA  1
 
@@ -576,6 +578,7 @@ which we will touch on a bit later. These are similar in nature to SQL joins.
        -- --
   b ->  4  5
   b ->  4  2
+  b ->  2  5
   b ->  2  2
 
   scala> a.join(b, how=index.OuterJoin)

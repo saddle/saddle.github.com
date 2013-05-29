@@ -2,6 +2,28 @@
 What's New
 ===========
 
+1.2
+---
+
+A few API changes and bug fixes are part of this release.
+
+Improvements / Fixes
+
+- Additional pseudorandom number generator implementations Ziff98
+  and LFib4 have been added, and the default Marsiglia XorShift 
+  implementation has been fixed. All three have been subjected to 
+  the Crush suite of random number tests.
+- A bug discovered in left/right/inner joins where the indices are
+  both non-unique and monotonic has been fixed.
+- Flatmap added to Series and Frame
+- Semantics of map has been changed
+- Single saddle module has been split into core and hdf5, to prevent
+  any unnecessary dependency on the latter.
+
+API Changes
+
+- Map semantics have changed for Mat/Vec
+
 1.1
 ---
 

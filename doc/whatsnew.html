@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -14,7 +13,7 @@
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '',
+        URL_ROOT:    './',
         VERSION:     '1.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -45,7 +44,28 @@
   <div class="section" id="what-s-new">
 <h1>What&#8217;s New<a class="headerlink" href="#what-s-new" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id1">
-<h2>1.1<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<h2>1.2<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>A few API changes and bug fixes are part of this release.</p>
+<p>Improvements / Fixes</p>
+<ul class="simple">
+<li>Additional pseudorandom number generator implementations Ziff98
+and LFib4 have been added, and the default Marsiglia XorShift
+implementation has been fixed. All three have been subjected to
+the Crush suite of random number tests.</li>
+<li>A bug discovered in left/right/inner joins where the indices are
+both non-unique and monotonic has been fixed.</li>
+<li>Flatmap added to Series and Frame</li>
+<li>Semantics of map has been changed</li>
+<li>Single saddle module has been split into core and hdf5, to prevent
+any unnecessary dependency on the latter.</li>
+</ul>
+<p>API Changes</p>
+<ul class="simple">
+<li>Map semantics have changed for Mat/Vec</li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h2>1.1<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>The first new major release of Saddle contains several improvements.</p>
 <p>Improvements / Fixes</p>
 <ul class="simple">
@@ -85,7 +105,8 @@ compile-time selection of implementation based on scalar type.</li>
   </div>
   <ul>
 <li><a class="reference internal" href="#">What&#8217;s New</a><ul>
-<li><a class="reference internal" href="#id1">1.1</a></li>
+<li><a class="reference internal" href="#id1">1.2</a></li>
+<li><a class="reference internal" href="#id2">1.1</a></li>
 </ul>
 </li>
 </ul>
@@ -102,7 +123,7 @@ compile-time selection of implementation based on scalar type.</li>
     </div>
     <div class="footer">
         &copy; Copyright 2013, The Saddle Development Team.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2b1.
     </div>
   </body>
 </html>

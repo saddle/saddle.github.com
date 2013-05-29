@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -14,7 +13,7 @@
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '',
+        URL_ROOT:    './',
         VERSION:     '1.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -555,6 +554,7 @@ res24: org.saddle.Frame[java.lang.String,Int,Int] =
 a -&gt;  1 NA
 b -&gt;  4  5
 b -&gt;  4  2
+b -&gt;  2  5
 b -&gt;  2  2
 
 scala&gt; a.join(b, how=index.RightJoin)
@@ -564,6 +564,7 @@ res25: org.saddle.Frame[java.lang.String,Int,Int] =
      -- --
 b -&gt;  4  5
 b -&gt;  2  5
+b -&gt;  4  2
 b -&gt;  2  2
 d -&gt; NA  1
 
@@ -574,6 +575,7 @@ res28: org.saddle.Frame[java.lang.String,Int,Int] =
      -- --
 b -&gt;  4  5
 b -&gt;  4  2
+b -&gt;  2  5
 b -&gt;  2  2
 
 scala&gt; a.join(b, how=index.OuterJoin)
@@ -1158,7 +1160,7 @@ through them, you&#8217;re probably doing it wrong!</p>
     </div>
     <div class="footer">
         &copy; Copyright 2013, The Saddle Development Team.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2b1.
     </div>
   </body>
 </html>

@@ -4,8 +4,10 @@
    contain the root `toctree` directive.
 
 ==========================
-Welcome to Saddle Docs
+Welcome to Saddle_ Docs
 ==========================
+
+.. _Saddle: http://saddle.github.io/
 
 Introduction
 ~~~~~~~~~~~~

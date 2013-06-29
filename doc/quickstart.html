@@ -1,3 +1,4 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -13,7 +14,7 @@
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
+        URL_ROOT:    '',
         VERSION:     '1.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -1049,15 +1050,64 @@ exist for a particular key. <tt class="docutils literal"><span class="pre">uniqu
 and the methods <tt class="docutils literal"><span class="pre">getFirst</span></tt> and <tt class="docutils literal"><span class="pre">getLast</span></tt> retrieve the location offsets of a
 particular key. The API is worth exploring further.</p>
 </div>
+<div class="section" id="dates-times-and-recurrences">
+<h2>Dates/Times and Recurrences<a class="headerlink" href="#dates-times-and-recurrences" title="Permalink to this headline">¶</a></h2>
+<p>The <tt class="docutils literal"><span class="pre">org.saddle.time._</span></tt> module provides a useful factory method for joda
+DateTime objects: <tt class="docutils literal"><span class="pre">datetime</span></tt>. It provides vector manipulations on Vec and
+Index instances of type <tt class="docutils literal"><span class="pre">DateTime</span></tt> (via the implicit <tt class="docutils literal"><span class="pre">TimeAccessors</span></tt>).</p>
+<p>As of Saddle 1.3, the library provides an implementation of recurrence rules
+(<tt class="docutils literal"><span class="pre">RRule</span></tt>), with a few default instances which may be found in the module
+<tt class="docutils literal"><span class="pre">RRules</span></tt>. To illustrate, the following code generates dates at business month
+ends for the first four months of 2013:</p>
+<div class="code bash highlight-scala"><pre>scala&gt; import RRules._
+import RRules._
+
+scala&gt; Index.make(bizEoms, datetime(2013,1,1), datetime(2013,5,1))
+res0: org.saddle.Index[org.joda.time.DateTime] =
+[Index 4 x 1]
+2013-01-31 00:00:00.000-05:00
+2013-02-28 00:00:00.000-05:00
+2013-03-29 00:00:00.000-04:00
+2013-04-30 00:00:00.000-04:00</pre>
+</div>
+<p>An <tt class="docutils literal"><span class="pre">RRule</span></tt> object allows for complex recurrence rule generation following the
+RFC 2445 standard. (The implementation utilizes google-rfc-2445 under the hood,
+licensed under Apache 2.0.) <tt class="docutils literal"><span class="pre">RRule</span></tt>&#8216;s can be combined with the <tt class="docutils literal"><span class="pre">Index.make</span></tt>
+factory method to instantiate indexes as above, or can be used independently to
+do complex date/time math.  For example, the <tt class="docutils literal"><span class="pre">counting</span></tt> method of <tt class="docutils literal"><span class="pre">RRule</span></tt>
+provides syntactic sugar to do date offset calculation:</p>
+<div class="code bash highlight-scala"><pre>scala&gt; RRule(MONTHLY) withInterval(2) counting 5 from datetime(2013,1,1)
+res1: org.joda.time.DateTime = 2013-09-01T00:00:00.000-04:00</pre>
+</div>
+<p>You may also generate iterators of <tt class="docutils literal"><span class="pre">DateTime</span></tt>&#8216;s using <tt class="docutils literal"><span class="pre">RRule</span></tt> (here we take
+the first five generated values and convert to a list):</p>
+<div class="code bash highlight-scala"><pre>scala&gt; weeklyOn(FR) withInterval(2) from datetime(2013,1,1) take 5 toList
+res2: List[org.joda.time.DateTime] = List(2013-01-04T00:00:00.000-05:00,
+2013-01-18T00:00:00.000-05:00, 2013-02-01T00:00:00.000-05:00,
+2013-02-15T00:00:00.000-05:00, 2013-03-01T00:00:00.000-05:00)</pre>
+</div>
+<p>You may conform a datetime instance forward or backward using the <tt class="docutils literal"><span class="pre">conform</span></tt>
+method:</p>
+<div class="code bash highlight-scala"><pre>scala&gt; conform(weeklyOn(FR), datetime(2013,1,1), forward=false)
+res10: org.joda.time.DateTime = 2012-12-28T00:00:00.000-05:00</pre>
+</div>
+</div>
 <div class="section" id="i-o">
 <h2>I/O<a class="headerlink" href="#i-o" title="Permalink to this headline">¶</a></h2>
 <p>The <tt class="docutils literal"><span class="pre">org.saddle.io._</span></tt> module provides some basic, and not-so-basic, I/O
 functionality, although there is still much to be developed. There is a fast
-parallel csv file reader. There is also HDF5 reading/writing available for
-Series and Frame objects that is essentially compatible with the basic pandas
-format (as of pandas 0.9), but note that it only supports certain primitive
-types like Int/Long/Double, and DateTime &amp; String objects, but not all
-Serializable Java classes.</p>
+parallel csv file reader.</p>
+<p>There is also HDF5 reading/writing available for Series and Frame objects that
+is essentially compatible with the basic pandas format (as of pandas 0.9), but
+note that it only supports certain primitive types like Int/Long/Double, and
+DateTime &amp; String objects, but not all Serializable Java classes.</p>
+<p>Please note that to use HDF5, you must include the dependency on saddle-hdf5,
+and have installed native HDF5 library from the HDF5 <a class="reference external" href="http://www.hdfgroup.org/hdf-java-html/">binaries</a> so that the
+native shared library <tt class="docutils literal"><span class="pre">libjhdf5</span></tt> is locatable in the java library path; you
+can check via:</p>
+<div class="code scala highlight-scala"><div class="highlight"><pre><span class="n">println</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="n">getProperty</span><span class="o">(</span><span class="s">&quot;java.library.path&quot;</span><span class="o">))</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="hello-campaign-contributions">
 <h2>Hello, Campaign Contributions<a class="headerlink" href="#hello-campaign-contributions" title="Permalink to this headline">¶</a></h2>
@@ -1103,11 +1153,8 @@ with arrays of primitives:</p>
 <li>argmin, argmax</li>
 </ul>
 <p>The <tt class="docutils literal"><span class="pre">org.saddle.util.Random</span></tt> class provides a xorshift Marsiglia primitive
-value pseudorandom number generator the underlies the random number
-generation throughout Saddle.</p>
-<p>Finally, the <tt class="docutils literal"><span class="pre">org.saddle.time._</span></tt> module provides a helpful constructor for
-joda DateTime objects, <tt class="docutils literal"><span class="pre">datetime</span></tt>, and for doing fast manipulations on Vec
-and Index instances of type DateTime via implicit conversion to TimeAccessors.</p>
+value pseudorandom number generator the underlies the random number generation
+throughout Saddle.</p>
 </div>
 <div class="section" id="a-note-on-optimization">
 <h2>A note on optimization<a class="headerlink" href="#a-note-on-optimization" title="Permalink to this headline">¶</a></h2>
@@ -1140,6 +1187,7 @@ through them, you&#8217;re probably doing it wrong!</p>
 <li><a class="reference internal" href="#mat">Mat</a></li>
 <li><a class="reference internal" href="#frame">Frame</a></li>
 <li><a class="reference internal" href="#index">Index</a></li>
+<li><a class="reference internal" href="#dates-times-and-recurrences">Dates/Times and Recurrences</a></li>
 <li><a class="reference internal" href="#i-o">I/O</a></li>
 <li><a class="reference internal" href="#hello-campaign-contributions">Hello, Campaign Contributions</a></li>
 <li><a class="reference internal" href="#utilities">Utilities</a></li>
@@ -1160,7 +1208,7 @@ through them, you&#8217;re probably doing it wrong!</p>
     </div>
     <div class="footer">
         &copy; Copyright 2013, The Saddle Development Team.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2b1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>
 </html>

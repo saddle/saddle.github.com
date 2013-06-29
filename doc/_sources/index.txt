@@ -54,10 +54,10 @@ Current Version
 ~~~~~~~~~~~~~~~
 
 The current release of Saddle is available to download from the Sonatype OSS
-repository. Builds are available for Scala 2.9.2, 2.9.3, and 2.10.0. The source
-and scaladoc packages are available as well.
+repository. Builds are available for Scala 2.9.+, and 2.10.+. The source and
+scaladoc packages are available as well.
 
-The latest stable release of Saddle is 1.2.+.
+The latest stable release of Saddle is 1.3.+.
 
 Download and Install
 ~~~~~~~~~~~~~~~~~~~~
@@ -102,8 +102,8 @@ your dependencies include Saddle:
   )
 
   libraryDependencies ++= Seq(
-    "org.scala-saddle" %% "saddle-core" % "1.2.+"
-    // (OPTIONAL) "org.scala-saddle" %% "saddle-hdf5" % "1.2.+"
+    "org.scala-saddle" %% "saddle-core" % "1.3.+"
+    // (OPTIONAL) "org.scala-saddle" %% "saddle-hdf5" % "1.3.+"
   )
 
 If you are using Maven, this might help (e.g. for the Scala 2.9.2 build):
@@ -126,7 +126,7 @@ If you are using Maven, this might help (e.g. for the Scala 2.9.2 build):
   <dependency>
     <groupId>org.scala-saddle</groupId>
     <artifactId>saddle_2.9.2</artifactId>
-    <version>[1.2.0,)</version>
+    <version>[1.3.0,)</version>
   </dependency>
 
 Build Instructions

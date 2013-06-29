@@ -1162,16 +1162,83 @@ exist for a particular key. ``uniques`` allows you to get all the unique keys,
 and the methods ``getFirst`` and ``getLast`` retrieve the location offsets of a
 particular key. The API is worth exploring further.
 
+Dates/Times and Recurrences
+---------------------------
+
+The ``org.saddle.time._`` module provides a useful factory method for joda
+DateTime objects: ``datetime``. It provides vector manipulations on Vec and
+Index instances of type ``DateTime`` (via the implicit ``TimeAccessors``).
+
+As of Saddle 1.3, the library provides an implementation of recurrence rules
+(``RRule``), with a few default instances which may be found in the module
+``RRules``. To illustrate, the following code generates dates at business month
+ends for the first four months of 2013:
+
+.. code:: bash
+
+  scala> import RRules._
+  import RRules._
+
+  scala> Index.make(bizEoms, datetime(2013,1,1), datetime(2013,5,1))
+  res0: org.saddle.Index[org.joda.time.DateTime] =
+  [Index 4 x 1]
+  2013-01-31 00:00:00.000-05:00
+  2013-02-28 00:00:00.000-05:00
+  2013-03-29 00:00:00.000-04:00
+  2013-04-30 00:00:00.000-04:00
+
+An ``RRule`` object allows for complex recurrence rule generation following the
+RFC 2445 standard. (The implementation utilizes google-rfc-2445 under the hood,
+licensed under Apache 2.0.) ``RRule``'s can be combined with the ``Index.make``
+factory method to instantiate indexes as above, or can be used independently to
+do complex date/time math.  For example, the ``counting`` method of ``RRule``
+provides syntactic sugar to do date offset calculation:
+
+.. code:: bash
+
+  scala> RRule(MONTHLY) withInterval(2) counting 5 from datetime(2013,1,1)
+  res1: org.joda.time.DateTime = 2013-09-01T00:00:00.000-04:00
+
+You may also generate iterators of ``DateTime``'s using ``RRule`` (here we take
+the first five generated values and convert to a list):
+
+.. code:: bash
+
+  scala> weeklyOn(FR) withInterval(2) from datetime(2013,1,1) take 5 toList
+  res2: List[org.joda.time.DateTime] = List(2013-01-04T00:00:00.000-05:00,
+  2013-01-18T00:00:00.000-05:00, 2013-02-01T00:00:00.000-05:00,
+  2013-02-15T00:00:00.000-05:00, 2013-03-01T00:00:00.000-05:00)
+
+You may conform a datetime instance forward or backward using the ``conform``
+method:
+
+.. code:: bash
+
+  scala> conform(weeklyOn(FR), datetime(2013,1,1), forward=false)
+  res10: org.joda.time.DateTime = 2012-12-28T00:00:00.000-05:00
+
 I/O
 ---
 
 The ``org.saddle.io._`` module provides some basic, and not-so-basic, I/O
 functionality, although there is still much to be developed. There is a fast
-parallel csv file reader. There is also HDF5 reading/writing available for
-Series and Frame objects that is essentially compatible with the basic pandas
-format (as of pandas 0.9), but note that it only supports certain primitive
-types like Int/Long/Double, and DateTime & String objects, but not all
-Serializable Java classes.
+parallel csv file reader. 
+
+There is also HDF5 reading/writing available for Series and Frame objects that
+is essentially compatible with the basic pandas format (as of pandas 0.9), but
+note that it only supports certain primitive types like Int/Long/Double, and
+DateTime & String objects, but not all Serializable Java classes.
+
+Please note that to use HDF5, you must include the dependency on saddle-hdf5,
+and have installed native HDF5 library from the HDF5 binaries_ so that the
+native shared library ``libjhdf5`` is locatable in the java library path; you
+can check via:
+
+.. code:: scala
+
+  println(System.getProperty("java.library.path"))
+
+.. _binaries: http://www.hdfgroup.org/hdf-java-html/
 
 Hello, Campaign Contributions
 -----------------------------
@@ -1224,12 +1291,8 @@ with arrays of primitives:
 - argmin, argmax
 
 The ``org.saddle.util.Random`` class provides a xorshift Marsiglia primitive
-value pseudorandom number generator the underlies the random number
-generation throughout Saddle.
-
-Finally, the ``org.saddle.time._`` module provides a helpful constructor for
-joda DateTime objects, ``datetime``, and for doing fast manipulations on Vec
-and Index instances of type DateTime via implicit conversion to TimeAccessors.
+value pseudorandom number generator the underlies the random number generation
+throughout Saddle.
 
 A note on optimization
 ----------------------

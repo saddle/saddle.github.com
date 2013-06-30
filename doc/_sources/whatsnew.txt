@@ -2,6 +2,12 @@
 What's New
 ===========
 
+1.3.1
+-----
+
+- Fix heuristic to deal with corner cases for negative counting for recurrence
+  rules
+
 1.3
 ---
 

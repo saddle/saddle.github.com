@@ -2,6 +2,11 @@
 What's New
 ===========
 
+1.3.2
+-----
+- Remove buggy parallel csv parsing
+- Fix bug in csv parsing when final field is empty
+
 1.3.1
 -----
 

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -14,7 +13,7 @@
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '',
+        URL_ROOT:    './',
         VERSION:     '1.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -1096,7 +1095,7 @@ res10: org.joda.time.DateTime = 2012-12-28T00:00:00.000-05:00</pre>
 <h2>I/O<a class="headerlink" href="#i-o" title="Permalink to this headline">¶</a></h2>
 <p>The <tt class="docutils literal"><span class="pre">org.saddle.io._</span></tt> module provides some basic, and not-so-basic, I/O
 functionality, although there is still much to be developed. There is a fast
-parallel csv file reader.</p>
+csv file reader.</p>
 <p>There is also HDF5 reading/writing available for Series and Frame objects that
 is essentially compatible with the basic pandas format (as of pandas 0.9), but
 note that it only supports certain primitive types like Int/Long/Double, and
@@ -1125,7 +1124,7 @@ SBT session with sufficient memory (eg, <tt class="docutils literal"><span class
 <span class="c1">// (we know in advance these cols are candidate name and donation amount)</span>
 <span class="c1">// &amp; set the first row as the col index</span>
 <span class="c1">// &amp; the first col (candidate names) as the row index</span>
-<span class="k">val</span> <span class="n">frame</span> <span class="k">=</span> <span class="nc">CsvParser</span><span class="o">.</span><span class="n">parsePar</span><span class="o">(</span><span class="nc">List</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="mi">9</span><span class="o">))(</span><span class="n">file</span><span class="o">).</span><span class="n">withRowIndex</span><span class="o">(</span><span class="mi">0</span><span class="o">).</span><span class="n">withColIndex</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">frame</span> <span class="k">=</span> <span class="nc">CsvParser</span><span class="o">.</span><span class="n">parse</span><span class="o">(</span><span class="nc">List</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="mi">9</span><span class="o">))(</span><span class="n">file</span><span class="o">).</span><span class="n">withRowIndex</span><span class="o">(</span><span class="mi">0</span><span class="o">).</span><span class="n">withColIndex</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
 
 <span class="c1">// convert frame body data to long primitives, mapping any parse errors to NA</span>
 <span class="k">val</span> <span class="n">data</span> <span class="k">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">mapValues</span><span class="o">(</span><span class="nc">CsvParser</span><span class="o">.</span><span class="n">parseLong</span><span class="o">)</span>
@@ -1208,7 +1207,7 @@ through them, you&#8217;re probably doing it wrong!</p>
     </div>
     <div class="footer">
         &copy; Copyright 2013, The Saddle Development Team.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2b3.
     </div>
   </body>
 </html>

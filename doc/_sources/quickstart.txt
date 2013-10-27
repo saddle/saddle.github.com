@@ -1222,7 +1222,7 @@ I/O
 
 The ``org.saddle.io._`` module provides some basic, and not-so-basic, I/O
 functionality, although there is still much to be developed. There is a fast
-parallel csv file reader. 
+csv file reader. 
 
 There is also HDF5 reading/writing available for Series and Frame objects that
 is essentially compatible with the basic pandas format (as of pandas 0.9), but
@@ -1260,7 +1260,7 @@ SBT session with sufficient memory (eg, ``sbt -mem 4096``).
   // (we know in advance these cols are candidate name and donation amount)
   // & set the first row as the col index
   // & the first col (candidate names) as the row index
-  val frame = CsvParser.parsePar(List(2,9))(file).withRowIndex(0).withColIndex(0)
+  val frame = CsvParser.parse(List(2,9))(file).withRowIndex(0).withColIndex(0)
 
   // convert frame body data to long primitives, mapping any parse errors to NA
   val data = frame.mapValues(CsvParser.parseLong)

@@ -54,8 +54,8 @@ Current Version
 ~~~~~~~~~~~~~~~
 
 The current release of Saddle is available to download from the Sonatype OSS
-repository. Builds are available for Scala 2.9.+, and 2.10.+. The source and
-scaladoc packages are available as well.
+repository. Builds are available for Scala 2.9.+, 2.10.+, and 2.11.+. The
+source and scaladoc packages are available as well.
 
 The latest stable release of Saddle is 1.3.+.
 

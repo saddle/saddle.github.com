@@ -2,6 +2,16 @@
 What's New
 ===========
 
+1.3.4
+-----
+- Bug fix; rolling classes (GH #64)
+- Merge PR to add serializability to data types (PR #63)
+
+1.3.3
+-----
+- Bug fixes: Fixed NaN rendering (GH #50), CSV header option (GH #41)
+- Cross-compile to scala 2.11.x
+
 1.3.2
 -----
 - Remove buggy parallel csv parsing

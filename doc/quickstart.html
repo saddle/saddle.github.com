@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="Saddle 1.0.0 documentation" href="index.html" />
     <link rel="next" title="User Guide" href="guide.html" />
     <link rel="prev" title="What’s New" href="whatsnew.html" />
@@ -281,7 +281,7 @@ Vec[T] can convert implicitly to a Series[Int, T]. So for instance:</p>
 within the implicit scope). However, the Series maintains the order in which
 its data was supplied unless ordered othewise.</p>
 <p>Let&#8217;s look at a few constructions:</p>
-<div class="code bash highlight-scala"><pre>// we already know we can convert a Vec
+<div class="code bash highlight-scala"><div class="highlight"><pre>// we already know we can convert a Vec
 scala&gt; Series(Vec(32, 12, 9))
 res3: org.saddle.Series[Int,Int] =
 [3 x 1]
@@ -290,7 +290,7 @@ res3: org.saddle.Series[Int,Int] =
 2 -&gt; 9
 
 // we can pass a pair of tuples
-scala&gt; Series("a" -&gt; 1, "b" -&gt; 2, "c" -&gt; 3)
+scala&gt; Series(&quot;a&quot; -&gt; 1, &quot;b&quot; -&gt; 2, &quot;c&quot; -&gt; 3)
 res4: org.saddle.Series[java.lang.String,Int] =
 [3 x 1]
 a -&gt; 1
@@ -298,16 +298,16 @@ b -&gt; 2
 c -&gt; 3
 
 // any series of tuples will work, eg:
-scala&gt; Series(List("a" -&gt; 1, "b" -&gt; 2, "c" -&gt; 3) : _*)
+scala&gt; Series(List(&quot;a&quot; -&gt; 1, &quot;b&quot; -&gt; 2, &quot;c&quot; -&gt; 3) : _*)
 
 // can pass data and index separately:
-scala&gt; Series(Vec(1,2,3), Index("a", "b", "c"))
+scala&gt; Series(Vec(1,2,3), Index(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;))
 
 // you can create an empty Series like so:
 scala&gt; Series.empty[String, Int]
 
 // supplied order is maintained:
-scala&gt; Series(Vec(1,2,3), Index("c", "b", "a"))
+scala&gt; Series(Vec(1,2,3), Index(&quot;c&quot;, &quot;b&quot;, &quot;a&quot;))
 res11: org.saddle.Series[java.lang.String,Int] =
 [3 x 1]
 c -&gt; 1
@@ -315,17 +315,18 @@ b -&gt; 2
 a -&gt; 3
 
 // unlike map, multiple keys are entirely fine:
-scala&gt; Series(Vec(1,2,3,4), Index("c", "b", "a", "b"))
+scala&gt; Series(Vec(1,2,3,4), Index(&quot;c&quot;, &quot;b&quot;, &quot;a&quot;, &quot;b&quot;))
 res12: org.saddle.Series[java.lang.String,Int] =
 [4 x 1]
 c -&gt; 1
 b -&gt; 2
 a -&gt; 3
-b -&gt; 4</pre>
+b -&gt; 4
+</pre></div>
 </div>
 <p>With construction out of the way, let&#8217;s look at a few ways we can get data out
 of a Series.</p>
-<div class="code bash highlight-scala"><pre>scala&gt; val q = Series(Vec(1,3,2,4), Index("c", "b", "a", "b"))
+<div class="code bash highlight-scala"><div class="highlight"><pre>scala&gt; val q = Series(Vec(1,3,2,4), Index(&quot;c&quot;, &quot;b&quot;, &quot;a&quot;, &quot;b&quot;))
 
 // get the values or index
 scala&gt; q.values
@@ -372,13 +373,13 @@ a -&gt; 3
 b -&gt; 4
 
 // extract elements matching the index
-scala&gt; q("b")
+scala&gt; q(&quot;b&quot;)
 res19: org.saddle.Series[java.lang.String,Int] =
 [2 x 1]
 b -&gt; 2
 b -&gt; 4
 
-scala&gt; q("a", "b")
+scala&gt; q(&quot;a&quot;, &quot;b&quot;)
 res1: org.saddle.Series[java.lang.String,Int] =
 [3 x 1]
 a -&gt; 2
@@ -386,7 +387,7 @@ b -&gt; 3
 b -&gt; 4
 
 // notice ordering subtleties:
-scala&gt; q("b", "a")
+scala&gt; q(&quot;b&quot;, &quot;a&quot;)
 res2: org.saddle.Series[java.lang.String,Int] =
 [3 x 1]
 b -&gt; 3
@@ -401,8 +402,8 @@ scala&gt; q.last
 scala&gt; q.firstKey
 scala&gt; q.lastKey
 
-// "reindex" to a new index:
-scala&gt; q.reindex(Index("a","c","d"))
+// &quot;reindex&quot; to a new index:
+scala&gt; q.reindex(Index(&quot;a&quot;,&quot;c&quot;,&quot;d&quot;))
 res4: org.saddle.Series[java.lang.String,Int] =
 [3 x 1]
 a -&gt;  2
@@ -410,29 +411,29 @@ c -&gt;  1
 d -&gt; NA
 
 // or just by a sequence of keys:
-scala&gt; q.reindex("a","c","d")
+scala&gt; q.reindex(&quot;a&quot;,&quot;c&quot;,&quot;d&quot;)
 
-// notice that 'slicing' ignores unknown keys:
-scala&gt; q("a", "d")
+// notice that &#39;slicing&#39; ignores unknown keys:
+scala&gt; q(&quot;a&quot;, &quot;d&quot;)
 res5: org.saddle.Series[java.lang.String,Int] =
 [1 x 1]
 a -&gt; 2
 
-// we cannot reindex with "b", because it isn't unique.
-// (the problem is, which "b" would we choose?)
-scala&gt; q.reindex("a", "b")
+// we cannot reindex with &quot;b&quot;, because it isn&#39;t unique.
+// (the problem is, which &quot;b&quot; would we choose?)
+scala&gt; q.reindex(&quot;a&quot;, &quot;b&quot;)
 java.lang.IllegalArgumentException: requirement failed: Could not reindex unambiguously
 ...
 
-// we can "reset" the index to integer labels
+// we can &quot;reset&quot; the index to integer labels
 scala&gt; q.resetIndex
 
 // or to a new index altogether
-scala&gt; q.setIndex(Index("w", "x", "y", "z"))
+scala&gt; q.setIndex(Index(&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;))
 
-// to 'slice', we need a sorted index; slice is inclusive by default
+// to &#39;slice&#39;, we need a sorted index; slice is inclusive by default
 scala&gt; val s = q.sortedIx
-scala&gt; s.sliceBy("b", "c")
+scala&gt; s.sliceBy(&quot;b&quot;, &quot;c&quot;)
 res7: org.saddle.Series[java.lang.String,Int] =
 [3 x 1]
 b -&gt; 3
@@ -440,11 +441,11 @@ b -&gt; 4
 c -&gt; 1
 
 // syntactic sugar is provided:
-scala&gt; s.sliceBy("b" -&gt; "c")
-scala&gt; s.sliceBy(* -&gt; "b")
+scala&gt; s.sliceBy(&quot;b&quot; -&gt; &quot;c&quot;)
+scala&gt; s.sliceBy(* -&gt; &quot;b&quot;)
 
 // where slice is by offset, exclusive by default, and the
-// index doesn't have to be sorted:
+// index doesn&#39;t have to be sorted:
 scala&gt; q.slice(0,2)
 res8: org.saddle.Series[java.lang.String,Int] =
 [2 x 1]
@@ -453,7 +454,8 @@ b -&gt; 3
 
 // there are head/tail methods:
 scala&gt; q.head(2)
-scala&gt; q.tail(2)</pre>
+scala&gt; q.tail(2)
+</pre></div>
 </div>
 <p>Aside from extracting values, there are many fun ways to compute with Series.
 Try the following:</p>
@@ -490,7 +492,7 @@ method yields a sequence of key/value tuples.</p>
 </div>
 <p>We can also group by key in order to transform or combine the groupings, which
 themselves are Series. For example:</p>
-<div class="code bash highlight-scala"><pre>scala&gt; q.groupBy.combine(_.sum)
+<div class="code bash highlight-scala"><div class="highlight"><pre>scala&gt; q.groupBy.combine(_.sum)
 res19: org.saddle.Series[java.lang.String,Int] =
 [3 x 1]
 a -&gt; 2
@@ -503,14 +505,15 @@ res20: org.saddle.Series[java.lang.String,Double] =
 c -&gt;  0.0000
 b -&gt; -0.5000
 a -&gt;  0.0000
-b -&gt;  0.5000</pre>
+b -&gt;  0.5000
+</pre></div>
 </div>
 <p>You can also group by another index, or by a transformation of the current
 index, by passing an argument into groupBy. See the Saddle API for more info.</p>
 <p>The expressive nature of working with Series becomes apparent when you need to
 align data:</p>
-<div class="code bash highlight-scala"><pre>scala&gt; val a = Series(Vec(1,4,2,3), Index("a","b","c","d"))
-scala&gt; val b = Series(Vec(5,2,1,8,7), Index("b","c","d","e","f"))
+<div class="code bash highlight-scala"><div class="highlight"><pre>scala&gt; val a = Series(Vec(1,4,2,3), Index(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;))
+scala&gt; val b = Series(Vec(5,2,1,8,7), Index(&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;,&quot;f&quot;))
 
 scala&gt; a + b
 res21: org.saddle.Series[java.lang.String,Int] =
@@ -520,14 +523,15 @@ b -&gt;  9
 c -&gt;  4
 d -&gt;  4
 e -&gt; NA
-f -&gt; NA</pre>
+f -&gt; NA
+</pre></div>
 </div>
 <p>You see that the indexes have been aligned prior to operation being performed.
 Because there is a missing observation in each label of a, e, and f, the
 summation is not done and instead an NA value is inserted into the result.</p>
 <p>Generally, a full-outer join is performed. So, for instance:</p>
-<div class="code bash highlight-scala"><pre>scala&gt; val a = Series(Vec(1,4,2), Index("a","b","b"))
-scala&gt; val b = Series(Vec(5,2,1), Index("b","b","d"))
+<div class="code bash highlight-scala"><div class="highlight"><pre>scala&gt; val a = Series(Vec(1,4,2), Index(&quot;a&quot;,&quot;b&quot;,&quot;b&quot;))
+scala&gt; val b = Series(Vec(5,2,1), Index(&quot;b&quot;,&quot;b&quot;,&quot;d&quot;))
 
 scala&gt; a + b
 res22: org.saddle.Series[java.lang.String,Int] =
@@ -537,14 +541,15 @@ b -&gt;  9
 b -&gt;  6
 b -&gt;  7
 b -&gt;  4
-d -&gt; NA</pre>
+d -&gt; NA
+</pre></div>
 </div>
 <p>Most basic math and boolean operations are supported between two Series, as
 well as between a Series and a scalar value.</p>
 <p>We mentioned joins. Let&#8217;s look at a few join operations; the result is a Frame,
 which we will touch on a bit later. These are similar in nature to SQL joins.</p>
-<div class="code bash highlight-scala"><pre>scala&gt; val a = Series(Vec(1,4,2), Index("a","b","b"))
-scala&gt; val b = Series(Vec(5,2,1), Index("b","b","d"))
+<div class="code bash highlight-scala"><div class="highlight"><pre>scala&gt; val a = Series(Vec(1,4,2), Index(&quot;a&quot;,&quot;b&quot;,&quot;b&quot;))
+scala&gt; val b = Series(Vec(5,2,1), Index(&quot;b&quot;,&quot;b&quot;,&quot;d&quot;))
 
 scala&gt; a.join(b, how=index.LeftJoin)
 res24: org.saddle.Frame[java.lang.String,Int,Int] =
@@ -588,35 +593,39 @@ b -&gt;  4  5
 b -&gt;  4  2
 b -&gt;  2  5
 b -&gt;  2  2
-d -&gt; NA  1</pre>
+d -&gt; NA  1
+</pre></div>
 </div>
 <p>Finally, let&#8217;s take a look at a multiply indexed Series:</p>
-<div class="code bash highlight-scala"><pre>scala&gt; val t = Series(Vec(1,2,3,4), Index((1,1),(1,2),(2,1),(2,2)))
+<div class="code bash highlight-scala"><div class="highlight"><pre>scala&gt; val t = Series(Vec(1,2,3,4), Index((1,1),(1,2),(2,1),(2,2)))
 t: org.saddle.Series[(Int, Int),Int] =
 [4 x 1]
 1 1 -&gt; 1
   2 -&gt; 2
 2 1 -&gt; 3
-  2 -&gt; 4</pre>
+  2 -&gt; 4
+</pre></div>
 </div>
 <p>Sometimes you want to move the innermost row label to be a column label
 instead. You can achieve this as follows:</p>
-<div class="code bash highlight-scala"><pre>scala&gt; val f = t.pivot
+<div class="code bash highlight-scala"><div class="highlight"><pre>scala&gt; val f = t.pivot
 f: org.saddle.Frame[Int,Int,Int] =
 [2 x 2]
       1  2
      -- --
 1 -&gt;  1  2
-2 -&gt;  3  4</pre>
+2 -&gt;  3  4
+</pre></div>
 </div>
 <p>And this is how you get back the original Series:</p>
-<div class="code bash highlight-scala"><pre>scala&gt; f.melt
+<div class="code bash highlight-scala"><div class="highlight"><pre>scala&gt; f.melt
 res32: org.saddle.Series[(Int, Int),Int] =
 [4 x 1]
 1 1 -&gt; 1
   2 -&gt; 2
 2 1 -&gt; 3
-  2 -&gt; 4</pre>
+  2 -&gt; 4
+</pre></div>
 </div>
 <p>This generalizes to tuples of higher order.</p>
 </div>
@@ -630,7 +639,7 @@ performance linear algebra library which provides the default matrix multiply
 routine for Saddle. One or two properly placed implicit conversions can extend
 Saddle to be a powerful linear algebra system.</p>
 <p>Let&#8217;s start off with construction:</p>
-<div class="code bash highlight-scala"><pre>scala&gt; Mat(2,2, Array(1,2,3,4))
+<div class="code bash highlight-scala"><div class="highlight"><pre>scala&gt; Mat(2,2, Array(1,2,3,4))
 res41: org.saddle.Mat[Int] =
 [2 x 2]
 1 2
@@ -649,7 +658,8 @@ scala&gt; mat.ident(2)
 scala&gt; Mat.empty[Double]
 
 // zeros:
-scala&gt; Mat[Int](2, 2)</pre>
+scala&gt; Mat[Int](2, 2)
+</pre></div>
 </div>
 <p>Again, sometimes we want to create instances filled with random observations.
 As to Vec, we can do the following:</p>
@@ -667,7 +677,7 @@ As to Vec, we can do the following:</p>
 </div>
 <p>Let&#8217;s look at some basic operations with Mat. As with Vec, you may perform
 calculations on two Mat instances, or on a Mat and a scalar value.</p>
-<div class="code bash highlight-scala"><pre>// element-wise multiplication
+<div class="code bash highlight-scala"><div class="highlight"><pre>// element-wise multiplication
 scala&gt; Mat(2,2,Array(1,2,3,4)) * Mat(2,2,Array(4,1,2,3))
 res55: org.saddle.Mat[Int] =
 [2 x 2]
@@ -705,10 +715,11 @@ scala&gt; val m = Mat(2,2,Array(1,2,3,4))
 scala&gt; m.numRows
 scala&gt; m.numCols
 scala&gt; m.isSquare
-scala&gt; m.isEmpty</pre>
+scala&gt; m.isEmpty
+</pre></div>
 </div>
 <p>There are a few ways to extract values from a Mat.</p>
-<div class="code bash highlight-scala"><pre>scala&gt; m.at(0,1)
+<div class="code bash highlight-scala"><div class="highlight"><pre>scala&gt; m.at(0,1)
 res1: org.saddle.scalar.Scalar[Int] = 2
 
 // be careful with this one!
@@ -734,10 +745,11 @@ res1: org.saddle.Mat[Int] =
 scala&gt; m.col(0)
 scala&gt; m.row(0)
 scala&gt; m.rows()
-scala&gt; m.cols()</pre>
+scala&gt; m.cols()
+</pre></div>
 </div>
 <p>Some other interesting methods on Mat:</p>
-<div class="code bash highlight-scala"><pre>scala&gt; val m = Mat(2,2,Array(1,2,na.to[Int],4))
+<div class="code bash highlight-scala"><div class="highlight"><pre>scala&gt; val m = Mat(2,2,Array(1,2,na.to[Int],4))
 m: org.saddle.Mat[Int] =
 [2 x 2]
  1  2
@@ -757,7 +769,8 @@ scala&gt; mat.rand(2,2).roundTo(2)
 res8: org.saddle.Mat[Double] =
 [2 x 2]
 -0.3400  0.0000
--0.3800  0.2500</pre>
+-0.3800  0.2500
+</pre></div>
 </div>
 <p>Finally, if you want to print, say, 100 rows and 10 columns:</p>
 <div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">m</span><span class="o">.</span><span class="n">print</span><span class="o">(</span><span class="mi">100</span><span class="o">,</span> <span class="mi">10</span><span class="o">)</span>
@@ -776,14 +789,14 @@ Int, T]. So for instance</p>
 sharing the same row index; additionally a transpose of the data is created
 lazily if cross sections of data are requested.</p>
 <p>Let&#8217;s look at some ways to instantiated a Frame:</p>
-<div class="code bash highlight-scala"><pre>scala&gt; val v = Vec(1, 2)                              // given the following
+<div class="code bash highlight-scala"><div class="highlight"><pre>scala&gt; val v = Vec(1, 2)                              // given the following
 scala&gt; val u = Vec(3, 4)
-scala&gt; val s = Series("a" -&gt; 1, "b" -&gt; 2)
-scala&gt; val t = Series("b" -&gt; 3, "c" -&gt; 4)
+scala&gt; val s = Series(&quot;a&quot; -&gt; 1, &quot;b&quot; -&gt; 2)
+scala&gt; val t = Series(&quot;b&quot; -&gt; 3, &quot;c&quot; -&gt; 4)
 
 scala&gt; Frame(v, u)                                    // two-column frame
 
-scala&gt; Frame("x" -&gt; v, "y" -&gt; u)                      // with column index
+scala&gt; Frame(&quot;x&quot; -&gt; v, &quot;y&quot; -&gt; u)                      // with column index
 
 scala&gt; Frame(s, t)                                    // aligned along rows
 [3 x 2]
@@ -793,7 +806,7 @@ a -&gt;  1 NA
 b -&gt;  2  3
 c -&gt; NA  4
 
-scala&gt; Frame("x" -&gt; s, "y" -&gt; t)                      // with column index
+scala&gt; Frame(&quot;x&quot; -&gt; s, &quot;y&quot; -&gt; t)                      // with column index
 [3 x 2]
       x  y
      -- --
@@ -801,11 +814,12 @@ a -&gt;  1 NA
 b -&gt;  2  3
 c -&gt; NA  4
 
-scala&gt; Frame(Seq(s, t), Index("x", "y"))              // explicit column index
+scala&gt; Frame(Seq(s, t), Index(&quot;x&quot;, &quot;y&quot;))              // explicit column index
 
-scala&gt; Frame(Seq(v, u), Index(0, 1), Index("x", "y")) // row &amp; col indexes specified explicitly
+scala&gt; Frame(Seq(v, u), Index(0, 1), Index(&quot;x&quot;, &quot;y&quot;)) // row &amp; col indexes specified explicitly
 
-scala&gt; Frame(Seq(v, u), Index("a", "b"))              // col index specified</pre>
+scala&gt; Frame(Seq(v, u), Index(&quot;a&quot;, &quot;b&quot;))              // col index specified
+</pre></div>
 </div>
 <p>You&#8217;ll notice that if an index is not provided, a default int index is set
 where the index ranges between 0 and the length of the data.</p>
@@ -836,7 +850,7 @@ are your friends:</p>
 <span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">resetColIndex</span><span class="o">()</span>
 </pre></div>
 </div>
-<p>(Note: frame <tt class="docutils literal"><span class="pre">f</span></tt> will carry through the next examples.)</p>
+<p>(Note: frame <code class="docutils literal"><span class="pre">f</span></code> will carry through the next examples.)</p>
 <p>You also have the following index transformation tools at hand:</p>
 <div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">f</span><span class="o">.</span><span class="n">mapRowIndex</span> <span class="o">{</span> <span class="k">case</span> <span class="n">rx</span> <span class="k">=&gt;</span> <span class="o">...</span> <span class="o">}</span>
 <span class="n">f</span><span class="o">.</span><span class="n">mapColIndex</span> <span class="o">{</span> <span class="k">case</span> <span class="n">cx</span> <span class="k">=&gt;</span> <span class="o">...</span> <span class="o">}</span>
@@ -852,7 +866,7 @@ are your friends:</p>
 <span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">colAt</span><span class="o">(</span><span class="mi">0</span><span class="o">-&gt;</span><span class="mi">1</span><span class="o">)</span> <span class="c1">// extract frame of cols 1 &amp; 2</span>
 </pre></div>
 </div>
-<p><tt class="docutils literal"><span class="pre">rowAt</span></tt> and <tt class="docutils literal"><span class="pre">colAt</span></tt> are used under the hood for the <tt class="docutils literal"><span class="pre">at</span></tt> extractor:</p>
+<p><code class="docutils literal"><span class="pre">rowAt</span></code> and <code class="docutils literal"><span class="pre">colAt</span></code> are used under the hood for the <code class="docutils literal"><span class="pre">at</span></code> extractor:</p>
 <div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">at</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">1</span><span class="o">)</span>              <span class="c1">// Scalar value</span>
 <span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">at</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">),</span> <span class="mi">0</span><span class="o">)</span>    <span class="c1">// extract rows 1,2 of column 0</span>
 <span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">at</span><span class="o">(</span><span class="mi">0</span><span class="o">-&gt;</span><span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span>          <span class="c1">// extract rows 0,1 of column 1</span>
@@ -881,7 +895,7 @@ keys must be ordered.</p>
 <span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">colSliceBy</span><span class="o">(</span><span class="s">&quot;x&quot;</span><span class="o">,</span> <span class="s">&quot;x&quot;</span><span class="o">,</span> <span class="n">inclusive</span><span class="k">=</span><span class="kc">true</span><span class="o">)</span>
 </pre></div>
 </div>
-<p>The <tt class="docutils literal"><span class="pre">row</span></tt> and <tt class="docutils literal"><span class="pre">col</span></tt> methods are used under the hood for the <tt class="docutils literal"><span class="pre">apply</span></tt> method:</p>
+<p>The <code class="docutils literal"><span class="pre">row</span></code> and <code class="docutils literal"><span class="pre">col</span></code> methods are used under the hood for the <code class="docutils literal"><span class="pre">apply</span></code> method:</p>
 <div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">(</span><span class="s">&quot;a&quot;</span><span class="o">,</span> <span class="s">&quot;x&quot;</span><span class="o">)</span>             <span class="c1">// extract a one-element frame by keys</span>
 <span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">(</span><span class="s">&quot;a&quot;</span><span class="o">-&gt;</span><span class="s">&quot;b&quot;</span><span class="o">,</span> <span class="s">&quot;x&quot;</span><span class="o">)</span>        <span class="c1">// two-row, one-column frame</span>
 <span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">(</span><span class="nc">Vec</span><span class="o">(</span><span class="s">&quot;a&quot;</span><span class="o">,</span> <span class="s">&quot;c&quot;</span><span class="o">),</span> <span class="s">&quot;x&quot;</span><span class="o">)</span>   <span class="c1">// same as above, but extracting, not slicing</span>
@@ -920,12 +934,12 @@ index):</p>
 </div>
 <p>There are analogous methods to operate on rows rather then columns:</p>
 <ul class="simple">
-<li><tt class="docutils literal"><span class="pre">rfilter</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">rfilterIx</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">rwhere</span></tt></li>
+<li><code class="docutils literal"><span class="pre">rfilter</span></code></li>
+<li><code class="docutils literal"><span class="pre">rfilterIx</span></code></li>
+<li><code class="docutils literal"><span class="pre">rwhere</span></code></li>
 </ul>
 <p>etc... in general, methods operate on a column-wise basis, whereas the
-<tt class="docutils literal"><span class="pre">r</span></tt>-counterpart does so on a row-wise basis.</p>
+<code class="docutils literal"><span class="pre">r</span></code>-counterpart does so on a row-wise basis.</p>
 <p>You can drop cols (rows) containing <em>any</em> NA values:</p>
 <div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">dropNA</span>
 <span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">rdropNA</span>
@@ -953,7 +967,7 @@ use the following method:</p>
 </pre></div>
 </div>
 <p>If you want to treat a Frame as a matrix to use in linear algebraic fashion,
-call the <tt class="docutils literal"><span class="pre">toMat</span></tt> method.</p>
+call the <code class="docutils literal"><span class="pre">toMat</span></code> method.</p>
 <p>We can sort a frame in various ways:</p>
 <div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">sortedRIx</span>                <span class="c1">// sorted by row index</span>
 <span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">sortedCIx</span>                <span class="c1">// sorted by col index</span>
@@ -1000,7 +1014,7 @@ rows or cols:</p>
 </pre></div>
 </div>
 <p>Of course, if you want to join along the column index instead, there is a
-<tt class="docutils literal"><span class="pre">rjoin</span></tt> method.</p>
+<code class="docutils literal"><span class="pre">rjoin</span></code> method.</p>
 <p>Let&#8217;s look at a few data reshaping commands. Try the following:</p>
 <div class="code bash highlight-scala"><div class="highlight"><pre><span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">melt</span>
 <span class="n">scala</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">melt</span><span class="o">.</span><span class="n">mapRowIndex</span> <span class="o">{</span> <span class="k">case</span> <span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="o">(</span><span class="n">b</span><span class="o">,</span> <span class="n">a</span><span class="o">)</span> <span class="o">}</span> <span class="n">colAt</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="n">pivot</span>
@@ -1009,9 +1023,9 @@ rows or cols:</p>
 </pre></div>
 </div>
 <p>There are statistics available on Frames on a column-wise basis that are
-NA-aware. They are provided via an implicit conversion to <tt class="docutils literal"><span class="pre">FrameStats</span></tt>; look
+NA-aware. They are provided via an implicit conversion to <code class="docutils literal"><span class="pre">FrameStats</span></code>; look
 there to see what&#8217;s available.</p>
-<p>Finally, note that <tt class="docutils literal"><span class="pre">toSeq</span></tt> converts a Frame to a sequence of (row, col,
+<p>Finally, note that <code class="docutils literal"><span class="pre">toSeq</span></code> converts a Frame to a sequence of (row, col,
 value) triples.</p>
 </div>
 <div class="section" id="index">
@@ -1041,24 +1055,24 @@ more indirect manner. Still, there are a few useful tools:</p>
 sortedness is unnecessary. By contiguous, we mean a-b-a-b would not be a valid
 ordering of data, but a-a-b-b would be.</p>
 <p>For Index instances with Set semantics (ie, no duplicate keys), you have
-fast <tt class="docutils literal"><span class="pre">union</span></tt> and <tt class="docutils literal"><span class="pre">intersect</span></tt> methods.</p>
-<p>For map-like functionality, there is <tt class="docutils literal"><span class="pre">contains</span></tt> and <tt class="docutils literal"><span class="pre">exists</span></tt>, although
-since Index is really a multi-map, the <tt class="docutils literal"><span class="pre">get</span></tt> function returns an array of
-locations within the backing array, and <tt class="docutils literal"><span class="pre">count</span></tt> gives you how many entries
-exist for a particular key. <tt class="docutils literal"><span class="pre">uniques</span></tt> allows you to get all the unique keys,
-and the methods <tt class="docutils literal"><span class="pre">getFirst</span></tt> and <tt class="docutils literal"><span class="pre">getLast</span></tt> retrieve the location offsets of a
+fast <code class="docutils literal"><span class="pre">union</span></code> and <code class="docutils literal"><span class="pre">intersect</span></code> methods.</p>
+<p>For map-like functionality, there is <code class="docutils literal"><span class="pre">contains</span></code> and <code class="docutils literal"><span class="pre">exists</span></code>, although
+since Index is really a multi-map, the <code class="docutils literal"><span class="pre">get</span></code> function returns an array of
+locations within the backing array, and <code class="docutils literal"><span class="pre">count</span></code> gives you how many entries
+exist for a particular key. <code class="docutils literal"><span class="pre">uniques</span></code> allows you to get all the unique keys,
+and the methods <code class="docutils literal"><span class="pre">getFirst</span></code> and <code class="docutils literal"><span class="pre">getLast</span></code> retrieve the location offsets of a
 particular key. The API is worth exploring further.</p>
 </div>
 <div class="section" id="dates-times-and-recurrences">
 <h2>Dates/Times and Recurrences<a class="headerlink" href="#dates-times-and-recurrences" title="Permalink to this headline">¶</a></h2>
-<p>The <tt class="docutils literal"><span class="pre">org.saddle.time._</span></tt> module provides a useful factory method for joda
-DateTime objects: <tt class="docutils literal"><span class="pre">datetime</span></tt>. It provides vector manipulations on Vec and
-Index instances of type <tt class="docutils literal"><span class="pre">DateTime</span></tt> (via the implicit <tt class="docutils literal"><span class="pre">TimeAccessors</span></tt>).</p>
+<p>The <code class="docutils literal"><span class="pre">org.saddle.time._</span></code> module provides a useful factory method for joda
+DateTime objects: <code class="docutils literal"><span class="pre">datetime</span></code>. It provides vector manipulations on Vec and
+Index instances of type <code class="docutils literal"><span class="pre">DateTime</span></code> (via the implicit <code class="docutils literal"><span class="pre">TimeAccessors</span></code>).</p>
 <p>As of Saddle 1.3, the library provides an implementation of recurrence rules
-(<tt class="docutils literal"><span class="pre">RRule</span></tt>), with a few default instances which may be found in the module
-<tt class="docutils literal"><span class="pre">RRules</span></tt>. To illustrate, the following code generates dates at business month
+(<code class="docutils literal"><span class="pre">RRule</span></code>), with a few default instances which may be found in the module
+<code class="docutils literal"><span class="pre">RRules</span></code>. To illustrate, the following code generates dates at business month
 ends for the first four months of 2013:</p>
-<div class="code bash highlight-scala"><pre>scala&gt; import RRules._
+<div class="code bash highlight-scala"><div class="highlight"><pre>scala&gt; import RRules._
 import RRules._
 
 scala&gt; Index.make(bizEoms, datetime(2013,1,1), datetime(2013,5,1))
@@ -1067,33 +1081,37 @@ res0: org.saddle.Index[org.joda.time.DateTime] =
 2013-01-31 00:00:00.000-05:00
 2013-02-28 00:00:00.000-05:00
 2013-03-29 00:00:00.000-04:00
-2013-04-30 00:00:00.000-04:00</pre>
+2013-04-30 00:00:00.000-04:00
+</pre></div>
 </div>
-<p>An <tt class="docutils literal"><span class="pre">RRule</span></tt> object allows for complex recurrence rule generation following the
+<p>An <code class="docutils literal"><span class="pre">RRule</span></code> object allows for complex recurrence rule generation following the
 RFC 2445 standard. (The implementation utilizes google-rfc-2445 under the hood,
-licensed under Apache 2.0.) <tt class="docutils literal"><span class="pre">RRule</span></tt>&#8216;s can be combined with the <tt class="docutils literal"><span class="pre">Index.make</span></tt>
+licensed under Apache 2.0.) <code class="docutils literal"><span class="pre">RRule</span></code>&#8216;s can be combined with the <code class="docutils literal"><span class="pre">Index.make</span></code>
 factory method to instantiate indexes as above, or can be used independently to
-do complex date/time math.  For example, the <tt class="docutils literal"><span class="pre">counting</span></tt> method of <tt class="docutils literal"><span class="pre">RRule</span></tt>
+do complex date/time math.  For example, the <code class="docutils literal"><span class="pre">counting</span></code> method of <code class="docutils literal"><span class="pre">RRule</span></code>
 provides syntactic sugar to do date offset calculation:</p>
-<div class="code bash highlight-scala"><pre>scala&gt; RRule(MONTHLY) withInterval(2) counting 5 from datetime(2013,1,1)
-res1: org.joda.time.DateTime = 2013-09-01T00:00:00.000-04:00</pre>
+<div class="code bash highlight-scala"><div class="highlight"><pre>scala&gt; RRule(MONTHLY) withInterval(2) counting 5 from datetime(2013,1,1)
+res1: org.joda.time.DateTime = 2013-09-01T00:00:00.000-04:00
+</pre></div>
 </div>
-<p>You may also generate iterators of <tt class="docutils literal"><span class="pre">DateTime</span></tt>&#8216;s using <tt class="docutils literal"><span class="pre">RRule</span></tt> (here we take
+<p>You may also generate iterators of <code class="docutils literal"><span class="pre">DateTime</span></code>&#8216;s using <code class="docutils literal"><span class="pre">RRule</span></code> (here we take
 the first five generated values and convert to a list):</p>
-<div class="code bash highlight-scala"><pre>scala&gt; weeklyOn(FR) withInterval(2) from datetime(2013,1,1) take 5 toList
+<div class="code bash highlight-scala"><div class="highlight"><pre>scala&gt; weeklyOn(FR) withInterval(2) from datetime(2013,1,1) take 5 toList
 res2: List[org.joda.time.DateTime] = List(2013-01-04T00:00:00.000-05:00,
 2013-01-18T00:00:00.000-05:00, 2013-02-01T00:00:00.000-05:00,
-2013-02-15T00:00:00.000-05:00, 2013-03-01T00:00:00.000-05:00)</pre>
+2013-02-15T00:00:00.000-05:00, 2013-03-01T00:00:00.000-05:00)
+</pre></div>
 </div>
-<p>You may conform a datetime instance forward or backward using the <tt class="docutils literal"><span class="pre">conform</span></tt>
+<p>You may conform a datetime instance forward or backward using the <code class="docutils literal"><span class="pre">conform</span></code>
 method:</p>
-<div class="code bash highlight-scala"><pre>scala&gt; conform(weeklyOn(FR), datetime(2013,1,1), forward=false)
-res10: org.joda.time.DateTime = 2012-12-28T00:00:00.000-05:00</pre>
+<div class="code bash highlight-scala"><div class="highlight"><pre>scala&gt; conform(weeklyOn(FR), datetime(2013,1,1), forward=false)
+res10: org.joda.time.DateTime = 2012-12-28T00:00:00.000-05:00
+</pre></div>
 </div>
 </div>
 <div class="section" id="i-o">
 <h2>I/O<a class="headerlink" href="#i-o" title="Permalink to this headline">¶</a></h2>
-<p>The <tt class="docutils literal"><span class="pre">org.saddle.io._</span></tt> module provides some basic, and not-so-basic, I/O
+<p>The <code class="docutils literal"><span class="pre">org.saddle.io._</span></code> module provides some basic, and not-so-basic, I/O
 functionality, although there is still much to be developed. There is a fast
 csv file reader.</p>
 <p>There is also HDF5 reading/writing available for Series and Frame objects that
@@ -1102,7 +1120,7 @@ note that it only supports certain primitive types like Int/Long/Double, and
 DateTime &amp; String objects, but not all Serializable Java classes.</p>
 <p>Please note that to use HDF5, you must include the dependency on saddle-hdf5,
 and have installed native HDF5 library from the HDF5 <a class="reference external" href="http://www.hdfgroup.org/hdf-java-html/">binaries</a> so that the
-native shared library <tt class="docutils literal"><span class="pre">libjhdf5</span></tt> is locatable in the java library path; you
+native shared library <code class="docutils literal"><span class="pre">libjhdf5</span></code> is locatable in the java library path; you
 can check via:</p>
 <div class="code scala highlight-scala"><div class="highlight"><pre><span class="n">println</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="n">getProperty</span><span class="o">(</span><span class="s">&quot;java.library.path&quot;</span><span class="o">))</span>
 </pre></div>
@@ -1114,7 +1132,7 @@ can check via:</p>
 version of Saddle. We&#8217;ll use data found at the <a class="reference external" href="http://www.fec.gov/disclosurep/PDownload.do">FEC</a>, the Federal Election
 Commission.  Download a file... the <a class="reference external" href="ftp://ftp.fec.gov/FEC/Presidential_Map/2012/P00000001/P00000001-ALL.zip">ALL.zip</a> file is fairly chunky at about 1Gb
 of unzipped text data, but let&#8217;s go for it! Unzip to a directory, and launch an
-SBT session with sufficient memory (eg, <tt class="docutils literal"><span class="pre">sbt</span> <span class="pre">-mem</span> <span class="pre">4096</span></tt>).</p>
+SBT session with sufficient memory (eg, <code class="docutils literal"><span class="pre">sbt</span> <span class="pre">-mem</span> <span class="pre">4096</span></code>).</p>
 <div class="code scala highlight-scala"><div class="highlight"><pre><span class="k">import</span> <span class="nn">org.saddle.io._</span>
 
 <span class="c1">// create reference to CSV file</span>
@@ -1138,7 +1156,7 @@ contribution of each candidate.</p>
 </div>
 <div class="section" id="utilities">
 <h2>Utilities<a class="headerlink" href="#utilities" title="Permalink to this headline">¶</a></h2>
-<p>There some neat helper functions in the <tt class="docutils literal"><span class="pre">org.saddle.array._</span></tt> module to work
+<p>There some neat helper functions in the <code class="docutils literal"><span class="pre">org.saddle.array._</span></code> module to work
 with arrays of primitives:</p>
 <ul class="simple">
 <li>range</li>
@@ -1151,7 +1169,7 @@ with arrays of primitives:</p>
 <li>argsort</li>
 <li>argmin, argmax</li>
 </ul>
-<p>The <tt class="docutils literal"><span class="pre">org.saddle.util.Random</span></tt> class provides a xorshift Marsiglia primitive
+<p>The <code class="docutils literal"><span class="pre">org.saddle.util.Random</span></code> class provides a xorshift Marsiglia primitive
 value pseudorandom number generator the underlies the random number generation
 throughout Saddle.</p>
 </div>
@@ -1159,7 +1177,7 @@ throughout Saddle.</p>
 <h2>A note on optimization<a class="headerlink" href="#a-note-on-optimization" title="Permalink to this headline">¶</a></h2>
 <p>The data structures above attempt to operate on primitives whenever possible,
 although the specialization is not to every primitive JVM data type as of yet.
-For example, <tt class="docutils literal"><span class="pre">Vec</span></tt> is specialized on Boolean, Int, Long, and Double; but not
+For example, <code class="docutils literal"><span class="pre">Vec</span></code> is specialized on Boolean, Int, Long, and Double; but not
 yet Float, yet, so Vec[Float] operations will (un)box.</p>
 <p>Try to avoid looping through these structures; they were meant for terse lines
 of code which operate in a vectorized manner. If you find yourself looping
@@ -1207,7 +1225,7 @@ through them, you&#8217;re probably doing it wrong!</p>
     </div>
     <div class="footer">
         &copy; Copyright 2013, The Saddle Development Team.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2b3.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.
     </div>
   </body>
 </html>

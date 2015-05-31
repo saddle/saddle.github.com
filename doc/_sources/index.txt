@@ -38,9 +38,9 @@ Saddle is licensed under the `Apache License, Version 2.0
 Copyright
 ~~~~~~~~~
 
-Copyright (c) 2013 Novus Partners, Inc.
+Copyright (c) 2013-2015 Novus Partners, Inc.
 
-Copyright (c) 2013 The Saddle Development Team
+Copyright (c) 2013-2015 The Saddle Development Team
 
 All rights reserved.
 
@@ -106,7 +106,7 @@ your dependencies include Saddle:
     // (OPTIONAL) "org.scala-saddle" %% "saddle-hdf5" % "1.3.+"
   )
 
-If you are using Maven, this might help (e.g. for the Scala 2.9.2 build):
+If you are using Maven, this might help (e.g. for the Scala 2.9.3 build):
 
 .. code:: html
 
@@ -125,7 +125,7 @@ If you are using Maven, this might help (e.g. for the Scala 2.9.2 build):
 
   <dependency>
     <groupId>org.scala-saddle</groupId>
-    <artifactId>saddle_2.9.2</artifactId>
+    <artifactId>saddle_2.9.3</artifactId>
     <version>[1.3.0,)</version>
   </dependency>
 
